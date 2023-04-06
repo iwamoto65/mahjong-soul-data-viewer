@@ -10,7 +10,7 @@ import { CulcNoTileRate } from '@/hooks/useNoTileRate'
 import { CulcNoTileTingpaiRate } from '@/hooks/useNoTileTingpaiRate'
 import { CulcChiPengGangRate } from '@/hooks/useChiPengGangRate'
 import { CulcLiqiRate } from '@/hooks/useLiqiRate'
-import { CulcAverageDadianRate } from '@/hooks/useAverageDadianRate'
+import { CulcAverageDadianScore } from '@/hooks/useAverageDadianScore'
 import db from '../../firebase'
 import { collection, getDocs } from "firebase/firestore";
 
@@ -133,7 +133,7 @@ export default function Home() {
               <td>{ CulcNoTileTingpaiRate(totalNoTileCount, totalNoTileTingpaiCount) }％</td>
               <td>{ CulcChiPengGangRate(totalRoundCount, totalChiPengGangCount) }％</td>
               <td>{ CulcLiqiRate(totalRoundCount, totalLiqiCount) }％</td>
-              <td>{ CulcAverageDadianRate(totalDadian) }</td>
+              <td>{ CulcAverageDadianScore(totalDadian) }</td>
             </tr>
           </tbody>
         </table>

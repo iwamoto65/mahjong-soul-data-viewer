@@ -1,4 +1,4 @@
-export const CulcAverageDadianRate = (dadian: number[]) => {
+export const CulcAverageDadianScore = (dadian: number[]) => {
   if (dadian.length === 0) return 0
 
   const sumScore: number = dadian.reduce((a, b) => a + b)
