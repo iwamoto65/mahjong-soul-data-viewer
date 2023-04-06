@@ -8,6 +8,7 @@ import { CulcZimoRate } from '@/hooks/useZimoRate'
 import { CulcUnliqiHuleRate } from '@/hooks/useUnliqiHuleRate'
 import { CulcNoTileRate } from '@/hooks/useNoTileRate'
 import { CulcNoTileTingpaiRate } from '@/hooks/useNoTileTingpaiRate'
+import { CulcChiPengGangRate } from '@/hooks/useChiPengGangRate'
 import db from '../../firebase'
 import { collection, getDocs } from "firebase/firestore";
 
@@ -39,6 +40,7 @@ export default function Home() {
   const [totalUnliqiCount, setTotalUnliqiCount] = useState<number>(0)
   const [totalNoTileCount, setTotalNoTileCount] = useState<number>(0)
   const [totalNoTileTingpaiCount, setTotalNoTileTingpaiCount] = useState<number>(0)
+  const [totalChiPengGangCount, setTotalChiPengGangCount] = useState<number>(0)
 
   useEffect(() => {
     const firestore = async () => {
@@ -51,6 +53,7 @@ export default function Home() {
       let unliqiCount: number = 0
       let noTileCount: number = 0
       let noTileTingpaiCount: number = 0
+      let chiPengGangCount: number = 0
 
       querySnapshot.forEach((doc: any) => {
         let data = doc.data()
@@ -67,6 +70,7 @@ export default function Home() {
         })
         noTileCount += data.noTile.total
         noTileTingpaiCount += data.noTile.tingpai
+        chiPengGangCount += data.chiPengGang
       })
 
       setGameCount(numberOfGame)
@@ -77,6 +81,7 @@ export default function Home() {
       setTotalUnliqiCount(unliqiCount)
       setTotalNoTileCount(noTileCount)
       setTotalNoTileTingpaiCount(noTileTingpaiCount)
+      setTotalChiPengGangCount(chiPengGangCount)
     }
 
     firestore()
@@ -101,6 +106,7 @@ export default function Home() {
               <th>ダマ率</th>
               <th>流局率</th>
               <th>流局聴牌率</th>
+              <th>副露率</th>
             </tr>
           </thead>
           <tbody>
@@ -113,6 +119,7 @@ export default function Home() {
               <td>{ CulcUnliqiHuleRate(totalHuleCount, totalUnliqiCount) }％</td>
               <td>{ CulcNoTileRate(totalRoundCount, totalNoTileCount) }％</td>
               <td>{ CulcNoTileTingpaiRate(totalNoTileCount, totalNoTileTingpaiCount) }％</td>
+              <td>{ CulcChiPengGangRate(totalRoundCount, totalChiPengGangCount) }％</td>
             </tr>
           </tbody>
         </table>
