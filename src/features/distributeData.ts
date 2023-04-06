@@ -37,7 +37,8 @@ export type PlayerResult = {
   rank: {
     level: string,
     point: number,
-  }
+  },
+  place: number
 }
 
 type UserActions = {
@@ -120,7 +121,8 @@ export const distributeData = (data: string) => {
     rank: {
       level: '',
       point: 0,
-    }
+    },
+    place: 0
   }
 
   getPlayerId(userAccounts, playerResult)
@@ -216,10 +218,11 @@ const getPlayerRankData = (userAccounts: [], playerResult: PlayerResult) => {
 }
 
 const getPlayerScore = (userResults: [], playerResult: PlayerResult) => {
-  userResults.forEach((result: { seat: number, part_point_1: number, grading_score: number }) => {
+  userResults.forEach((result: { seat: number, part_point_1: number, grading_score: number }, i: number) => {
     if (result.seat === playerResult.seat) {
       playerResult.finalPoint = result.part_point_1
       playerResult.gradingScore = result.grading_score
+      playerResult.place = i+1
     }
   })
 }
