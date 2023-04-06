@@ -27,10 +27,17 @@ export type PlayerResult = {
     tingpai: number
   },
   chiPengGang: number,
+  liqi: number,
 }
 
 type UserActions = {
   passed: number,
+  user_input: {
+    seat: number,
+    operation: {
+      type: number
+    }
+  },
   result: {
     name: string,
     data: RecordNewRound & RecordHule & RecordNoTile & RecordChiPengGang
@@ -93,6 +100,7 @@ export const distributeData = (data: string) => {
       tingpai: 0
     },
     chiPengGang: 0,
+    liqi: 0
   }
 
   getPlayerId(userAccounts, playerResult)
@@ -133,6 +141,12 @@ export const distributeData = (data: string) => {
             chiPengGangTimes.push(action.passed)
           }
           break
+      }
+    } else if (action.user_input) {
+      if (action.user_input.seat === playerResult.seat) {
+        if (action.user_input.operation && action.user_input.operation.type === 7) {
+          playerResult.liqi++
+        }
       }
     }
   })
