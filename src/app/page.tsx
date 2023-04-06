@@ -120,12 +120,6 @@ export default function Home() {
               <th>放銃率</th>
               <th>ツモ率</th>
               <th>ダマ率</th>
-              <th>流局率</th>
-              <th>流局聴牌率</th>
-              <th>副露率</th>
-              <th>立直率</th>
-              <th>平均和了</th>
-              <th>平均放銃</th>
             </tr>
           </thead>
           <tbody>
@@ -136,6 +130,20 @@ export default function Home() {
               <td>{ CulcUnrongRate(totalRoundCount, totalUnrongCount) }%</td>
               <td>{ CulcZimoRate(totalHuleCount, totalZimoCount) }％</td>
               <td>{ CulcUnliqiHuleRate(totalHuleCount, totalUnliqiCount) }％</td>
+            </tr>
+          </tbody>
+          <thead>
+            <tr>
+              <th>流局率</th>
+              <th>流局聴牌率</th>
+              <th>副露率</th>
+              <th>立直率</th>
+              <th>平均和了</th>
+              <th>平均放銃</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
               <td>{ CulcNoTileRate(totalRoundCount, totalNoTileCount) }％</td>
               <td>{ CulcNoTileTingpaiRate(totalNoTileCount, totalNoTileTingpaiCount) }％</td>
               <td>{ CulcChiPengGangRate(totalRoundCount, totalChiPengGangCount) }％</td>
