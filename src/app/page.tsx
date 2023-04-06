@@ -10,6 +10,7 @@ import { CulcNoTileRate } from '@/hooks/useNoTileRate'
 import { CulcNoTileTingpaiRate } from '@/hooks/useNoTileTingpaiRate'
 import { CulcChiPengGangRate } from '@/hooks/useChiPengGangRate'
 import { CulcLiqiRate } from '@/hooks/useLiqiRate'
+import { CulcAverageDadianRate } from '@/hooks/useAverageDadianRate'
 import db from '../../firebase'
 import { collection, getDocs } from "firebase/firestore";
 
@@ -43,6 +44,7 @@ export default function Home() {
   const [totalNoTileTingpaiCount, setTotalNoTileTingpaiCount] = useState<number>(0)
   const [totalChiPengGangCount, setTotalChiPengGangCount] = useState<number>(0)
   const [totalLiqiCount, setTotalLiqiCount] = useState<number>(0)
+  const [totalDadian, setTotalDadian] = useState<number[]>([])
 
   useEffect(() => {
     const firestore = async () => {
@@ -57,6 +59,7 @@ export default function Home() {
       let noTileTingpaiCount: number = 0
       let chiPengGangCount: number = 0
       let liqiCount: number = 0
+      let dadianScores: number[] = []
 
       querySnapshot.forEach((doc: any) => {
         let data = doc.data()
@@ -65,6 +68,7 @@ export default function Home() {
         huleCount += data.hule.length
         unrongCount += data.unrong
         data.hule.forEach((hule: any) => {
+          dadianScores.push(hule.dadian)
           if (hule.zimo) {
             zimoCount++
           } else if (hule.ming.length === 0) {
@@ -87,6 +91,7 @@ export default function Home() {
       setTotalNoTileTingpaiCount(noTileTingpaiCount)
       setTotalChiPengGangCount(chiPengGangCount)
       setTotalLiqiCount(liqiCount)
+      setTotalDadian(dadianScores)
     }
 
     firestore()
@@ -113,6 +118,7 @@ export default function Home() {
               <th>流局聴牌率</th>
               <th>副露率</th>
               <th>立直率</th>
+              <th>平均和了</th>
             </tr>
           </thead>
           <tbody>
@@ -127,6 +133,7 @@ export default function Home() {
               <td>{ CulcNoTileTingpaiRate(totalNoTileCount, totalNoTileTingpaiCount) }％</td>
               <td>{ CulcChiPengGangRate(totalRoundCount, totalChiPengGangCount) }％</td>
               <td>{ CulcLiqiRate(totalRoundCount, totalLiqiCount) }％</td>
+              <td>{ CulcAverageDadianRate(totalDadian) }</td>
             </tr>
           </tbody>
         </table>
