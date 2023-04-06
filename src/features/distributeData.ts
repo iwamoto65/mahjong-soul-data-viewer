@@ -1,5 +1,6 @@
 import { playerData } from '@/consts/playerData'
 import { identifyGameType } from '@/utils/identifyGameType'
+import { identifyRankLevel } from '@/utils/identifyRankLevel'
 import { convertUnixtime } from '@/utils/convertUnixtime'
 import { sendGameResult } from './sendGameResult'
 
@@ -31,6 +32,12 @@ export type PlayerResult = {
   },
   chiPengGang: number,
   liqi: number,
+  finalPoint: number,
+  gradingScore: number,
+  rank: {
+    level: string,
+    point: number,
+  }
 }
 
 type UserActions = {
@@ -84,6 +91,7 @@ export const distributeData = (data: string) => {
   const paifu = JSON.parse(data)
   const userActions: [] = paifu.data.data.actions
   const userAccounts: [] = paifu.head.accounts
+  const userResults: [] = paifu.head.result.players
   const { matchType, room, matchFormat, numberOfPeople } = identifyGameType(paifu.head.config.meta.mode_id)
   let playerResult: PlayerResult = {
     uuid: paifu.head.uuid,
@@ -106,10 +114,18 @@ export const distributeData = (data: string) => {
       tingpai: 0
     },
     chiPengGang: 0,
-    liqi: 0
+    liqi: 0,
+    finalPoint: 0,
+    gradingScore: 0,
+    rank: {
+      level: '',
+      point: 0,
+    }
   }
 
   getPlayerId(userAccounts, playerResult)
+  getPlayerRankData(userAccounts, playerResult)
+  getPlayerScore(userResults, playerResult)
 
   let roundStartTimes: number[] = []
   let chiPengGangTimes: number[] = []
@@ -187,5 +203,23 @@ export const distributeData = (data: string) => {
 const getPlayerId = (userAccounts: [], playerResult: PlayerResult) => {
   userAccounts.forEach((account: { account_id: number, seat: number }) => {
     if (account.account_id === playerData.accountId) playerResult.seat = account.seat
+  })
+}
+
+const getPlayerRankData = (userAccounts: [], playerResult: PlayerResult) => {
+  userAccounts.forEach((account: { seat: number, level: { id: number, score: number } }) => {
+    if (account.seat === playerResult.seat) {
+      playerResult.rank.level = identifyRankLevel(account.level.id)
+      playerResult.rank.point = account.level.score
+    }
+  })
+}
+
+const getPlayerScore = (userResults: [], playerResult: PlayerResult) => {
+  userResults.forEach((result: { seat: number, part_point_1: number, grading_score: number }) => {
+    if (result.seat === playerResult.seat) {
+      playerResult.finalPoint = result.part_point_1
+      playerResult.gradingScore = result.grading_score
+    }
   })
 }
