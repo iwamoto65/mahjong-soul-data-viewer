@@ -12,6 +12,7 @@ import { CulcChiPengGangRate } from '@/hooks/useChiPengGangRate'
 import { CulcLiqiRate } from '@/hooks/useLiqiRate'
 import { CulcAverageDadianScore } from '@/hooks/useAverageDadianScore'
 import { CulcAverageUnrongScore } from '@/hooks/useAverageUnrongScore'
+import { CulcAveragePlace } from '@/hooks/useAveragePlace'
 import db from '../../firebase'
 import { collection, getDocs } from "firebase/firestore";
 
@@ -48,6 +49,7 @@ export default function Home() {
   const [totalChiPengGangCount, setTotalChiPengGangCount] = useState<number>(0)
   const [totalLiqiCount, setTotalLiqiCount] = useState<number>(0)
   const [totalDadian, setTotalDadian] = useState<number[]>([])
+  const [totalPlace, setTotalPlace] = useState<number[]>([])
 
   useEffect(() => {
     const firestore = async () => {
@@ -64,6 +66,7 @@ export default function Home() {
       let chiPengGangCount: number = 0
       let liqiCount: number = 0
       let dadianScores: number[] = []
+      let places: number[] = []
 
       querySnapshot.forEach((doc: any) => {
         let data = doc.data()
@@ -84,6 +87,7 @@ export default function Home() {
         noTileTingpaiCount += data.noTile.tingpai
         chiPengGangCount += data.chiPengGang
         liqiCount += data.liqi
+        places.push(data.place)
       })
 
       setGameCount(numberOfGame)
@@ -98,6 +102,7 @@ export default function Home() {
       setTotalChiPengGangCount(chiPengGangCount)
       setTotalLiqiCount(liqiCount)
       setTotalDadian(dadianScores)
+      setTotalPlace(places)
     }
 
     firestore()
@@ -150,6 +155,16 @@ export default function Home() {
               <td>{ CulcLiqiRate(totalRoundCount, totalLiqiCount) }％</td>
               <td>{ CulcAverageDadianScore(totalDadian) }</td>
               <td>{ CulcAverageUnrongScore(totalUnrongScore) }</td>
+            </tr>
+          </tbody>
+          <thead>
+            <tr>
+              <th>平均順位</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{ CulcAveragePlace(totalPlace) }</td>
             </tr>
           </tbody>
         </table>
