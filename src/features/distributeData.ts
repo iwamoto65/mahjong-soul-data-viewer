@@ -21,7 +21,10 @@ export type PlayerResult = {
     liqi: boolean,
     dadian: number,
   }[],
-  unrong: number,
+  unrong: {
+    count: number,
+    score: number[],
+  },
   noTile: {
     total: number,
     tingpai: number
@@ -94,7 +97,10 @@ export const distributeData = (data: string) => {
     seat: 0,
     totalRound: 0,
     hule: [],
-    unrong: 0,
+    unrong: {
+      count: 0,
+      score: [],
+    },
     noTile: {
       total: 0,
       tingpai: 0
@@ -124,7 +130,10 @@ export const distributeData = (data: string) => {
           if (action.result.data.delta_scores[playerResult.seat] < 0) {
             let negativeScore: number = 0
             negativeScore += action.result.data.delta_scores.filter((score: number) => score < 0).length
-            if (negativeScore === 1) playerResult.unrong++
+            if (negativeScore === 1) {
+              playerResult.unrong.count++
+              playerResult.unrong.score.push(action.result.data.delta_scores[playerResult.seat])
+            }
           }
           break;
         case '.lq.RecordNoTile':
