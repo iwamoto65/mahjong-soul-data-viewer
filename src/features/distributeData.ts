@@ -2,6 +2,7 @@ import { playerData } from '@/consts/playerData'
 import { identifyGameType } from '@/utils/identifyGameType'
 import { identifyRankLevel } from '@/utils/identifyRankLevel'
 import { convertUnixtime } from '@/utils/convertUnixtime'
+import { unrongAlongWithLiqi } from './liqi/unrongAlongWithLiqi'
 import { sendGameResult } from './sendGameResult'
 
 export type PlayerResult = {
@@ -25,6 +26,7 @@ export type PlayerResult = {
   unrong: {
     count: number,
     score: number[],
+    alongWithLiqi: number,
   },
   noTile: {
     total: number,
@@ -109,6 +111,7 @@ export const distributeData = (data: string) => {
     unrong: {
       count: 0,
       score: [],
+      alongWithLiqi: 0,
     },
     noTile: {
       total: 0,
@@ -131,6 +134,8 @@ export const distributeData = (data: string) => {
 
   let roundStartTimes: number[] = []
   let chiPengGangTimes: number[] = []
+  let unrongTimes: number[] = []
+  let recordDiscardTiles: any[] = []
 
   userActions.forEach((action: UserActions) => {
     if (action.result) {
@@ -149,6 +154,7 @@ export const distributeData = (data: string) => {
             let negativeScore: number = 0
             negativeScore += action.result.data.delta_scores.filter((score: number) => score < 0).length
             if (negativeScore === 1) {
+              unrongTimes.push(action.passed)
               playerResult.unrong.count++
               playerResult.unrong.score.push(action.result.data.delta_scores[playerResult.seat])
             }
@@ -166,6 +172,11 @@ export const distributeData = (data: string) => {
         case '.lq.RecordChiPengGang':
           if (action.result.data.seat === playerResult.seat) {
             chiPengGangTimes.push(action.passed)
+          }
+          break
+        case '.lq.RecordDiscardTile':
+          if (action.result.data.seat === playerResult.seat) {
+            recordDiscardTiles.push(action)
           }
           break
       }
@@ -198,8 +209,8 @@ export const distributeData = (data: string) => {
   })
 
   playerResult.chiPengGang = new Set(chiPengGangRounds).size
-
-  sendGameResult(playerResult)
+  playerResult.unrong.alongWithLiqi = unrongAlongWithLiqi(recordDiscardTiles, unrongTimes)
+  // sendGameResult(playerResult)
 }
 
 const getPlayerId = (userAccounts: [], playerResult: PlayerResult) => {
