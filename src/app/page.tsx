@@ -13,6 +13,7 @@ import { CulcLiqiRate } from '@/hooks/useLiqiRate'
 import { CulcAverageDadianScore } from '@/hooks/useAverageDadianScore'
 import { CulcAverageUnrongScore } from '@/hooks/useAverageUnrongScore'
 import { CulcAveragePlace } from '@/hooks/useAveragePlace'
+import { CulcLiqiSuccessRate } from '@/hooks/useLiqiSuccessRate'
 import db from '../../firebase'
 import { collection, getDocs } from "firebase/firestore";
 
@@ -50,6 +51,7 @@ export default function Home() {
   const [totalLiqiCount, setTotalLiqiCount] = useState<number>(0)
   const [totalDadian, setTotalDadian] = useState<number[]>([])
   const [totalPlace, setTotalPlace] = useState<number[]>([])
+  const [totalHuleOutOfLiqiCount, setTotalHuleOutOfLiqiCount] = useState<number>(0)
 
   useEffect(() => {
     const firestore = async () => {
@@ -67,6 +69,7 @@ export default function Home() {
       let liqiCount: number = 0
       let dadianScores: number[] = []
       let places: number[] = []
+      let huleOutOfLiqiCount: number = 0
 
       querySnapshot.forEach((doc: any) => {
         let data = doc.data()
@@ -81,6 +84,8 @@ export default function Home() {
             zimoCount++
           } else if (hule.ming.length === 0) {
             unliqiCount++
+          } else if (hule.liqi) {
+            huleOutOfLiqiCount++
           }
         })
         noTileCount += data.noTile.total
@@ -103,6 +108,7 @@ export default function Home() {
       setTotalLiqiCount(liqiCount)
       setTotalDadian(dadianScores)
       setTotalPlace(places)
+      setTotalHuleOutOfLiqiCount(huleOutOfLiqiCount)
     }
 
     firestore()
@@ -160,11 +166,13 @@ export default function Home() {
           <thead>
             <tr>
               <th>平均順位</th>
+              <th>立直和了</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>{ CulcAveragePlace(totalPlace) }</td>
+              <td>{ CulcLiqiSuccessRate(totalHuleOutOfLiqiCount, totalLiqiCount) }％</td>
             </tr>
           </tbody>
         </table>
