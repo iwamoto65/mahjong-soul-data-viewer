@@ -210,7 +210,8 @@ export const distributeData = (data: string) => {
 
   playerResult.chiPengGang = new Set(chiPengGangRounds).size
   playerResult.unrong.alongWithLiqi = unrongAlongWithLiqi(recordDiscardTiles, unrongTimes)
-  sendGameResult(playerResult)
+
+  return sendGameResult(playerResult)
 }
 
 const getPlayerId = (userAccounts: [], playerResult: PlayerResult) => {
