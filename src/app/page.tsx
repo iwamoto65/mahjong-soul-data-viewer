@@ -31,7 +31,6 @@ export default function Home() {
           reader.abort()
         }
       }
-      alert('データの送信が完了しました。')
       // window.location.reload()
     } else {
       alert('ファイルを選択してください')

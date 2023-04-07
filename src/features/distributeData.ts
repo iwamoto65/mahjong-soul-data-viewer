@@ -17,7 +17,7 @@ export type PlayerResult = {
   seat: number,
   totalRound: number,
   hule: {
-    ming: string[],
+    ming: string[] | [],
     zimo: boolean,
     qinjia: boolean,
     liqi: boolean,
@@ -71,7 +71,7 @@ type RecordNewRound = {
 type RecordHule = {
   hules: {
     seat: number,
-    ming: string[],
+    ming: string[] | [],
     zimo: boolean,
     qinjia: boolean,
     liqi: boolean,
@@ -147,7 +147,7 @@ export const distributeData = (data: string) => {
         case '.lq.RecordHule':
           action.result.data.hules.forEach((hule) => {
             if (hule.seat === playerResult.seat) {
-              playerResult.hule.push({ ming: hule.ming, zimo: hule.zimo, qinjia: hule.qinjia, liqi: hule.liqi, dadian: hule.dadian })
+              playerResult.hule.push({ ming: hule.ming || [], zimo: hule.zimo, qinjia: hule.qinjia, liqi: hule.liqi, dadian: hule.dadian })
             }
           })
           if (action.result.data.delta_scores[playerResult.seat] < 0) {
@@ -210,7 +210,7 @@ export const distributeData = (data: string) => {
 
   playerResult.chiPengGang = new Set(chiPengGangRounds).size
   playerResult.unrong.alongWithLiqi = unrongAlongWithLiqi(recordDiscardTiles, unrongTimes)
-  // sendGameResult(playerResult)
+  sendGameResult(playerResult)
 }
 
 const getPlayerId = (userAccounts: [], playerResult: PlayerResult) => {
