@@ -3,6 +3,7 @@ import { identifyGameType } from '@/utils/identifyGameType'
 import { identifyRankLevel } from '@/utils/identifyRankLevel'
 import { convertUnixtime } from '@/utils/convertUnixtime'
 import { unrongAlongWithLiqi } from './liqi/unrongAlongWithLiqi'
+import { unrongAfterLiqi } from './liqi/unrongAfterLiqi'
 import { sendGameResult } from './sendGameResult'
 
 export type PlayerResult = {
@@ -27,6 +28,7 @@ export type PlayerResult = {
     count: number,
     score: number[],
     alongWithLiqi: number,
+    afterLiqi: number,
   },
   noTile: {
     total: number,
@@ -53,7 +55,12 @@ type UserActions = {
   },
   result: {
     name: string,
-    data: RecordNewRound & RecordHule & RecordNoTile & RecordChiPengGang
+    data:
+      & RecordNewRound
+      & RecordHule
+      & RecordNoTile
+      & RecordChiPengGang
+      & RecordDealTile
   }
 }
 
@@ -87,7 +94,21 @@ type RecordNoTile = {
 }
 
 type RecordChiPengGang = {
-  seat: number
+  seat: number,
+  liqi?: {
+    seat: number,
+    score: number,
+    liqibang: number,
+  }
+}
+
+type RecordDealTile = {
+  seat: number,
+  liqi?: {
+    seat: number,
+    score: number,
+    liqibang: number,
+  }
 }
 
 export const distributeData = (data: string) => {
@@ -112,6 +133,7 @@ export const distributeData = (data: string) => {
       count: 0,
       score: [],
       alongWithLiqi: 0,
+      afterLiqi: 0,
     },
     noTile: {
       total: 0,
@@ -133,9 +155,11 @@ export const distributeData = (data: string) => {
   getPlayerScore(userResults, playerResult)
 
   let roundStartTimes: number[] = []
+  let recordChiPengGang: any[] = []
   let chiPengGangTimes: number[] = []
   let unrongTimes: number[] = []
   let recordDiscardTiles: any[] = []
+  let recordDealTiles: any[] = []
 
   userActions.forEach((action: UserActions) => {
     if (action.result) {
@@ -170,6 +194,7 @@ export const distributeData = (data: string) => {
           playerResult.noTile.total++
           break
         case '.lq.RecordChiPengGang':
+          recordChiPengGang.push(action)
           if (action.result.data.seat === playerResult.seat) {
             chiPengGangTimes.push(action.passed)
           }
@@ -178,6 +203,9 @@ export const distributeData = (data: string) => {
           if (action.result.data.seat === playerResult.seat) {
             recordDiscardTiles.push(action)
           }
+          break
+        case '.lq.RecordDealTile':
+          recordDealTiles.push(action)
           break
       }
     } else if (action.user_input) {
@@ -210,6 +238,7 @@ export const distributeData = (data: string) => {
 
   playerResult.chiPengGang = new Set(chiPengGangRounds).size
   playerResult.unrong.alongWithLiqi = unrongAlongWithLiqi(recordDiscardTiles, unrongTimes)
+  playerResult.unrong.afterLiqi = unrongAfterLiqi(playerResult.seat, rounds, recordDealTiles, recordChiPengGang, unrongTimes)
 
   return sendGameResult(playerResult)
 }

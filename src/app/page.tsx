@@ -29,8 +29,8 @@ export default function Home() {
           distributeData(reader.result)
             .then(res => {
               if (res.status === 'ok') {
-                alert('アップロードが完了しました。')
-                window.location.reload()
+                // alert('アップロードが完了しました。')
+                // window.location.reload()
               }
             })
         } else {
