@@ -7,7 +7,7 @@ export const countChiPengGang = (rounds: { round: number, startTime: number, end
     })
   })
 
-  const chiPengGangCount: number = new Set(chiPengGangRounds).size
+  const chiPengGangUniqueCount: number = new Set(chiPengGangRounds).size
 
-  return chiPengGangCount
+  return chiPengGangUniqueCount
 }
