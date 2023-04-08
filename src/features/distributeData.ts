@@ -151,7 +151,7 @@ export const distributeData = (data: string) => {
   }
 
   getPlayerId(userAccounts, playerResult)
-  getPlayerRankData(userAccounts, playerResult)
+  getPlayerRank(userAccounts, playerResult)
   getPlayerScore(userResults, playerResult)
 
   let roundStartTimes: number[] = []
@@ -249,7 +249,7 @@ const getPlayerId = (userAccounts: [], playerResult: PlayerResult) => {
   })
 }
 
-const getPlayerRankData = (userAccounts: [], playerResult: PlayerResult) => {
+const getPlayerRank = (userAccounts: [], playerResult: PlayerResult) => {
   userAccounts.forEach((account: { seat: number, level: { id: number, score: number } }) => {
     if (account.seat === playerResult.seat) {
       playerResult.rank.level = identifyRankLevel(account.level.id)
