@@ -106,8 +106,10 @@ export const distributeData = (data: string) => {
           break
       }
     } else if (action.user_input) {
+      const operationType: { [key: string]: number } = { liqi: 7 }
+
       if (action.user_input.seat === playerResult.seat) {
-        if (action.user_input.operation && action.user_input.operation.type === 7) {
+        if (action.user_input.operation && action.user_input.operation.type === operationType.liqi) {
           playerResult.liqi++
         }
       }
