@@ -2,6 +2,7 @@ import { playerData } from '@/consts/playerData'
 import { identifyGameType } from '@/utils/identifyGameType'
 import { identifyRankLevel } from '@/utils/identifyRankLevel'
 import { convertUnixtime } from '@/utils/convertUnixtime'
+import { countChiPengGang } from './chiPengGang/chiPengGangCounter';
 import { unrongAlongWithLiqi } from './liqi/unrongAlongWithLiqi'
 import { unrongAfterLiqi } from './liqi/unrongAfterLiqi'
 import { sendGameResult } from './sendGameResult'
@@ -218,14 +219,8 @@ export const distributeData = (data: string) => {
   })
 
   const rounds: { round: number, startTime: number, endTime: number }[] = divideByRound(userActions, roundStartTimes)
-  let chiPengGangRounds: number[] = []
-  rounds.forEach((r) => {
-    chiPengGangTimes.forEach((t) => {
-      if (r.startTime < t && t < r.endTime) chiPengGangRounds.push(r.round)
-    })
-  })
 
-  playerResult.chiPengGang = new Set(chiPengGangRounds).size
+  playerResult.chiPengGang = countChiPengGang(rounds, chiPengGangTimes)
   playerResult.unrong.alongWithLiqi = unrongAlongWithLiqi(recordDiscardTiles, unrongTimes)
   playerResult.unrong.afterLiqi = unrongAfterLiqi(playerResult.seat, rounds, recordDealTiles, recordChiPengGang, unrongTimes)
 
