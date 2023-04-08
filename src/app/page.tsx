@@ -14,8 +14,10 @@ import { CulcAverageDadianScore } from '@/hooks/useAverageDadianScore'
 import { CulcAverageUnrongScore } from '@/hooks/useAverageUnrongScore'
 import { CulcAveragePlace } from '@/hooks/useAveragePlace'
 import { CulcLiqiSuccessRate } from '@/hooks/useLiqiSuccessRate'
+import { CulcUnrongIncludeOnLiqiRate } from '@/hooks/useUnrongIncludeOnLiqiRate'
+import { CulcUnrongAfterLiqiRate } from '@/hooks/useUnrongAfterLiqiRate'
 import db from '../../firebase'
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore"
 
 export default function Home() {
   const { register, handleSubmit } = useForm()
@@ -56,6 +58,8 @@ export default function Home() {
   const [totalDadian, setTotalDadian] = useState<number[]>([])
   const [totalPlace, setTotalPlace] = useState<number[]>([])
   const [totalHuleOutOfLiqiCount, setTotalHuleOutOfLiqiCount] = useState<number>(0)
+  const [totalUnrongAlongWithLiqiCount, setTotalUnrongAlongWithLiqiCount] = useState<number>(0)
+  const [totalUnrongAfterLiqiCount, setTotalUnrongAfterLiqiCount] = useState<number>(0)
 
   useEffect(() => {
     const firestore = async () => {
@@ -74,6 +78,8 @@ export default function Home() {
       let dadianScores: number[] = []
       let places: number[] = []
       let huleOutOfLiqiCount: number = 0
+      let unrongAlongWithLiqiCount: number = 0
+      let unrongAfterLiqiCount: number = 0
 
       querySnapshot.forEach((doc: any) => {
         let data = doc.data()
@@ -97,6 +103,8 @@ export default function Home() {
         chiPengGangCount += data.chiPengGang
         liqiCount += data.liqi
         places.push(data.place)
+        unrongAlongWithLiqiCount += data.unrong.alongWithLiqi
+        unrongAfterLiqiCount += data.unrong.afterLiqi
       })
 
       setGameCount(numberOfGame)
@@ -113,6 +121,8 @@ export default function Home() {
       setTotalDadian(dadianScores)
       setTotalPlace(places)
       setTotalHuleOutOfLiqiCount(huleOutOfLiqiCount)
+      setTotalUnrongAlongWithLiqiCount(unrongAlongWithLiqiCount)
+      setTotalUnrongAfterLiqiCount(unrongAfterLiqiCount)
     }
 
     firestore()
@@ -171,12 +181,16 @@ export default function Home() {
             <tr>
               <th>平均順位</th>
               <th>立直和了</th>
+              <th>立直放銃A</th>
+              <th>立直放銃B</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>{ CulcAveragePlace(totalPlace) }</td>
               <td>{ CulcLiqiSuccessRate(totalHuleOutOfLiqiCount, totalLiqiCount) }％</td>
+              <td>{ CulcUnrongIncludeOnLiqiRate(totalLiqiCount, totalUnrongAlongWithLiqiCount, totalUnrongAfterLiqiCount) }％</td>
+              <td>{ CulcUnrongAfterLiqiRate(totalLiqiCount, totalUnrongAfterLiqiCount) }％</td>
             </tr>
           </tbody>
         </table>
