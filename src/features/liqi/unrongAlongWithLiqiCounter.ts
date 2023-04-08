@@ -1,4 +1,4 @@
-export const unrongAlongWithLiqi = (discardTiles: any[], unrongTimes: number[]) => {
+export const countUnrongAlongWithLiqi = (discardTiles: any[], unrongTimes: number[]) => {
   let discardTilePassed: any[] = []
   let passedJustBeforeUnrong: number[] = []
   let unrongCount: number = 0

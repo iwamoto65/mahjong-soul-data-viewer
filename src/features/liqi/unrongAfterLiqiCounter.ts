@@ -1,4 +1,4 @@
-export const unrongAfterLiqi = (
+export const countUnrongAfterLiqi = (
   seat: number,
   rounds: { round: number, startTime: number, endTime: number }[],
   dealTiles: any[],
