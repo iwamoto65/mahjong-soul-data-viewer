@@ -217,22 +217,11 @@ export const distributeData = (data: string) => {
     }
   })
 
-  let rounds: { round: number, startTime: number, endTime: number }[] = []
-  const lastRound: { game_event: number, passed: number, type: number } = userActions[userActions.length - 1]
-  roundStartTimes.forEach((_time, i, arr) => {
-    if (i < arr.length-1) {
-      rounds.push({ round: i+1, startTime: arr[i], endTime: arr[i+1] })
-    } else {
-      rounds.push({ round: i+1, startTime: arr[i], endTime: lastRound.passed })
-    }
-  })
-
+  const rounds: { round: number, startTime: number, endTime: number }[] = divideByRound(userActions, roundStartTimes)
   let chiPengGangRounds: number[] = []
   rounds.forEach((r) => {
     chiPengGangTimes.forEach((t) => {
-      if (r.startTime < t && t < r.endTime) {
-        chiPengGangRounds.push(r.round)
-      }
+      if (r.startTime < t && t < r.endTime) chiPengGangRounds.push(r.round)
     })
   })
 
@@ -266,4 +255,19 @@ const getPlayerScore = (userResults: [], playerResult: PlayerResult) => {
       playerResult.place = i+1
     }
   })
+}
+
+const divideByRound = (userActions: [], roundStartTimes: number[]) => {
+  let rounds: { round: number, startTime: number, endTime: number }[] = []
+  const lastRound: { game_event: number, passed: number, type: number } = userActions[userActions.length - 1]
+
+  roundStartTimes.forEach((_time, i, arr) => {
+    if (i < arr.length-1) {
+      rounds.push({ round: i+1, startTime: arr[i], endTime: arr[i+1] })
+    } else {
+      rounds.push({ round: i+1, startTime: arr[i], endTime: lastRound.passed })
+    }
+  })
+
+  return rounds
 }
