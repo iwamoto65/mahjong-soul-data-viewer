@@ -2,6 +2,7 @@ import { playerData } from '@/consts/playerData'
 import { identifyGameType } from '@/utils/identifyGameType'
 import { identifyRankLevel } from '@/utils/identifyRankLevel'
 import { convertUnixtime } from '@/utils/convertUnixtime'
+import { countLiqi } from './liqi/liqiCounter'
 import { countChiPengGang } from './chiPengGang/chiPengGangCounter';
 import { countUnrongAlongWithLiqi } from './liqi/unrongAlongWithLiqiCounter'
 import { countUnrongAfterLiqi } from './liqi/unrongAfterLiqiCounter'
@@ -106,13 +107,7 @@ export const distributeData = (data: string) => {
           break
       }
     } else if (action.user_input) {
-      const operationType: { [key: string]: number } = { liqi: 7 }
-
-      if (action.user_input.seat === playerResult.seat) {
-        if (action.user_input.operation && action.user_input.operation.type === operationType.liqi) {
-          playerResult.liqi++
-        }
-      }
+      playerResult.liqi += countLiqi(action, playerResult.seat)
     }
   })
 
