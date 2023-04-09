@@ -2,6 +2,7 @@ import { playerData } from '@/consts/playerData'
 import { identifyGameType } from '@/utils/identifyGameType'
 import { identifyRankLevel } from '@/utils/identifyRankLevel'
 import { convertUnixtime } from '@/utils/convertUnixtime'
+import { categorizeHule } from './hule/huleCategorizer'
 import { countLiqi } from './liqi/liqiCounter'
 import { countNoTile } from './noTile/noTileCounter'
 import { countNoTileTingpai } from './noTile/noTileTingpaiCounter'
@@ -55,6 +56,7 @@ export const distributeData = (data: string) => {
   getPlayerScore(userResults, playerResult)
 
   let roundStartTimes: number[] = []
+  let recordHule: any[] = []
   let recordNoTile: any[] = []
   let recordLiuju: any[] = []
   let recordChiPengGang: any[] = []
@@ -70,11 +72,7 @@ export const distributeData = (data: string) => {
           roundStartTimes.push(action.passed)
           break;
         case '.lq.RecordHule':
-          action.result.data.hules.forEach((hule) => {
-            if (hule.seat === playerResult.seat) {
-              playerResult.hule.push({ ming: hule.ming || [], zimo: hule.zimo, qinjia: hule.qinjia, liqi: hule.liqi, dadian: hule.dadian })
-            }
-          })
+          recordHule.push(action)
           if (action.result.data.delta_scores[playerResult.seat] < 0) {
             let negativeScore: number = 0
             negativeScore += action.result.data.delta_scores.filter((score: number) => score < 0).length
@@ -84,7 +82,7 @@ export const distributeData = (data: string) => {
               playerResult.unrong.score.push(action.result.data.delta_scores[playerResult.seat])
             }
           }
-          break;
+          break
         case '.lq.RecordNoTile':
           recordNoTile.push(action)
           break
@@ -108,6 +106,7 @@ export const distributeData = (data: string) => {
 
   const rounds: { round: number, startTime: number, endTime: number }[] = divideByRound(userActions, roundStartTimes)
 
+  playerResult.hule = categorizeHule(playerResult.seat, recordHule)
   playerResult.noTile.total = countNoTile(recordNoTile, recordLiuju)
   playerResult.noTile.tingpai = countNoTileTingpai(playerResult.seat, recordNoTile)
   playerResult.chiPengGang = countChiPengGang(rounds, recordChiPengGang, playerResult.seat)
