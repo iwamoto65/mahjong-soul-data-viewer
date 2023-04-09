@@ -29,12 +29,12 @@ export default function Home() {
       reader.onload = () => {
         if (typeof reader.result == 'string') {
           distributeData(reader.result)
-            .then(res => {
-              if (res.status === 'ok') {
-                // alert('アップロードが完了しました。')
-                // window.location.reload()
-              }
-            })
+            // .then(res => {
+            //   if (res.status === 'ok') {
+            //     // alert('アップロードが完了しました。')
+            //     // window.location.reload()
+            //   }
+            // })
         } else {
           reader.abort()
         }

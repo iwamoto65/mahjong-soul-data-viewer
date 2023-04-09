@@ -3,6 +3,7 @@ import { identifyGameType } from '@/utils/identifyGameType'
 import { identifyRankLevel } from '@/utils/identifyRankLevel'
 import { convertUnixtime } from '@/utils/convertUnixtime'
 import { countLiqi } from './liqi/liqiCounter'
+import { countNoTile } from './noTile/noTileCounter'
 import { countChiPengGang } from './chiPengGang/chiPengGangCounter';
 import { countUnrongAlongWithLiqi } from './liqi/unrongAlongWithLiqiCounter'
 import { countUnrongAfterLiqi } from './liqi/unrongAfterLiqiCounter'
@@ -53,6 +54,8 @@ export const distributeData = (data: string) => {
   getPlayerScore(userResults, playerResult)
 
   let roundStartTimes: number[] = []
+  let recordNoTile: any[] = []
+  let recordLiuju: any[] = []
   let recordChiPengGang: any[] = []
   let unrongTimes: number[] = []
   let recordDiscardTile: any[] = []
@@ -82,13 +85,13 @@ export const distributeData = (data: string) => {
           }
           break;
         case '.lq.RecordNoTile':
-          playerResult.noTile.total++
+          recordNoTile.push(action)
           if (action.result.data.players[playerResult.seat].tingpai) {
             playerResult.noTile.tingpai++
           }
           break
         case '.lq.RecordLiuju':
-          playerResult.noTile.total++
+          recordLiuju.push(action)
           break
         case '.lq.RecordChiPengGang':
           recordChiPengGang.push(action)
@@ -107,6 +110,7 @@ export const distributeData = (data: string) => {
 
   const rounds: { round: number, startTime: number, endTime: number }[] = divideByRound(userActions, roundStartTimes)
 
+  playerResult.noTile.total = countNoTile(recordNoTile, recordLiuju)
   playerResult.chiPengGang = countChiPengGang(rounds, recordChiPengGang, playerResult.seat)
   playerResult.unrong.alongWithLiqi = countUnrongAlongWithLiqi(playerResult.seat, recordDiscardTile, unrongTimes)
   playerResult.unrong.afterLiqi = countUnrongAfterLiqi(playerResult.seat, rounds, recordDealTile, recordChiPengGang, unrongTimes)
