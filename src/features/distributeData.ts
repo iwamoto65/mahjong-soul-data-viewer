@@ -94,9 +94,7 @@ export const distributeData = (data: string) => {
           recordChiPengGang.push(action)
           break
         case '.lq.RecordDiscardTile':
-          if (action.result.data.seat === playerResult.seat) {
-            recordDiscardTile.push(action)
-          }
+          recordDiscardTile.push(action)
           break
         case '.lq.RecordDealTile':
           recordDealTile.push(action)
@@ -110,7 +108,7 @@ export const distributeData = (data: string) => {
   const rounds: { round: number, startTime: number, endTime: number }[] = divideByRound(userActions, roundStartTimes)
 
   playerResult.chiPengGang = countChiPengGang(rounds, recordChiPengGang, playerResult.seat)
-  playerResult.unrong.alongWithLiqi = countUnrongAlongWithLiqi(recordDiscardTile, unrongTimes)
+  playerResult.unrong.alongWithLiqi = countUnrongAlongWithLiqi(playerResult.seat, recordDiscardTile, unrongTimes)
   playerResult.unrong.afterLiqi = countUnrongAfterLiqi(playerResult.seat, rounds, recordDealTile, recordChiPengGang, unrongTimes)
 
   return sendGameResult(playerResult)
