@@ -54,7 +54,6 @@ export const distributeData = (data: string) => {
 
   let roundStartTimes: number[] = []
   let recordChiPengGang: any[] = []
-  let chiPengGangTimes: number[] = []
   let unrongTimes: number[] = []
   let recordDiscardTiles: any[] = []
   let recordDealTiles: any[] = []
@@ -93,9 +92,6 @@ export const distributeData = (data: string) => {
           break
         case '.lq.RecordChiPengGang':
           recordChiPengGang.push(action)
-          if (action.result.data.seat === playerResult.seat) {
-            chiPengGangTimes.push(action.passed)
-          }
           break
         case '.lq.RecordDiscardTile':
           if (action.result.data.seat === playerResult.seat) {
@@ -113,7 +109,7 @@ export const distributeData = (data: string) => {
 
   const rounds: { round: number, startTime: number, endTime: number }[] = divideByRound(userActions, roundStartTimes)
 
-  playerResult.chiPengGang = countChiPengGang(rounds, chiPengGangTimes)
+  playerResult.chiPengGang = countChiPengGang(rounds, recordChiPengGang, playerResult.seat)
   playerResult.unrong.alongWithLiqi = countUnrongAlongWithLiqi(recordDiscardTiles, unrongTimes)
   playerResult.unrong.afterLiqi = countUnrongAfterLiqi(playerResult.seat, rounds, recordDealTiles, recordChiPengGang, unrongTimes)
 
