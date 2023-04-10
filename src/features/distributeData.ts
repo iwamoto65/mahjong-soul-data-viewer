@@ -9,8 +9,8 @@ import { countLiqi } from './userAction/liqi/liqiCounter'
 import { countNoTile } from './userAction/noTile/noTileCounter'
 import { countNoTileTingpai } from './userAction/noTile/noTileTingpaiCounter'
 import { countChiPengGang } from './userAction/chiPengGang/chiPengGangCounter';
-import { countUnrongAlongWithLiqi } from './userAction/liqi/unrongAlongWithLiqiCounter'
-import { countUnrongAfterLiqi } from './userAction/liqi/unrongAfterLiqiCounter'
+import { countUnrongAlongWithLiqi } from './userAction/unrong/unrongAlongWithLiqiCounter'
+import { countUnrongAfterLiqi } from './userAction/unrong/unrongAfterLiqiCounter'
 import { sendGameResult } from './sendGameResult'
 import type { PlayerResult, UserActions } from './distributeDataType';
 
