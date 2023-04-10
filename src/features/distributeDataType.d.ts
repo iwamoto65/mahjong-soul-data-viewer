@@ -28,11 +28,13 @@ export type PlayerResult = {
   },
   chiPengGang: number,
   liqi: number,
-  finalPoint: number,
-  gradingScore: number,
+  gameRecord: {
+    finalPoint: number,
+    gradingScore: number,
+    place: number
+  },
   rank: {
     level: string,
     point: number,
   },
-  place: number
 }
