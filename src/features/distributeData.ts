@@ -1,4 +1,4 @@
-import { playerData } from '@/consts/playerData'
+import { identifySeat } from './userAccount/seatIdentification'
 import { identifyGameType } from '@/utils/identifyGameType'
 import { identifyRankLevel } from '@/utils/identifyRankLevel'
 import { convertUnixtime } from '@/utils/convertUnixtime'
@@ -54,7 +54,6 @@ export const distributeData = (data: string) => {
     place: 0
   }
 
-  getPlayerId(userAccounts, playerResult)
   getPlayerRank(userAccounts, playerResult)
   getPlayerScore(userResults, playerResult)
 
@@ -99,6 +98,7 @@ export const distributeData = (data: string) => {
   const rounds: { round: number, startTime: number, endTime: number }[] = divideByRound(userActions, recordNewRound)
   const unrongTimes: number[] = getUnrongTimes(playerResult.seat, recordHule)
 
+  playerResult.seat = identifySeat(userAccounts)
   playerResult.totalRound = recordNewRound.length
   playerResult.hule = categorizeHule(playerResult.seat, recordHule)
   playerResult.unrong.count = countUnrong(playerResult.seat, recordHule)
@@ -110,12 +110,6 @@ export const distributeData = (data: string) => {
   playerResult.unrong.afterLiqi = countUnrongAfterLiqi(playerResult.seat, rounds, recordDealTile, recordChiPengGang, unrongTimes)
 
   return sendGameResult(playerResult)
-}
-
-const getPlayerId = (userAccounts: [], playerResult: PlayerResult) => {
-  userAccounts.forEach((account: { account_id: number, seat: number }) => {
-    if (account.account_id === playerData.accountId) playerResult.seat = account.seat
-  })
 }
 
 const getPlayerRank = (userAccounts: [], playerResult: PlayerResult) => {
