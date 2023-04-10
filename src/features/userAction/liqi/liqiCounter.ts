@@ -1,4 +1,4 @@
-import type { UserActions } from "../distributeDataType"
+import type { UserActions } from "../../distributeDataType"
 
 export const countLiqi = (action: UserActions, seat: number) => {
   let liqiCount: number = 0

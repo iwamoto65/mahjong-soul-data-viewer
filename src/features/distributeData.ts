@@ -2,15 +2,15 @@ import { playerData } from '@/consts/playerData'
 import { identifyGameType } from '@/utils/identifyGameType'
 import { identifyRankLevel } from '@/utils/identifyRankLevel'
 import { convertUnixtime } from '@/utils/convertUnixtime'
-import { categorizeHule } from './hule/huleCategorizer'
-import { countUnrong } from './unrong/unrongCounter'
-import { storeUnrongScore } from './unrong/unrongScoreStorer';
-import { countLiqi } from './liqi/liqiCounter'
-import { countNoTile } from './noTile/noTileCounter'
-import { countNoTileTingpai } from './noTile/noTileTingpaiCounter'
-import { countChiPengGang } from './chiPengGang/chiPengGangCounter';
-import { countUnrongAlongWithLiqi } from './liqi/unrongAlongWithLiqiCounter'
-import { countUnrongAfterLiqi } from './liqi/unrongAfterLiqiCounter'
+import { categorizeHule } from './userAction/hule/huleCategorizer'
+import { countUnrong } from './userAction/unrong/unrongCounter'
+import { storeUnrongScore } from './userAction/unrong/unrongScoreStorer';
+import { countLiqi } from './userAction/liqi/liqiCounter'
+import { countNoTile } from './userAction/noTile/noTileCounter'
+import { countNoTileTingpai } from './userAction/noTile/noTileTingpaiCounter'
+import { countChiPengGang } from './userAction/chiPengGang/chiPengGangCounter';
+import { countUnrongAlongWithLiqi } from './userAction/liqi/unrongAlongWithLiqiCounter'
+import { countUnrongAfterLiqi } from './userAction/liqi/unrongAfterLiqiCounter'
 import { sendGameResult } from './sendGameResult'
 import type { PlayerResult, UserActions } from './distributeDataType';
 
