@@ -62,7 +62,6 @@ export const distributeData = (data: string) => {
   let recordNoTile: any[] = []
   let recordLiuju: any[] = []
   let recordChiPengGang: any[] = []
-  let unrongTimes: number[] = []
   let recordDiscardTile: any[] = []
   let recordDealTile: any[] = []
 
@@ -75,12 +74,6 @@ export const distributeData = (data: string) => {
           break;
         case '.lq.RecordHule':
           recordHule.push(action)
-          if (action.result.data.delta_scores[playerResult.seat] < 0) {
-            const NumberOfPeopleWithNegativeScore: number = action.result.data.delta_scores.filter((score: number) => score < 0).length
-            if (NumberOfPeopleWithNegativeScore === 1) {
-              unrongTimes.push(action.passed)
-            }
-          }
           break
         case '.lq.RecordNoTile':
           recordNoTile.push(action)
@@ -104,6 +97,7 @@ export const distributeData = (data: string) => {
   })
 
   const rounds: { round: number, startTime: number, endTime: number }[] = divideByRound(userActions, roundStartTimes)
+  const unrongTimes: number[] = getUnrongTimes(playerResult.seat, recordHule)
 
   playerResult.hule = categorizeHule(playerResult.seat, recordHule)
   playerResult.unrong.count = countUnrong(playerResult.seat, recordHule)
@@ -155,4 +149,17 @@ const divideByRound = (userActions: [], roundStartTimes: number[]) => {
   })
 
   return rounds
+}
+
+const getUnrongTimes = (seat: number, recordHule: any[]) => {
+  let times: number[] = []
+
+  recordHule.forEach((record) => {
+    if (record.result.data.delta_scores[seat] < 0) {
+      const NumberOfPeopleWithNegativeScore: number = record.result.data.delta_scores.filter((score: number) => score < 0).length
+      if (NumberOfPeopleWithNegativeScore === 1) times.push(record.passed)
+    }
+  })
+
+  return times
 }
