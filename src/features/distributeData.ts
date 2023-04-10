@@ -1,6 +1,6 @@
 import { identifySeat } from './userAccount/seatIdentification'
+import { identifyRank } from './userAccount/rankIdentification'
 import { identifyGameType } from '@/utils/identifyGameType'
-import { identifyRankLevel } from '@/utils/identifyRankLevel'
 import { convertUnixtime } from '@/utils/convertUnixtime'
 import { categorizeHule } from './userAction/hule/huleCategorizer'
 import { countUnrong } from './userAction/unrong/unrongCounter'
@@ -54,7 +54,6 @@ export const distributeData = (data: string) => {
     place: 0
   }
 
-  getPlayerRank(userAccounts, playerResult)
   getPlayerScore(userResults, playerResult)
 
   let recordNewRound: any[] = []
@@ -99,6 +98,7 @@ export const distributeData = (data: string) => {
   const unrongTimes: number[] = getUnrongTimes(playerResult.seat, recordHule)
 
   playerResult.seat = identifySeat(userAccounts)
+  playerResult.rank = identifyRank(playerResult.seat, userAccounts)
   playerResult.totalRound = recordNewRound.length
   playerResult.hule = categorizeHule(playerResult.seat, recordHule)
   playerResult.unrong.count = countUnrong(playerResult.seat, recordHule)
@@ -110,15 +110,6 @@ export const distributeData = (data: string) => {
   playerResult.unrong.afterLiqi = countUnrongAfterLiqi(playerResult.seat, rounds, recordDealTile, recordChiPengGang, unrongTimes)
 
   return sendGameResult(playerResult)
-}
-
-const getPlayerRank = (userAccounts: [], playerResult: PlayerResult) => {
-  userAccounts.forEach((account: { seat: number, level: { id: number, score: number } }) => {
-    if (account.seat === playerResult.seat) {
-      playerResult.rank.level = identifyRankLevel(account.level.id)
-      playerResult.rank.point = account.level.score
-    }
-  })
 }
 
 const getPlayerScore = (userResults: [], playerResult: PlayerResult) => {
