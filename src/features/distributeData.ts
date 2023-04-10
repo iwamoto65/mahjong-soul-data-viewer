@@ -70,7 +70,6 @@ export const distributeData = (data: string) => {
       switch (action.result.name) {
         case '.lq.RecordNewRound':
           recordNewRound.push(action)
-          playerResult.totalRound++
           break;
         case '.lq.RecordHule':
           recordHule.push(action)
@@ -99,6 +98,7 @@ export const distributeData = (data: string) => {
   const rounds: { round: number, startTime: number, endTime: number }[] = divideByRound(userActions, recordNewRound)
   const unrongTimes: number[] = getUnrongTimes(playerResult.seat, recordHule)
 
+  playerResult.totalRound = recordNewRound.length
   playerResult.hule = categorizeHule(playerResult.seat, recordHule)
   playerResult.unrong.count = countUnrong(playerResult.seat, recordHule)
   playerResult.unrong.score = storeUnrongScore(playerResult.seat, recordHule)
