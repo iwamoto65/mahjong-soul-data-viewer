@@ -57,7 +57,7 @@ export const distributeData = (data: string) => {
   getPlayerRank(userAccounts, playerResult)
   getPlayerScore(userResults, playerResult)
 
-  let roundStartTimes: number[] = []
+  let recordNewRound: any[] = []
   let recordHule: any[] = []
   let recordNoTile: any[] = []
   let recordLiuju: any[] = []
@@ -69,8 +69,8 @@ export const distributeData = (data: string) => {
     if (action.result) {
       switch (action.result.name) {
         case '.lq.RecordNewRound':
+          recordNewRound.push(action)
           playerResult.totalRound++
-          roundStartTimes.push(action.passed)
           break;
         case '.lq.RecordHule':
           recordHule.push(action)
@@ -96,7 +96,7 @@ export const distributeData = (data: string) => {
     }
   })
 
-  const rounds: { round: number, startTime: number, endTime: number }[] = divideByRound(userActions, roundStartTimes)
+  const rounds: { round: number, startTime: number, endTime: number }[] = divideByRound(userActions, recordNewRound)
   const unrongTimes: number[] = getUnrongTimes(playerResult.seat, recordHule)
 
   playerResult.hule = categorizeHule(playerResult.seat, recordHule)
@@ -136,7 +136,8 @@ const getPlayerScore = (userResults: [], playerResult: PlayerResult) => {
   })
 }
 
-const divideByRound = (userActions: [], roundStartTimes: number[]) => {
+const divideByRound = (userActions: [], recordNewRound: any[]) => {
+  const roundStartTimes: number[] = recordNewRound.map((record) => record.passed)
   let rounds: { round: number, startTime: number, endTime: number }[] = []
   const lastRound: { game_event: number, passed: number, type: number } = userActions[userActions.length - 1]
 
