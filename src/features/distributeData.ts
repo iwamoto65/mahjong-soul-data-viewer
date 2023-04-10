@@ -12,7 +12,8 @@ import { countChiPengGang } from './userAction/chiPengGang/chiPengGangCounter';
 import { countUnrongAlongWithLiqi } from './userAction/unrong/unrongAlongWithLiqiCounter'
 import { countUnrongAfterLiqi } from './userAction/unrong/unrongAfterLiqiCounter'
 import { sendGameResult } from './sendGameResult'
-import type { PlayerResult, UserActions } from './distributeDataType';
+import type { PlayerResult } from './distributeDataType';
+import type { UserActions } from './userAction/userActionType'
 
 export const distributeData = (data: string) => {
   const paifu = JSON.parse(data)
