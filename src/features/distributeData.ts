@@ -3,6 +3,8 @@ import { identifyGameType } from '@/utils/identifyGameType'
 import { identifyRankLevel } from '@/utils/identifyRankLevel'
 import { convertUnixtime } from '@/utils/convertUnixtime'
 import { categorizeHule } from './hule/huleCategorizer'
+import { countUnrong } from './unrong/unrongCounter'
+import { storeUnrongScore } from './unrong/unrongScoreStorer';
 import { countLiqi } from './liqi/liqiCounter'
 import { countNoTile } from './noTile/noTileCounter'
 import { countNoTileTingpai } from './noTile/noTileTingpaiCounter'
@@ -74,12 +76,9 @@ export const distributeData = (data: string) => {
         case '.lq.RecordHule':
           recordHule.push(action)
           if (action.result.data.delta_scores[playerResult.seat] < 0) {
-            let negativeScore: number = 0
-            negativeScore += action.result.data.delta_scores.filter((score: number) => score < 0).length
-            if (negativeScore === 1) {
+            const NumberOfPeopleWithNegativeScore: number = action.result.data.delta_scores.filter((score: number) => score < 0).length
+            if (NumberOfPeopleWithNegativeScore === 1) {
               unrongTimes.push(action.passed)
-              playerResult.unrong.count++
-              playerResult.unrong.score.push(action.result.data.delta_scores[playerResult.seat])
             }
           }
           break
@@ -107,6 +106,8 @@ export const distributeData = (data: string) => {
   const rounds: { round: number, startTime: number, endTime: number }[] = divideByRound(userActions, roundStartTimes)
 
   playerResult.hule = categorizeHule(playerResult.seat, recordHule)
+  playerResult.unrong.count = countUnrong(playerResult.seat, recordHule)
+  playerResult.unrong.score = storeUnrongScore(playerResult.seat, recordHule)
   playerResult.noTile.total = countNoTile(recordNoTile, recordLiuju)
   playerResult.noTile.tingpai = countNoTileTingpai(playerResult.seat, recordNoTile)
   playerResult.chiPengGang = countChiPengGang(rounds, recordChiPengGang, playerResult.seat)
