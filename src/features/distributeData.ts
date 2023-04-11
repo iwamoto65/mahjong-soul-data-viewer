@@ -94,9 +94,6 @@ export const distributeData = (data: string) => {
     }
   })
 
-  const rounds: { round: number, startTime: number, endTime: number }[] = divideByRound(userActions, recordNewRound)
-  const unrongTimes: number[] = getUnrongTimes(playerResult.seat, recordHule)
-
   playerResult.seat = identifySeat(userAccounts)
   playerResult.mode = identifyGameMode(paifu.head.config.meta.mode_id)
   playerResult.rank = identifyRank(playerResult.seat, userAccounts)
@@ -107,7 +104,11 @@ export const distributeData = (data: string) => {
   playerResult.unrong.score = storeUnrongScore(playerResult.seat, recordHule)
   playerResult.noTile.total = countNoTile(recordNoTile, recordLiuju)
   playerResult.noTile.tingpai = countNoTileTingpai(playerResult.seat, recordNoTile)
+
+  const rounds: { round: number, startTime: number, endTime: number }[] = divideByRound(userActions, recordNewRound)
   playerResult.chiPengGang = countChiPengGang(rounds, recordChiPengGang, playerResult.seat)
+
+  const unrongTimes: number[] = getUnrongTimes(playerResult.seat, recordHule)
   playerResult.unrong.alongWithLiqi = countUnrongAlongWithLiqi(playerResult.seat, recordDiscardTile, unrongTimes)
   playerResult.unrong.afterLiqi = countUnrongAfterLiqi(playerResult.seat, rounds, recordDealTile, recordChiPengGang, unrongTimes)
 
