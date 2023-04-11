@@ -102,7 +102,7 @@ export default function Home() {
         noTileTingpaiCount += data.noTile.tingpai
         chiPengGangCount += data.chiPengGang
         liqiCount += data.liqi
-        places.push(data.place)
+        places.push(data.gameRecord.place)
         unrongAlongWithLiqiCount += data.unrong.alongWithLiqi
         unrongAfterLiqiCount += data.unrong.afterLiqi
       })
