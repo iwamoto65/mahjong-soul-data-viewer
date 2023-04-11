@@ -69,7 +69,7 @@ export const distributeData = (data: string) => {
       switch (action.result.name) {
         case '.lq.RecordNewRound':
           recordNewRound.push(action)
-          break;
+          break
         case '.lq.RecordHule':
           recordHule.push(action)
           break
