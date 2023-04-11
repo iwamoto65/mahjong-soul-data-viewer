@@ -2,7 +2,7 @@ import { identifySeat } from './userAccount/seatIdentification'
 import { identifyGameMode } from './gameConfig/gameModeIdentification';
 import { identifyRank } from './userAccount/rankIdentification'
 import { storeGameRecord } from './userResult/gameRecordStorer'
-import { convertUnixtime } from '@/utils/convertUnixtime'
+import { convertUnixTime } from './gameConfig/unixTimeConverter';
 import { categorizeHule } from './userAction/hule/huleCategorizer'
 import { countUnrong } from './userAction/unrong/unrongCounter'
 import { storeUnrongScore } from './userAction/unrong/unrongScoreStorer';
@@ -29,7 +29,7 @@ export const distributeData = (data: string) => {
       format: '',
       people: 0,
     },
-    endTime: convertUnixtime(paifu.head.end_time),
+    endTime: '',
     seat: 0,
     totalRound: 0,
     hule: [],
@@ -96,6 +96,7 @@ export const distributeData = (data: string) => {
 
   playerResult.seat = identifySeat(userAccounts)
   playerResult.mode = identifyGameMode(paifu.head.config.meta.mode_id)
+  playerResult.endTime = convertUnixTime(paifu.head.end_time)
   playerResult.rank = identifyRank(playerResult.seat, userAccounts)
   playerResult.gameRecord = storeGameRecord(playerResult.seat, userResults)
   playerResult.totalRound = recordNewRound.length
