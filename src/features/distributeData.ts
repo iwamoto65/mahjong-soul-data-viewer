@@ -22,7 +22,7 @@ export const distributeData = (data: string) => {
   const userAccounts: [] = paifu.head.accounts
   const userResults: [] = paifu.head.result.players
   let playerResult: PlayerResult = {
-    uuid: paifu.head.uuid,
+    uuid: '',
     mode: {
       type: '',
       room: '',
@@ -94,6 +94,7 @@ export const distributeData = (data: string) => {
     }
   })
 
+  playerResult.uuid = paifu.head.uuid
   playerResult.seat = identifySeat(userAccounts)
   playerResult.mode = identifyGameMode(paifu.head.config.meta.mode_id)
   playerResult.endTime = convertUnixTime(paifu.head.end_time)
