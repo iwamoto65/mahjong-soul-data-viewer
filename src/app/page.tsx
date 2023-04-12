@@ -5,7 +5,7 @@ import { distributeData } from '@/features/distributeData'
 import { CulcHuleRate } from '../hooks/useHuleRate'
 import { CulcUnrongRate } from '@/hooks/useUnrongRate'
 import { CulcZimoRate } from '@/hooks/useZimoRate'
-import { CulcUnliqiHuleRate } from '@/hooks/useUnliqiHuleRate'
+import { CulcUnliqiUnmingHuleRate } from '@/hooks/useUnliqiUnmingHuleRate'
 import { CulcNoTileRate } from '@/hooks/useNoTileRate'
 import { CulcNoTileTingpaiRate } from '@/hooks/useNoTileTingpaiRate'
 import { CulcChiPengGangRate } from '@/hooks/useChiPengGangRate'
@@ -157,7 +157,7 @@ export default function Home() {
               <td>{ CulcHuleRate(totalRoundCount, totalHuleCount) }％</td>
               <td>{ CulcUnrongRate(totalRoundCount, totalUnrongCount) }%</td>
               <td>{ CulcZimoRate(totalHuleCount, totalZimoCount) }％</td>
-              <td>{ CulcUnliqiHuleRate(totalHuleCount, totalUnliqiCount) }％</td>
+              <td>{ CulcUnliqiUnmingHuleRate(totalHuleCount, totalUnliqiCount) }％</td>
             </tr>
           </tbody>
           <thead>
