@@ -16,6 +16,7 @@ import { CulcAveragePlace } from '@/hooks/useAveragePlace'
 import { CulcLiqiSuccessRate } from '@/hooks/useLiqiSuccessRate'
 import { CulcUnrongIncludeOnLiqiRate } from '@/hooks/useUnrongIncludeOnLiqiRate'
 import { CulcUnrongAfterLiqiRate } from '@/hooks/useUnrongAfterLiqiRate'
+import { CulcLiqiIncome } from '@/hooks/useLiqiIncome'
 import db from '../../firebase'
 import { collection, getDocs } from "firebase/firestore"
 
@@ -58,6 +59,7 @@ export default function Home() {
   const [totalDadian, setTotalDadian] = useState<number[]>([])
   const [totalPlace, setTotalPlace] = useState<number[]>([])
   const [totalHuleOutOfLiqiCount, setTotalHuleOutOfLiqiCount] = useState<number>(0)
+  const [totalLiqiIncome, setTotalLiqiIncome] = useState<number[]>([])
   const [totalUnrongAlongWithLiqiCount, setTotalUnrongAlongWithLiqiCount] = useState<number>(0)
   const [totalUnrongAfterLiqiCount, setTotalUnrongAfterLiqiCount] = useState<number>(0)
 
@@ -78,6 +80,7 @@ export default function Home() {
       let dadianScores: number[] = []
       let places: number[] = []
       let huleOutOfLiqiCount: number = 0
+      let liqiIncomes: number[] = []
       let unrongAlongWithLiqiCount: number = 0
       let unrongAfterLiqiCount: number = 0
 
@@ -90,12 +93,11 @@ export default function Home() {
         unrongScores.push(...data.unrong.score)
         data.hule.forEach((hule: any) => {
           dadianScores.push(hule.dadian)
-          if (hule.zimo) {
-            zimoCount++
-          } else if (hule.ming.length === 0) {
-            unliqiCount++
-          } else if (hule.liqi) {
+          if (hule.zimo) zimoCount++
+          if (hule.ming.length === 0) unliqiCount++
+          if (hule.liqi) {
             huleOutOfLiqiCount++
+            liqiIncomes.push(hule.deltaScore)
           }
         })
         noTileCount += data.noTile.total
@@ -121,6 +123,7 @@ export default function Home() {
       setTotalDadian(dadianScores)
       setTotalPlace(places)
       setTotalHuleOutOfLiqiCount(huleOutOfLiqiCount)
+      setTotalLiqiIncome(liqiIncomes)
       setTotalUnrongAlongWithLiqiCount(unrongAlongWithLiqiCount)
       setTotalUnrongAfterLiqiCount(unrongAfterLiqiCount)
     }
@@ -183,6 +186,7 @@ export default function Home() {
               <th>立直和了</th>
               <th>立直放銃A</th>
               <th>立直放銃B</th>
+              <th>立直収入</th>
             </tr>
           </thead>
           <tbody>
@@ -191,6 +195,7 @@ export default function Home() {
               <td>{ CulcLiqiSuccessRate(totalHuleOutOfLiqiCount, totalLiqiCount) }％</td>
               <td>{ CulcUnrongIncludeOnLiqiRate(totalLiqiCount, totalUnrongAlongWithLiqiCount, totalUnrongAfterLiqiCount) }％</td>
               <td>{ CulcUnrongAfterLiqiRate(totalLiqiCount, totalUnrongAfterLiqiCount) }％</td>
+              <td>{ CulcLiqiIncome(totalLiqiIncome) }</td>
             </tr>
           </tbody>
         </table>
