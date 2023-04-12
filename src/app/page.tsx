@@ -94,7 +94,7 @@ export default function Home() {
         data.hule.forEach((hule: any) => {
           dadianScores.push(hule.dadian)
           if (hule.zimo) zimoCount++
-          if (hule.ming.length === 0) unliqiCount++
+          if (!hule.liqi && hule.ming.length === 0) unliqiCount++
           if (hule.liqi) {
             huleOutOfLiqiCount++
             liqiIncomes.push(hule.deltaScore)
