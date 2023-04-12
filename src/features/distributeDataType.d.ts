@@ -15,6 +15,7 @@ export type PlayerResult = {
     qinjia: boolean,
     liqi: boolean,
     dadian: number,
+    deltaScore: number,
   }[],
   unrong: {
     count: number,
