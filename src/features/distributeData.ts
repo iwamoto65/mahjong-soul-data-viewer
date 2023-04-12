@@ -35,7 +35,10 @@ export const distributeData = (data: string) => {
     hule: [],
     unrong: {
       count: 0,
-      score: [],
+      score: {
+        liqi: [],
+        unliqi: [],
+      },
       alongWithLiqi: 0,
       afterLiqi: 0,
     },

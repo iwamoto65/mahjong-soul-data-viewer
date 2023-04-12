@@ -90,7 +90,7 @@ export default function Home() {
         roundCount += data.totalRound
         huleCount += data.hule.length
         unrongCount += data.unrong.count
-        unrongScores.push(...data.unrong.score)
+        unrongScores.push(...(data.unrong.score.liqi).concat(data.unrong.score.unliqi))
         data.hule.forEach((hule: any) => {
           dadianScores.push(hule.dadian)
           if (hule.zimo) zimoCount++

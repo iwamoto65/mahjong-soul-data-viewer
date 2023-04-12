@@ -19,7 +19,10 @@ export type PlayerResult = {
   }[],
   unrong: {
     count: number,
-    score: number[],
+    score: {
+      liqi: number[],
+      unliqi: number[],
+    },
     alongWithLiqi: number,
     afterLiqi: number,
   },
