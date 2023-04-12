@@ -63,6 +63,7 @@ export const distributeData = (data: string) => {
   let recordChiPengGang: any[] = []
   let recordDiscardTile: any[] = []
   let recordDealTile: any[] = []
+  let userInput: any[] = []
 
   userActions.forEach((action: UserActions) => {
     if (action.result) {
@@ -90,7 +91,7 @@ export const distributeData = (data: string) => {
           break
       }
     } else if (action.user_input) {
-      playerResult.liqi += countLiqi(action, playerResult.seat)
+      userInput.push(action)
     }
   })
 
@@ -113,6 +114,7 @@ export const distributeData = (data: string) => {
   const unrongTimes: number[] = getUnrongTimes(playerResult.seat, recordHule)
   playerResult.unrong.alongWithLiqi = countUnrongAlongWithLiqi(playerResult.seat, recordDiscardTile, unrongTimes)
   playerResult.unrong.afterLiqi = countUnrongAfterLiqi(playerResult.seat, rounds, recordDealTile, recordChiPengGang, unrongTimes)
+  playerResult.liqi = countLiqi(playerResult.seat, userInput, playerResult.unrong.alongWithLiqi)
 
   return sendGameResult(playerResult)
 }
