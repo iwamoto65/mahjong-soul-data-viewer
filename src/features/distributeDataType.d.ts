@@ -37,6 +37,7 @@ export type PlayerResult = {
   liqi: {
     total: number,
     preemption: number,
+    chased: number,
   },
   gameRecord: {
     finalPoint: number,
