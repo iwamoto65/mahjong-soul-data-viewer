@@ -108,7 +108,7 @@ export default function Home() {
         chiPengGangCount += data.chiPengGang
         liqiCount += data.liqi
         places.push(data.gameRecord.place)
-        unrongAlongWithLiqiCount += data.unrong.alongWithLiqi
+        unrongAlongWithLiqiCount += data.unrong.alongWithLiqi.count
         unrongAfterLiqiCount += data.unrong.afterLiqi.count
         liqiExpenditures.push(...data.unrong.afterLiqi.scores)
       })

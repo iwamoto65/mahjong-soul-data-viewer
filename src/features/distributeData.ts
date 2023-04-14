@@ -36,7 +36,10 @@ export const distributeData = (data: string) => {
     unrong: {
       total: 0,
       scores: [],
-      alongWithLiqi: 0,
+      alongWithLiqi: {
+        count: 0,
+        scores: []
+      },
       afterLiqi: {
         count: 0,
         scores: []
@@ -115,9 +118,9 @@ export const distributeData = (data: string) => {
   playerResult.chiPengGang = countChiPengGang(rounds, recordChiPengGang, playerResult.seat)
 
   const unrongTimes: number[] = getUnrongTimes(playerResult.seat, recordHule)
-  playerResult.unrong.alongWithLiqi = countUnrongAlongWithLiqi(playerResult.seat, recordDiscardTile, unrongTimes)
+  playerResult.unrong.alongWithLiqi = countUnrongAlongWithLiqi(playerResult.seat, recordDiscardTile, unrongTimes, recordHule)
   playerResult.unrong.afterLiqi = countUnrongAfterLiqi(playerResult.seat, rounds, recordDealTile, recordChiPengGang, unrongTimes, recordHule)
-  playerResult.liqi = countLiqi(playerResult.seat, userInput, playerResult.unrong.alongWithLiqi)
+  playerResult.liqi = countLiqi(playerResult.seat, userInput, playerResult.unrong.alongWithLiqi.count)
 
   return sendGameResult(playerResult)
 }

@@ -1,8 +1,9 @@
-export const countUnrongAlongWithLiqi = (seat: number, recordDiscardTile: any[], unrongTimes: number[]) => {
+export const countUnrongAlongWithLiqi = (seat: number, recordDiscardTile: any[], unrongTimes: number[], recordHule: any[]) => {
   let discardTiles: any[] = []
   let discardTilePassed: any[] = []
   let passedJustBeforeUnrong: number[] = []
-  let unrongCount: number = 0
+  let passedJustAfterLiqi: (number | undefined)[] = []
+  let unrongAlongWithLiqi: { count: number, scores: number[] } = { count: 0, scores: [] }
 
   recordDiscardTile.forEach((record) => {
     if (record.result.data.seat === seat) discardTiles.push(record)
@@ -14,9 +15,20 @@ export const countUnrongAlongWithLiqi = (seat: number, recordDiscardTile: any[],
   unrongTimes.forEach((unrongTime: number) => passedJustBeforeUnrong.push(discardTilePassed.reverse().find((time: number) => time < unrongTime)))
   discardTiles.forEach((data: { passed: number, result: { data: { is_liqi: boolean }}}) => {
     passedJustBeforeUnrong.forEach((passed: number) => {
-      if (data.passed === passed && data.result.data.is_liqi) unrongCount++
+      if (data.passed === passed && data.result.data.is_liqi) {
+        unrongAlongWithLiqi.count++
+        passedJustAfterLiqi.push(unrongTimes.find((unrongTime: number) => unrongTime > passed))
+      }
     })
   })
 
-  return unrongCount
+  passedJustAfterLiqi.forEach((passed) => {
+    recordHule.forEach((record: { passed: number, result: { data: { delta_scores: number[] }}}) => {
+      if (passed === record.passed) {
+        unrongAlongWithLiqi.scores.push(record.result.data.delta_scores[seat])
+      }
+    })
+  })
+
+  return unrongAlongWithLiqi
 }
