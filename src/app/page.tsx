@@ -19,6 +19,7 @@ import { CulcUnrongAfterLiqiRate } from '@/hooks/useUnrongAfterLiqiRate'
 import { CulcLiqiIncome } from '@/hooks/useLiqiIncome'
 import { CulcLiqiExpenditure } from '@/hooks/useLiqiExpenditure'
 import { CulcLiqiIncomeAndExpenditure } from '@/hooks/useLiqiIncomeAndExpenditure'
+import { CulcLiqiPreemptionRate } from '@/hooks/useLiqiPreemptionRate'
 import db from '../../firebase'
 import { collection, getDocs } from "firebase/firestore"
 
@@ -58,6 +59,7 @@ export default function Home() {
   const [totalNoTileTingpaiCount, setTotalNoTileTingpaiCount] = useState<number>(0)
   const [totalChiPengGangCount, setTotalChiPengGangCount] = useState<number>(0)
   const [totalLiqiCount, setTotalLiqiCount] = useState<number>(0)
+  const [totalLiqiPreemptionCount, settotalLiqiPreemptionCount] = useState<number>(0)
   const [totalDadian, setTotalDadian] = useState<number[]>([])
   const [totalPlace, setTotalPlace] = useState<number[]>([])
   const [totalHuleOutOfLiqiCount, setTotalHuleOutOfLiqiCount] = useState<number>(0)
@@ -80,6 +82,7 @@ export default function Home() {
       let noTileTingpaiCount: number = 0
       let chiPengGangCount: number = 0
       let liqiCount: number = 0
+      let liqiPreemptionCount: number = 0
       let dadianScores: number[] = []
       let places: number[] = []
       let huleOutOfLiqiCount: number = 0
@@ -108,6 +111,7 @@ export default function Home() {
         noTileTingpaiCount += data.noTile.tingpai
         chiPengGangCount += data.chiPengGang
         liqiCount += data.liqi.total
+        liqiPreemptionCount += data.liqi.preemption
         places.push(data.gameRecord.place)
         unrongAlongWithLiqiCount += data.unrong.alongWithLiqi.count
         unrongAfterLiqiCount += data.unrong.afterLiqi.count
@@ -125,6 +129,7 @@ export default function Home() {
       setTotalNoTileTingpaiCount(noTileTingpaiCount)
       setTotalChiPengGangCount(chiPengGangCount)
       setTotalLiqiCount(liqiCount)
+      settotalLiqiPreemptionCount(liqiPreemptionCount)
       setTotalDadian(dadianScores)
       setTotalPlace(places)
       setTotalHuleOutOfLiqiCount(huleOutOfLiqiCount)
@@ -209,11 +214,13 @@ export default function Home() {
           <thead>
             <tr>
               <th>立直収支</th>
+              <th>先制率</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>{ CulcLiqiIncomeAndExpenditure(totalLiqiCount, totalLiqiIncome, totalLiqiExpenditure) }</td>
+              <td>{ CulcLiqiPreemptionRate(totalLiqiCount, totalLiqiPreemptionCount) }％</td>
             </tr>
           </tbody>
         </table>
