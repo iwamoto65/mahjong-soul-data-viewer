@@ -20,6 +20,7 @@ import { CulcLiqiIncome } from '@/hooks/useLiqiIncome'
 import { CulcLiqiExpenditure } from '@/hooks/useLiqiExpenditure'
 import { CulcLiqiIncomeAndExpenditure } from '@/hooks/useLiqiIncomeAndExpenditure'
 import { CulcLiqiPreemptionRate } from '@/hooks/useLiqiPreemptionRate'
+import { CulcLiqiChasingRate } from '@/hooks/useLiqiChasingRate'
 import db from '../../firebase'
 import { collection, getDocs } from "firebase/firestore"
 
@@ -215,12 +216,14 @@ export default function Home() {
             <tr>
               <th>立直収支</th>
               <th>先制率</th>
+              <th>追っかけ率</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>{ CulcLiqiIncomeAndExpenditure(totalLiqiCount, totalLiqiIncome, totalLiqiExpenditure) }</td>
               <td>{ CulcLiqiPreemptionRate(totalLiqiCount, totalLiqiPreemptionCount) }％</td>
+              <td>{ CulcLiqiChasingRate(totalLiqiCount, totalLiqiPreemptionCount) }％</td>
             </tr>
           </tbody>
         </table>
