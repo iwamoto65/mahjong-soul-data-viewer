@@ -7,6 +7,7 @@ import { categorizeHule } from './userAction/hule/huleCategorizer'
 import { countUnrong } from './userAction/unrong/unrongCounter'
 import { storeUnrongScore } from './userAction/unrong/unrongScoreStorer';
 import { countLiqi } from './userAction/liqi/liqiCounter'
+import { countLiqiPreemption } from './userAction/liqi/liqiPreemptionCounter';
 import { countNoTile } from './userAction/noTile/noTileCounter'
 import { countNoTileTingpai } from './userAction/noTile/noTileTingpaiCounter'
 import { countChiPengGang } from './userAction/chiPengGang/chiPengGangCounter';
@@ -50,7 +51,10 @@ export const distributeData = (data: string) => {
       tingpai: 0
     },
     chiPengGang: 0,
-    liqi: 0,
+    liqi: {
+      total: 0,
+      preemption: 0,
+    },
     gameRecord: {
       finalPoint: 0,
       gradingScore: 0,
@@ -120,7 +124,8 @@ export const distributeData = (data: string) => {
   const unrongTimes: number[] = getUnrongTimes(playerResult.seat, recordHule)
   playerResult.unrong.alongWithLiqi = countUnrongAlongWithLiqi(playerResult.seat, recordDiscardTile, unrongTimes, recordHule)
   playerResult.unrong.afterLiqi = countUnrongAfterLiqi(playerResult.seat, rounds, recordDealTile, recordChiPengGang, unrongTimes, recordHule)
-  playerResult.liqi = countLiqi(playerResult.seat, userInput, playerResult.unrong.alongWithLiqi.count)
+  playerResult.liqi.total = countLiqi(playerResult.seat, userInput, playerResult.unrong.alongWithLiqi.count)
+  playerResult.liqi.preemption = countLiqiPreemption(playerResult.seat, userInput, rounds)
 
   return sendGameResult(playerResult)
 }

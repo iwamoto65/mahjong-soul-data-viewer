@@ -34,7 +34,10 @@ export type PlayerResult = {
     tingpai: number
   },
   chiPengGang: number,
-  liqi: number,
+  liqi: {
+    total: number,
+    preemption: number,
+  },
   gameRecord: {
     finalPoint: number,
     gradingScore: number,
