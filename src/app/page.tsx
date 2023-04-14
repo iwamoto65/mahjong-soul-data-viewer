@@ -18,6 +18,7 @@ import { CulcUnrongIncludeOnLiqiRate } from '@/hooks/useUnrongIncludeOnLiqiRate'
 import { CulcUnrongAfterLiqiRate } from '@/hooks/useUnrongAfterLiqiRate'
 import { CulcLiqiIncome } from '@/hooks/useLiqiIncome'
 import { CulcLiqiExpenditure } from '@/hooks/useLiqiExpenditure'
+import { CulcLiqiIncomeAndExpenditure } from '@/hooks/useLiqiIncomeAndExpenditure'
 import db from '../../firebase'
 import { collection, getDocs } from "firebase/firestore"
 
@@ -203,6 +204,16 @@ export default function Home() {
               <td>{ CulcUnrongAfterLiqiRate(totalLiqiCount, totalUnrongAfterLiqiCount) }％</td>
               <td>{ CulcLiqiIncome(totalLiqiIncome) }</td>
               <td>{ CulcLiqiExpenditure(totalLiqiExpenditure) }</td>
+            </tr>
+          </tbody>
+          <thead>
+            <tr>
+              <th>立直収支</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{ CulcLiqiIncomeAndExpenditure(totalLiqiCount, totalLiqiIncome, totalLiqiExpenditure) }</td>
             </tr>
           </tbody>
         </table>
