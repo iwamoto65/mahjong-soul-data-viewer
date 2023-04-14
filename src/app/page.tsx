@@ -17,6 +17,7 @@ import { CulcLiqiSuccessRate } from '@/hooks/useLiqiSuccessRate'
 import { CulcUnrongIncludeOnLiqiRate } from '@/hooks/useUnrongIncludeOnLiqiRate'
 import { CulcUnrongAfterLiqiRate } from '@/hooks/useUnrongAfterLiqiRate'
 import { CulcLiqiIncome } from '@/hooks/useLiqiIncome'
+import { CulcLiqiExpenditure } from '@/hooks/useLiqiExpenditure'
 import db from '../../firebase'
 import { collection, getDocs } from "firebase/firestore"
 
@@ -60,6 +61,7 @@ export default function Home() {
   const [totalPlace, setTotalPlace] = useState<number[]>([])
   const [totalHuleOutOfLiqiCount, setTotalHuleOutOfLiqiCount] = useState<number>(0)
   const [totalLiqiIncome, setTotalLiqiIncome] = useState<number[]>([])
+  const [totalLiqiExpenditure, setTotalLiqiExpenditure] = useState<number[]>([])
   const [totalUnrongAlongWithLiqiCount, setTotalUnrongAlongWithLiqiCount] = useState<number>(0)
   const [totalUnrongAfterLiqiCount, setTotalUnrongAfterLiqiCount] = useState<number>(0)
 
@@ -81,6 +83,7 @@ export default function Home() {
       let places: number[] = []
       let huleOutOfLiqiCount: number = 0
       let liqiIncomes: number[] = []
+      let liqiExpenditures: number[] = []
       let unrongAlongWithLiqiCount: number = 0
       let unrongAfterLiqiCount: number = 0
 
@@ -89,8 +92,8 @@ export default function Home() {
         numberOfGame++
         roundCount += data.totalRound
         huleCount += data.hule.length
-        unrongCount += data.unrong.count
-        unrongScores.push(...(data.unrong.score.liqi).concat(data.unrong.score.unliqi))
+        unrongCount += data.unrong.total
+        unrongScores.push(...data.unrong.scores)
         data.hule.forEach((hule: any) => {
           dadianScores.push(hule.dadian)
           if (hule.zimo) zimoCount++
@@ -106,7 +109,8 @@ export default function Home() {
         liqiCount += data.liqi
         places.push(data.gameRecord.place)
         unrongAlongWithLiqiCount += data.unrong.alongWithLiqi
-        unrongAfterLiqiCount += data.unrong.afterLiqi
+        unrongAfterLiqiCount += data.unrong.afterLiqi.count
+        liqiExpenditures.push(...data.unrong.afterLiqi.scores)
       })
 
       setGameCount(numberOfGame)
@@ -124,6 +128,7 @@ export default function Home() {
       setTotalPlace(places)
       setTotalHuleOutOfLiqiCount(huleOutOfLiqiCount)
       setTotalLiqiIncome(liqiIncomes)
+      setTotalLiqiExpenditure(liqiExpenditures)
       setTotalUnrongAlongWithLiqiCount(unrongAlongWithLiqiCount)
       setTotalUnrongAfterLiqiCount(unrongAfterLiqiCount)
     }
@@ -187,6 +192,7 @@ export default function Home() {
               <th>立直放銃A</th>
               <th>立直放銃B</th>
               <th>立直収入</th>
+              <th>立直支出</th>
             </tr>
           </thead>
           <tbody>
@@ -196,6 +202,7 @@ export default function Home() {
               <td>{ CulcUnrongIncludeOnLiqiRate(totalLiqiCount, totalUnrongAlongWithLiqiCount, totalUnrongAfterLiqiCount) }％</td>
               <td>{ CulcUnrongAfterLiqiRate(totalLiqiCount, totalUnrongAfterLiqiCount) }％</td>
               <td>{ CulcLiqiIncome(totalLiqiIncome) }</td>
+              <td>{ CulcLiqiExpenditure(totalLiqiExpenditure) }</td>
             </tr>
           </tbody>
         </table>

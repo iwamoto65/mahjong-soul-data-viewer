@@ -18,13 +18,13 @@ export type PlayerResult = {
     deltaScore: number,
   }[],
   unrong: {
-    count: number,
-    score: {
-      liqi: number[],
-      unliqi: number[],
-    },
+    total: number,
+    scores: number[],
     alongWithLiqi: number,
-    afterLiqi: number,
+    afterLiqi: {
+      count: number,
+      scores: number[]
+    },
   },
   noTile: {
     total: number,
