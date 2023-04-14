@@ -10,7 +10,7 @@ export const countUnrongAfterLiqi = (
   let unrongAfterLiqiCount: number = 0
 
   // 立直が成立した時間を取得
-  dealTiles.concat(chiPengGangTiles).forEach((tile: { passed: number, result: { data: { liqi?: { seat: number, score: number, liqibang: number }}}}) => {
+  dealTiles.concat(chiPengGangTiles).forEach((tile: { passed: number, result: { data: { liqi?: { seat: number }}}}) => {
     if (tile.result.data.liqi && tile.result.data.liqi.seat === seat) liqiFixedPassed.push(tile.passed)
   })
 
