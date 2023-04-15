@@ -1,4 +1,6 @@
-export const countLiqiPreemption = (seat: number, userInput: any[], rounds: { round: number, startTime: number, endTime: number }[]) => {
+import { checkStateOfUnrongAlongWithLiqi } from "../common/stateOfUnrongAlongWithLiqiChecker"
+
+export const countLiqiPreemption = (seat: number, userInput: any[], recordDiscardTile: any, unrongTimes: number[], rounds: any[]) => {
   let status: {
     round: number,
     player: { isLiqi: boolean, time: number },
@@ -8,6 +10,7 @@ export const countLiqiPreemption = (seat: number, userInput: any[], rounds: { ro
   let opponentLiqiPassed: number[] = []
   let liqiPreemptionCount: number = 0
   const operationType: { [key: string]: number } = { liqi: 7 }
+  const unrongStatus = checkStateOfUnrongAlongWithLiqi(seat, recordDiscardTile, unrongTimes, rounds)
 
   userInput.forEach((action: { passed: number, user_input: { seat: number, operation: { type: number } } }) => {
     if (action.user_input.operation && action.user_input.operation.type === operationType.liqi) {
@@ -25,8 +28,17 @@ export const countLiqiPreemption = (seat: number, userInput: any[], rounds: { ro
       if (r.startTime < playerPassed && playerPassed < r.endTime) {
         status.forEach((s) => {
           if (s.round === r.round) {
-            s.player.isLiqi = true
-            s.player.time = playerPassed
+            if (unrongStatus.length > 0) {
+              unrongStatus.forEach((us) => {
+                if (us.round !== s.round) {
+                  s.player.isLiqi = true
+                  s.player.time = playerPassed
+                }
+              })
+            } else {
+              s.player.isLiqi = true
+              s.player.time = playerPassed
+            }
           }
         })
       }

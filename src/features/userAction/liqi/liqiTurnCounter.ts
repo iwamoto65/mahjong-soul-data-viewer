@@ -1,6 +1,6 @@
 import { checkStateOfUnrongAlongWithLiqi } from "../common/stateOfUnrongAlongWithLiqiChecker"
 
-export const countLiqiTurn = (seat: number, userInput: any[], recordDiscardTile: any[], unrongTimes: number[], recordHule: any[], rounds: any[]) => {
+export const countLiqiTurn = (seat: number, userInput: any[], recordDiscardTile: any[], unrongTimes: number[], rounds: any[]) => {
   let userInputPassed: number[] = []
   const operationType: { [key: string]: number } = { discardTile: 1, anGang: 4, addGang: 6, liqi: 7 }
   let status: { round: number, passed: number[] }[] = new Array(rounds.length).fill(null).map((_, i) => ({ round: i + 1, passed: [] }))

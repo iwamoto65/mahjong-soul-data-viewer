@@ -129,9 +129,9 @@ export const distributeData = (data: string) => {
   playerResult.unrong.alongWithLiqi = countUnrongAlongWithLiqi(playerResult.seat, recordDiscardTile, unrongTimes, recordHule)
   playerResult.unrong.afterLiqi = countUnrongAfterLiqi(playerResult.seat, rounds, recordDealTile, recordChiPengGang, unrongTimes, recordHule)
   playerResult.liqi.total = countLiqi(playerResult.seat, userInput, playerResult.unrong.alongWithLiqi.count)
-  playerResult.liqi.preemption = countLiqiPreemption(playerResult.seat, userInput, rounds)
+  playerResult.liqi.preemption = countLiqiPreemption(playerResult.seat, userInput, recordDiscardTile, unrongTimes, rounds)
   playerResult.liqi.chased = countLiqiChased(playerResult.seat, userInput, rounds)
-  playerResult.liqi.turns = countLiqiTurn(playerResult.seat, userInput, recordDiscardTile, unrongTimes, recordHule, rounds)
+  playerResult.liqi.turns = countLiqiTurn(playerResult.seat, userInput, recordDiscardTile, unrongTimes, rounds)
 
   return sendGameResult(playerResult)
 }
