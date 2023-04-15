@@ -14,6 +14,7 @@ import { countNoTileTingpai } from './userAction/noTile/noTileTingpaiCounter'
 import { countChiPengGang } from './userAction/chiPengGang/chiPengGangCounter';
 import { countUnrongAlongWithLiqi } from './userAction/unrong/unrongAlongWithLiqiCounter'
 import { countUnrongAfterLiqi } from './userAction/unrong/unrongAfterLiqiCounter'
+import { countLiqiTurn } from './userAction/liqi/liqiTurnCounter';
 import { sendGameResult } from './sendGameResult'
 import type { PlayerResult } from './distributeDataType';
 import type { UserActions } from './userAction/userActionType'
@@ -56,6 +57,7 @@ export const distributeData = (data: string) => {
       total: 0,
       preemption: 0,
       chased: 0,
+      turns: []
     },
     gameRecord: {
       finalPoint: 0,
@@ -129,6 +131,7 @@ export const distributeData = (data: string) => {
   playerResult.liqi.total = countLiqi(playerResult.seat, userInput, playerResult.unrong.alongWithLiqi.count)
   playerResult.liqi.preemption = countLiqiPreemption(playerResult.seat, userInput, rounds)
   playerResult.liqi.chased = countLiqiChased(playerResult.seat, userInput, rounds)
+  playerResult.liqi.turns = countLiqiTurn(playerResult.seat, userInput, recordDiscardTile, unrongTimes, recordHule, rounds)
 
   return sendGameResult(playerResult)
 }

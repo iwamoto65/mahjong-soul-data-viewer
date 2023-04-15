@@ -38,6 +38,7 @@ export type PlayerResult = {
     total: number,
     preemption: number,
     chased: number,
+    turns: number[],
   },
   gameRecord: {
     finalPoint: number,
