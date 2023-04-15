@@ -1,4 +1,4 @@
-import { checkStateOfUnrongAlongWithLiqi } from "../unrong/unrongCommon"
+import { checkStateOfUnrongAlongWithLiqi } from "../common/stateOfUnrongAlongWithLiqiChecker"
 
 export const countLiqiTurn = (seat: number, userInput: any[], recordDiscardTile: any[], unrongTimes: number[], recordHule: any[], rounds: any[]) => {
   let userInputPassed: number[] = []
@@ -25,9 +25,11 @@ export const countLiqiTurn = (seat: number, userInput: any[], recordDiscardTile:
     s.passed.forEach((passed) => {
       userInput.forEach((action: { passed: number, user_input: { operation: { type: number }}}) => {
         if (action.passed === passed && action.user_input.operation.type === operationType.liqi) {
-          unrongStatus.forEach((us) => {
-            if (us.round !== s.round) liqiTurns.push(s.passed.length)
-          })
+          if (unrongStatus.length > 0) {
+            unrongStatus.forEach((us) => { if (us.round !== s.round) liqiTurns.push(s.passed.length) })
+          } else {
+            liqiTurns.push(s.passed.length)
+          }
         }
       })
     })
