@@ -42,6 +42,7 @@ export type PlayerResult = {
     noTile: number,
     firstTurnHule: number,
     zhenting: number,
+    waitingTileCount: number[]
   },
   gameRecord: {
     finalPoint: number,

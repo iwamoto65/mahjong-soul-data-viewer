@@ -26,6 +26,7 @@ import { CulcAverageLiqiTurn } from '@/hooks/useAverageLiqiTurn'
 import { CulcLiqiNoTileRate } from '@/hooks/useLiqiNoTileRate'
 import { CulcLiqiFirstTurnHuleRate } from '@/hooks/useLiqiFirstTurnHuleRate'
 import { CulcLiqiZhentingRate } from '@/hooks/useLiqiZhentingRate'
+import { CulcLiqiMultipleWaitingRate } from '@/hooks/useLiqiMultipleWaitingRate'
 import db from '../../firebase'
 import { collection, getDocs } from "firebase/firestore"
 
@@ -78,6 +79,7 @@ export default function Home() {
   const [totalLiqiNoTileCount, setTotalLiqiNoTileCount] = useState<number>(0)
   const [totalLiqiFirstTurnHuleCount, setTotalLiqiFirstTurnHuleCount] = useState<number>(0)
   const [totalLiqiZhentingCount, setTotalLiqiZhentingCount] = useState<number>(0)
+  const [totalLiqiWaitingTiles, setTotalLiqiWaitingTiles] = useState<number[]>([])
 
   useEffect(() => {
     const firestore = async () => {
@@ -106,6 +108,7 @@ export default function Home() {
       let liqiNoTileCount: number = 0
       let liqiFirstTurnHuleCount: number = 0
       let liqiZhentingCount: number = 0
+      let liqiWaitingTileCount: number[] = []
 
       querySnapshot.forEach((doc: any) => {
         let data = doc.data()
@@ -137,6 +140,7 @@ export default function Home() {
         liqiNoTileCount += data.liqi.noTile
         liqiFirstTurnHuleCount += data.liqi.firstTurnHule
         liqiZhentingCount += data.liqi.zhenting
+        liqiWaitingTileCount.push(...data.liqi.waitingTileCount)
       })
 
       setGameCount(numberOfGame)
@@ -163,6 +167,7 @@ export default function Home() {
       setTotalLiqiNoTileCount(liqiNoTileCount)
       setTotalLiqiFirstTurnHuleCount(liqiFirstTurnHuleCount)
       setTotalLiqiZhentingCount(liqiZhentingCount)
+      setTotalLiqiWaitingTiles(liqiWaitingTileCount)
     }
 
     firestore()
@@ -261,12 +266,14 @@ export default function Home() {
             <tr>
               <th>一発率</th>
               <th>振聴率</th>
+              <th>立直多面</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>{ CulcLiqiFirstTurnHuleRate(totalLiqiCount, totalLiqiFirstTurnHuleCount) }％</td>
               <td>{ CulcLiqiZhentingRate(totalLiqiCount, totalLiqiZhentingCount) }％</td>
+              <td>{ CulcLiqiMultipleWaitingRate(totalLiqiCount, totalLiqiWaitingTiles) }％</td>
             </tr>
           </tbody>
         </table>

@@ -18,6 +18,7 @@ import { countLiqiTurn } from './userAction/liqi/liqiTurnCounter';
 import { countLiqiNoTile } from './userAction/liqi/liqiNoTileCounter';
 import { countLiqiFirstTurnHule } from './userAction/liqi/liqiFirstTurnHuleCounter';
 import { countLiqiZhenting } from './userAction/liqi/liqiZhentingCounter';
+import { countLiqiWaitingTile } from './userAction/liqi/liqiWaitingTileCounter';
 import { sendGameResult } from './sendGameResult'
 import type { PlayerResult } from './distributeDataType';
 import type { UserActions } from './userAction/userActionType'
@@ -64,6 +65,7 @@ export const distributeData = (data: string) => {
       noTile: 0,
       firstTurnHule: 0,
       zhenting: 0,
+      waitingTileCount: []
     },
     gameRecord: {
       finalPoint: 0,
@@ -141,6 +143,7 @@ export const distributeData = (data: string) => {
   playerResult.liqi.noTile = countLiqiNoTile(playerResult.seat, recordNoTile, recordDealTile, recordChiPengGang, rounds)
   playerResult.liqi.firstTurnHule = countLiqiFirstTurnHule(playerResult.seat, recordHule)
   playerResult.liqi.zhenting = countLiqiZhenting(playerResult.seat, recordDealTile, recordChiPengGang)
+  playerResult.liqi.waitingTileCount = countLiqiWaitingTile(playerResult.seat, recordDiscardTile, unrongTimes, rounds)
 
   return sendGameResult(playerResult)
 }
