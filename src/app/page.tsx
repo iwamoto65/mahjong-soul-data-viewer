@@ -23,6 +23,7 @@ import { CulcLiqiPreemptionRate } from '@/hooks/useLiqiPreemptionRate'
 import { CulcLiqiChasingRate } from '@/hooks/useLiqiChasingRate'
 import { CulcLiqiChasedRate } from '@/hooks/useLiqiChasedRate'
 import { CulcAverageLiqiTurn } from '@/hooks/useAverageLiqiTurn'
+import { CulcLiqiNoTileRate } from '@/hooks/useLiqiNoTileRate'
 import db from '../../firebase'
 import { collection, getDocs } from "firebase/firestore"
 
@@ -72,6 +73,7 @@ export default function Home() {
   const [totalUnrongAlongWithLiqiCount, setTotalUnrongAlongWithLiqiCount] = useState<number>(0)
   const [totalUnrongAfterLiqiCount, setTotalUnrongAfterLiqiCount] = useState<number>(0)
   const [totalLiqiTurn, setTotalLiqiTurn] = useState<number[]>([])
+  const [totalLiqiNoTileCount, setTotalLiqiNoTileCount] = useState<number>(0)
 
   useEffect(() => {
     const firestore = async () => {
@@ -97,6 +99,7 @@ export default function Home() {
       let unrongAlongWithLiqiCount: number = 0
       let unrongAfterLiqiCount: number = 0
       let liqiTurns: number[] = []
+      let liqiNoTileCount: number = 0
 
       querySnapshot.forEach((doc: any) => {
         let data = doc.data()
@@ -125,6 +128,7 @@ export default function Home() {
         unrongAfterLiqiCount += data.unrong.afterLiqi.count
         liqiExpenditures.push(...data.unrong.afterLiqi.scores)
         liqiTurns.push(...data.liqi.turns)
+        liqiNoTileCount += data.liqi.noTile
       })
 
       setGameCount(numberOfGame)
@@ -148,6 +152,7 @@ export default function Home() {
       setTotalUnrongAlongWithLiqiCount(unrongAlongWithLiqiCount)
       setTotalUnrongAfterLiqiCount(unrongAfterLiqiCount)
       setTotalLiqiTurn(liqiTurns)
+      setTotalLiqiNoTileCount(liqiNoTileCount)
     }
 
     firestore()
@@ -229,6 +234,7 @@ export default function Home() {
               <th>追っかけ率</th>
               <th>追っかけられ率</th>
               <th>立直巡目</th>
+              <th>立直流局</th>
             </tr>
           </thead>
           <tbody>
@@ -238,6 +244,7 @@ export default function Home() {
               <td>{ CulcLiqiChasingRate(totalLiqiCount, totalLiqiPreemptionCount) }％</td>
               <td>{ CulcLiqiChasedRate(totalLiqiCount, totalLiqiChasedCount) }％</td>
               <td>{ CulcAverageLiqiTurn(totalLiqiTurn) }</td>
+              <td>{ CulcLiqiNoTileRate(totalLiqiCount, totalLiqiNoTileCount)}％</td>
             </tr>
           </tbody>
         </table>
