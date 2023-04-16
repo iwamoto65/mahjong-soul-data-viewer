@@ -24,6 +24,7 @@ import { CulcLiqiChasingRate } from '@/hooks/useLiqiChasingRate'
 import { CulcLiqiChasedRate } from '@/hooks/useLiqiChasedRate'
 import { CulcAverageLiqiTurn } from '@/hooks/useAverageLiqiTurn'
 import { CulcLiqiNoTileRate } from '@/hooks/useLiqiNoTileRate'
+import { CulcLiqiFirstTurnHuleRate } from '@/hooks/useLiqiFirstTurnHuleRate'
 import db from '../../firebase'
 import { collection, getDocs } from "firebase/firestore"
 
@@ -74,6 +75,7 @@ export default function Home() {
   const [totalUnrongAfterLiqiCount, setTotalUnrongAfterLiqiCount] = useState<number>(0)
   const [totalLiqiTurn, setTotalLiqiTurn] = useState<number[]>([])
   const [totalLiqiNoTileCount, setTotalLiqiNoTileCount] = useState<number>(0)
+  const [totalLiqiFirstTurnHuleCount, setTotalLiqiFirstTurnHuleCount] = useState<number>(0)
 
   useEffect(() => {
     const firestore = async () => {
@@ -100,6 +102,7 @@ export default function Home() {
       let unrongAfterLiqiCount: number = 0
       let liqiTurns: number[] = []
       let liqiNoTileCount: number = 0
+      let liqiFirstTurnHuleCount: number = 0
 
       querySnapshot.forEach((doc: any) => {
         let data = doc.data()
@@ -129,6 +132,7 @@ export default function Home() {
         liqiExpenditures.push(...data.unrong.afterLiqi.scores)
         liqiTurns.push(...data.liqi.turns)
         liqiNoTileCount += data.liqi.noTile
+        liqiFirstTurnHuleCount += data.liqi.firstTurnHule
       })
 
       setGameCount(numberOfGame)
@@ -153,6 +157,7 @@ export default function Home() {
       setTotalUnrongAfterLiqiCount(unrongAfterLiqiCount)
       setTotalLiqiTurn(liqiTurns)
       setTotalLiqiNoTileCount(liqiNoTileCount)
+      setTotalLiqiFirstTurnHuleCount(liqiFirstTurnHuleCount)
     }
 
     firestore()
@@ -245,6 +250,16 @@ export default function Home() {
               <td>{ CulcLiqiChasedRate(totalLiqiCount, totalLiqiChasedCount) }％</td>
               <td>{ CulcAverageLiqiTurn(totalLiqiTurn) }</td>
               <td>{ CulcLiqiNoTileRate(totalLiqiCount, totalLiqiNoTileCount)}％</td>
+            </tr>
+          </tbody>
+          <thead>
+            <tr>
+              <th>一発率</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{ CulcLiqiFirstTurnHuleRate(totalLiqiCount, totalLiqiFirstTurnHuleCount) }％</td>
             </tr>
           </tbody>
         </table>

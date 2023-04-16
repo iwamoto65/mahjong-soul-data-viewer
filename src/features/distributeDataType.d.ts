@@ -39,7 +39,8 @@ export type PlayerResult = {
     preemption: number,
     chased: number,
     turns: number[],
-    noTile: number
+    noTile: number,
+    firstTurnHule: number
   },
   gameRecord: {
     finalPoint: number,
