@@ -21,7 +21,13 @@ export const countLiqiWaitingTile = (seat: number, recordDiscardTile: any[], unr
   })
 
   status.forEach((s) => {
-    unrongStatus.forEach((us) => { if (s.round !== us.round && s.isLiqi) waitingTileCount.push(s.waitingTileCount) })
+    if (unrongStatus.length > 0) {
+      unrongStatus.forEach((us) => {
+        if (s.round !== us.round && s.isLiqi) waitingTileCount.push(s.waitingTileCount)
+      })
+    } else {
+      if (s.isLiqi) waitingTileCount.push(s.waitingTileCount)
+    }
   })
 
   return waitingTileCount
