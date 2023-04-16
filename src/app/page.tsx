@@ -22,6 +22,7 @@ import { CulcLiqiIncomeAndExpenditure } from '@/hooks/useLiqiIncomeAndExpenditur
 import { CulcLiqiPreemptionRate } from '@/hooks/useLiqiPreemptionRate'
 import { CulcLiqiChasingRate } from '@/hooks/useLiqiChasingRate'
 import { CulcLiqiChasedRate } from '@/hooks/useLiqiChasedRate'
+import { CulcAverageLiqiTurn } from '@/hooks/useAverageLiqiTurn'
 import db from '../../firebase'
 import { collection, getDocs } from "firebase/firestore"
 
@@ -70,6 +71,7 @@ export default function Home() {
   const [totalLiqiExpenditure, setTotalLiqiExpenditure] = useState<number[]>([])
   const [totalUnrongAlongWithLiqiCount, setTotalUnrongAlongWithLiqiCount] = useState<number>(0)
   const [totalUnrongAfterLiqiCount, setTotalUnrongAfterLiqiCount] = useState<number>(0)
+  const [totalLiqiTurn, setTotalLiqiTurn] = useState<number[]>([])
 
   useEffect(() => {
     const firestore = async () => {
@@ -94,6 +96,7 @@ export default function Home() {
       let liqiExpenditures: number[] = []
       let unrongAlongWithLiqiCount: number = 0
       let unrongAfterLiqiCount: number = 0
+      let liqiTurns: number[] = []
 
       querySnapshot.forEach((doc: any) => {
         let data = doc.data()
@@ -121,6 +124,7 @@ export default function Home() {
         unrongAlongWithLiqiCount += data.unrong.alongWithLiqi.count
         unrongAfterLiqiCount += data.unrong.afterLiqi.count
         liqiExpenditures.push(...data.unrong.afterLiqi.scores)
+        liqiTurns.push(...data.liqi.turns)
       })
 
       setGameCount(numberOfGame)
@@ -143,6 +147,7 @@ export default function Home() {
       setTotalLiqiExpenditure(liqiExpenditures)
       setTotalUnrongAlongWithLiqiCount(unrongAlongWithLiqiCount)
       setTotalUnrongAfterLiqiCount(unrongAfterLiqiCount)
+      setTotalLiqiTurn(liqiTurns)
     }
 
     firestore()
@@ -223,6 +228,7 @@ export default function Home() {
               <th>先制率</th>
               <th>追っかけ率</th>
               <th>追っかけられ率</th>
+              <th>立直巡目</th>
             </tr>
           </thead>
           <tbody>
@@ -231,6 +237,7 @@ export default function Home() {
               <td>{ CulcLiqiPreemptionRate(totalLiqiCount, totalLiqiPreemptionCount) }％</td>
               <td>{ CulcLiqiChasingRate(totalLiqiCount, totalLiqiPreemptionCount) }％</td>
               <td>{ CulcLiqiChasedRate(totalLiqiCount, totalLiqiChasedCount) }％</td>
+              <td>{ CulcAverageLiqiTurn(totalLiqiTurn) }</td>
             </tr>
           </tbody>
         </table>
