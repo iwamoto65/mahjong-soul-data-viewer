@@ -16,6 +16,7 @@ export type PlayerResult = {
     liqi: boolean,
     dadian: number,
     deltaScore: number,
+    liDora: number,
   }[],
   unrong: {
     total: number,
