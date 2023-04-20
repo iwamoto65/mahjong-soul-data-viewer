@@ -27,6 +27,7 @@ import { CulcLiqiNoTileRate } from '@/hooks/useLiqiNoTileRate'
 import { CulcLiqiFirstTurnHuleRate } from '@/hooks/useLiqiFirstTurnHuleRate'
 import { CulcLiqiZhentingRate } from '@/hooks/useLiqiZhentingRate'
 import { CulcLiqiMultipleWaitingRate } from '@/hooks/useLiqiMultipleWaitingRate'
+import { CulcLiqiGoodShapeRate } from '@/hooks/useLiqiGoodShapeRate'
 import db from '../../firebase'
 import { collection, getDocs } from "firebase/firestore"
 
@@ -80,6 +81,7 @@ export default function Home() {
   const [totalLiqiFirstTurnHuleCount, setTotalLiqiFirstTurnHuleCount] = useState<number>(0)
   const [totalLiqiZhentingCount, setTotalLiqiZhentingCount] = useState<number>(0)
   const [totalLiqiWaitingTiles, setTotalLiqiWaitingTiles] = useState<number[]>([])
+  const [totalLiqiRemainingTileCount, setTotalLiqiRemainingTileCount] = useState<number[]>([])
 
   useEffect(() => {
     const firestore = async () => {
@@ -109,6 +111,7 @@ export default function Home() {
       let liqiFirstTurnHuleCount: number = 0
       let liqiZhentingCount: number = 0
       let liqiWaitingTileCount: number[] = []
+      let liqiRemainingTileCount: number[] = []
 
       querySnapshot.forEach((doc: any) => {
         let data = doc.data()
@@ -141,6 +144,7 @@ export default function Home() {
         liqiFirstTurnHuleCount += data.liqi.firstTurnHule
         liqiZhentingCount += data.liqi.zhenting
         liqiWaitingTileCount.push(...data.liqi.waitingTileCount)
+        liqiRemainingTileCount.push(...data.liqi.remainingTileCount)
       })
 
       setGameCount(numberOfGame)
@@ -168,6 +172,7 @@ export default function Home() {
       setTotalLiqiFirstTurnHuleCount(liqiFirstTurnHuleCount)
       setTotalLiqiZhentingCount(liqiZhentingCount)
       setTotalLiqiWaitingTiles(liqiWaitingTileCount)
+      setTotalLiqiRemainingTileCount(liqiRemainingTileCount)
     }
 
     firestore()
@@ -267,6 +272,7 @@ export default function Home() {
               <th>一発率</th>
               <th>振聴率</th>
               <th>立直多面</th>
+              <th>立直良型</th>
             </tr>
           </thead>
           <tbody>
@@ -274,6 +280,7 @@ export default function Home() {
               <td>{ CulcLiqiFirstTurnHuleRate(totalLiqiCount, totalLiqiFirstTurnHuleCount) }％</td>
               <td>{ CulcLiqiZhentingRate(totalLiqiCount, totalLiqiZhentingCount) }％</td>
               <td>{ CulcLiqiMultipleWaitingRate(totalLiqiCount, totalLiqiWaitingTiles) }％</td>
+              <td>{ CulcLiqiGoodShapeRate(totalLiqiRemainingTileCount) }％</td>
             </tr>
           </tbody>
         </table>
