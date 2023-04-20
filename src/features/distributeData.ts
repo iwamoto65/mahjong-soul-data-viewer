@@ -19,6 +19,7 @@ import { countLiqiNoTile } from './userAction/liqi/liqiNoTileCounter';
 import { countLiqiFirstTurnHule } from './userAction/liqi/liqiFirstTurnHuleCounter';
 import { countLiqiZhenting } from './userAction/liqi/liqiZhentingCounter';
 import { countLiqiWaitingTile } from './userAction/liqi/liqiWaitingTileCounter';
+import { countLiqiRemainingTile } from './userAction/liqi/liqiRemainingTileCounter';
 import { sendGameResult } from './sendGameResult'
 import type { PlayerResult } from './distributeDataType';
 import type { UserActions } from './userAction/userActionType'
@@ -65,7 +66,8 @@ export const distributeData = (data: string) => {
       noTile: 0,
       firstTurnHule: 0,
       zhenting: 0,
-      waitingTileCount: []
+      waitingTileCount: [],
+      remainingTileCount: []
     },
     gameRecord: {
       finalPoint: 0,
@@ -83,6 +85,7 @@ export const distributeData = (data: string) => {
   let recordNoTile: any[] = []
   let recordLiuju: any[] = []
   let recordChiPengGang: any[] = []
+  let recordAnGangAddGang: any[] = []
   let recordDiscardTile: any[] = []
   let recordDealTile: any[] = []
   let userInput: any[] = []
@@ -104,6 +107,9 @@ export const distributeData = (data: string) => {
           break
         case '.lq.RecordChiPengGang':
           recordChiPengGang.push(action)
+          break
+        case '.lq.RecordAnGangAddGang':
+          recordAnGangAddGang.push(action)
           break
         case '.lq.RecordDiscardTile':
           recordDiscardTile.push(action)
@@ -144,6 +150,7 @@ export const distributeData = (data: string) => {
   playerResult.liqi.firstTurnHule = countLiqiFirstTurnHule(playerResult.seat, recordHule)
   playerResult.liqi.zhenting = countLiqiZhenting(playerResult.seat, recordDealTile, recordChiPengGang)
   playerResult.liqi.waitingTileCount = countLiqiWaitingTile(playerResult.seat, recordDiscardTile, unrongTimes, rounds)
+  playerResult.liqi.remainingTileCount = countLiqiRemainingTile(playerResult.seat, recordDiscardTile, recordChiPengGang, recordAnGangAddGang, recordNewRound, recordDealTile, unrongTimes, rounds)
 
   return sendGameResult(playerResult)
 }
