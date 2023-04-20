@@ -28,6 +28,7 @@ import { CulcLiqiFirstTurnHuleRate } from '@/hooks/useLiqiFirstTurnHuleRate'
 import { CulcLiqiZhentingRate } from '@/hooks/useLiqiZhentingRate'
 import { CulcLiqiMultipleWaitingRate } from '@/hooks/useLiqiMultipleWaitingRate'
 import { CulcLiqiGoodShapeRate } from '@/hooks/useLiqiGoodShapeRate'
+import { CulcLidoraRate } from '@/hooks/useLiDoraRate'
 import db from '../../firebase'
 import { collection, getDocs } from "firebase/firestore"
 
@@ -82,6 +83,7 @@ export default function Home() {
   const [totalLiqiZhentingCount, setTotalLiqiZhentingCount] = useState<number>(0)
   const [totalLiqiWaitingTiles, setTotalLiqiWaitingTiles] = useState<number[]>([])
   const [totalLiqiRemainingTileCount, setTotalLiqiRemainingTileCount] = useState<number[]>([])
+  const [totalLiDoraCount, setTotalLiDoraCount] = useState<number[]>([])
 
   useEffect(() => {
     const firestore = async () => {
@@ -112,6 +114,7 @@ export default function Home() {
       let liqiZhentingCount: number = 0
       let liqiWaitingTileCount: number[] = []
       let liqiRemainingTileCount: number[] = []
+      let liDoraCount: number[] = []
 
       querySnapshot.forEach((doc: any) => {
         let data = doc.data()
@@ -127,6 +130,7 @@ export default function Home() {
           if (hule.liqi) {
             huleOutOfLiqiCount++
             liqiIncomes.push(hule.deltaScore)
+            liDoraCount.push(hule.liDora)
           }
         })
         noTileCount += data.noTile.total
@@ -173,6 +177,7 @@ export default function Home() {
       setTotalLiqiZhentingCount(liqiZhentingCount)
       setTotalLiqiWaitingTiles(liqiWaitingTileCount)
       setTotalLiqiRemainingTileCount(liqiRemainingTileCount)
+      setTotalLiDoraCount(liDoraCount)
     }
 
     firestore()
@@ -273,6 +278,7 @@ export default function Home() {
               <th>振聴率</th>
               <th>立直多面</th>
               <th>立直良型</th>
+              <th>裏ドラ率</th>
             </tr>
           </thead>
           <tbody>
@@ -281,6 +287,7 @@ export default function Home() {
               <td>{ CulcLiqiZhentingRate(totalLiqiCount, totalLiqiZhentingCount) }％</td>
               <td>{ CulcLiqiMultipleWaitingRate(totalLiqiCount, totalLiqiWaitingTiles) }％</td>
               <td>{ CulcLiqiGoodShapeRate(totalLiqiRemainingTileCount) }％</td>
+              <td>{ CulcLidoraRate(totalLiDoraCount) }％</td>
             </tr>
           </tbody>
         </table>
