@@ -46,6 +46,9 @@ export type PlayerResult = {
     waitingTileCount: number[],
     remainingTileCount: number[]
   },
+  zimo: {
+    parentCoverScores: number[]
+  },
   gameRecord: {
     finalPoint: number,
     gradingScore: number,

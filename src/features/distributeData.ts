@@ -20,6 +20,7 @@ import { countLiqiFirstTurnHule } from './userAction/liqi/liqiFirstTurnHuleCount
 import { countLiqiZhenting } from './userAction/liqi/liqiZhentingCounter';
 import { countLiqiWaitingTile } from './userAction/liqi/liqiWaitingTileCounter';
 import { countLiqiRemainingTile } from './userAction/liqi/liqiRemainingTileCounter';
+import { countZimoSevereParentCover } from './userAction/zimo/zimoParentCoverCounter';
 import { sendGameResult } from './sendGameResult'
 import type { PlayerResult } from './distributeDataType';
 import type { UserActions } from './userAction/userActionType'
@@ -68,6 +69,9 @@ export const distributeData = (data: string) => {
       zhenting: 0,
       waitingTileCount: [],
       remainingTileCount: []
+    },
+    zimo: {
+      parentCoverScores: []
     },
     gameRecord: {
       finalPoint: 0,
@@ -151,6 +155,7 @@ export const distributeData = (data: string) => {
   playerResult.liqi.zhenting = countLiqiZhenting(playerResult.seat, recordDealTile, recordChiPengGang)
   playerResult.liqi.waitingTileCount = countLiqiWaitingTile(playerResult.seat, recordDiscardTile, unrongTimes, rounds)
   playerResult.liqi.remainingTileCount = countLiqiRemainingTile(playerResult.seat, recordDiscardTile, recordChiPengGang, recordAnGangAddGang, recordNewRound, recordDealTile, unrongTimes, rounds)
+  playerResult.zimo.parentCoverScores = countZimoSevereParentCover(playerResult.seat, recordHule, rounds)
 
   return sendGameResult(playerResult)
 }

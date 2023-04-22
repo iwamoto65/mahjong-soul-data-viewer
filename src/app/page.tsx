@@ -29,6 +29,7 @@ import { CulcLiqiZhentingRate } from '@/hooks/useLiqiZhentingRate'
 import { CulcLiqiMultipleWaitingRate } from '@/hooks/useLiqiMultipleWaitingRate'
 import { CulcLiqiGoodShapeRate } from '@/hooks/useLiqiGoodShapeRate'
 import { CulcLidoraRate } from '@/hooks/useLiDoraRate'
+import { CulcZimoSereveParentCoverRate } from '@/hooks/useZimoSereveParentCoverRate'
 import db from '../../firebase'
 import { collection, getDocs } from "firebase/firestore"
 
@@ -84,6 +85,7 @@ export default function Home() {
   const [totalLiqiWaitingTiles, setTotalLiqiWaitingTiles] = useState<number[]>([])
   const [totalLiqiRemainingTileCount, setTotalLiqiRemainingTileCount] = useState<number[]>([])
   const [totalLiDoraCount, setTotalLiDoraCount] = useState<number[]>([])
+  const [totalZimoParentCoverScores, setTotalZimoParentCoverScores] = useState<number[]>([])
 
   useEffect(() => {
     const firestore = async () => {
@@ -115,6 +117,7 @@ export default function Home() {
       let liqiWaitingTileCount: number[] = []
       let liqiRemainingTileCount: number[] = []
       let liDoraCount: number[] = []
+      let zimoParentCoverScores: number[] = []
 
       querySnapshot.forEach((doc: any) => {
         let data = doc.data()
@@ -149,6 +152,7 @@ export default function Home() {
         liqiZhentingCount += data.liqi.zhenting
         liqiWaitingTileCount.push(...data.liqi.waitingTileCount)
         liqiRemainingTileCount.push(...data.liqi.remainingTileCount)
+        zimoParentCoverScores.push(...data.zimo.parentCoverScores)
       })
 
       setGameCount(numberOfGame)
@@ -178,6 +182,7 @@ export default function Home() {
       setTotalLiqiWaitingTiles(liqiWaitingTileCount)
       setTotalLiqiRemainingTileCount(liqiRemainingTileCount)
       setTotalLiDoraCount(liDoraCount)
+      setTotalZimoParentCoverScores(zimoParentCoverScores)
     }
 
     firestore()
@@ -279,6 +284,7 @@ export default function Home() {
               <th>立直多面</th>
               <th>立直良型</th>
               <th>裏ドラ率</th>
+              <th>痛い親被り率</th>
             </tr>
           </thead>
           <tbody>
@@ -288,6 +294,7 @@ export default function Home() {
               <td>{ CulcLiqiMultipleWaitingRate(totalLiqiCount, totalLiqiWaitingTiles) }％</td>
               <td>{ CulcLiqiGoodShapeRate(totalLiqiRemainingTileCount) }％</td>
               <td>{ CulcLidoraRate(totalLiDoraCount) }％</td>
+              <td>{ CulcZimoSereveParentCoverRate(totalZimoParentCoverScores) }%</td>
             </tr>
           </tbody>
         </table>
