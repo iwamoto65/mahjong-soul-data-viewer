@@ -40,6 +40,7 @@ import { CulcNoTileAfterChiPengGangRate } from '@/hooks/useNoTileAfterChiPengGan
 import { CulcAttackBalanceIndex } from '@/hooks/useAttackBalanceIndex'
 import { CulcDefenseBalanceIndex } from '@/hooks/useDefenseBalanceIndex'
 import { CulcAttackAndDefenseBalanceIndex } from '@/hooks/useAttackAndDefenseBalanceIndex'
+import { CulcRoundIncomeAndExpenditure } from '@/hooks/useRoundIncomeAndExpenditure'
 import db from '../../firebase'
 import { collection, getDocs } from "firebase/firestore"
 
@@ -99,6 +100,7 @@ export default function Home() {
   const [totalZimoParentCoverScores, setTotalZimoParentCoverScores] = useState<number[]>([])
   const [totalHuleAfterMingCount, setTotalHuleAfterMingCount] = useState<number>(0)
   const [totalNoTileAfterChiPengGangCount, setTotalNoTileAfterChiPengGangCount] = useState<number>(0)
+  const [totalFinalPoints, setTotalFinalPoints] = useState<number[]>([])
 
   useEffect(() => {
     const firestore = async () => {
@@ -134,6 +136,7 @@ export default function Home() {
       let zimoParentCoverScores: number[] = []
       let huleAfterMingCount: number = 0
       let noTileAfterChiPengGangCount: number = 0
+      let finalPoints: number[] = []
 
       querySnapshot.forEach((doc: any) => {
         let data = doc.data()
@@ -172,6 +175,7 @@ export default function Home() {
         liqiRemainingTileCount.push(...data.liqi.remainingTileCount)
         zimoParentCoverScores.push(...data.zimo.parentCoverScores)
         noTileAfterChiPengGangCount += data.noTile.afterChiPengGang
+        finalPoints.push(data.gameRecord.finalPoint)
       })
 
       setGameCount(numberOfGame)
@@ -205,6 +209,7 @@ export default function Home() {
       setTotalZimoParentCoverScores(zimoParentCoverScores)
       setTotalHuleAfterMingCount(huleAfterMingCount)
       setTotalNoTileAfterChiPengGangCount(noTileAfterChiPengGangCount)
+      setTotalFinalPoints(finalPoints)
     }
 
     firestore()
@@ -345,6 +350,7 @@ export default function Home() {
               <th>打点効率</th>
               <th>銃点損失</th>
               <th>調整打点効率</th>
+              <th>局収支</th>
             </tr>
           </thead>
           <tbody>
@@ -353,6 +359,7 @@ export default function Home() {
               <td>{ CulcAttackBalanceIndex(totalRoundCount, totalHuleCount, totalDadian)}</td>
               <td>{ CulcDefenseBalanceIndex(totalRoundCount, totalUnrongCount, totalUnrongScore) }</td>
               <td>{ CulcAttackAndDefenseBalanceIndex(totalRoundCount, totalHuleCount, totalDadian, totalUnrongCount, totalUnrongScore) }</td>
+              <td>{ CulcRoundIncomeAndExpenditure(gameCount, totalRoundCount, totalFinalPoints) }</td>
             </tr>
           </tbody>
         </table>
