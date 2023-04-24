@@ -35,6 +35,7 @@ import { CulcUnrongAfterChiPengGangRateBasedOnUnrong } from '@/hooks/useUnrongAf
 import { CulcUnrongAfterLiqiRateBasedOnUnrong } from '@/hooks/useUnrongAfterLiqiRateBasedOnUnrong'
 import { CulcUnrongUnmingRate } from '@/hooks/useUnrongUnmingRate'
 import { CulcUnrongAfterChiPengGangRateBasedOnMing } from '@/hooks/useUnrongAfterChiPengGangRateBasedOnMing'
+import { CulcHuleAfterMingRate } from '@/hooks/useHuleAfterMingRate'
 import db from '../../firebase'
 import { collection, getDocs } from "firebase/firestore"
 
@@ -92,6 +93,7 @@ export default function Home() {
   const [totalLiqiRemainingTileCount, setTotalLiqiRemainingTileCount] = useState<number[]>([])
   const [totalLiDoraCount, setTotalLiDoraCount] = useState<number[]>([])
   const [totalZimoParentCoverScores, setTotalZimoParentCoverScores] = useState<number[]>([])
+  const [totalHuleAfterMingCount, setTotalHuleAfterMingCount] = useState<number>(0)
 
   useEffect(() => {
     const firestore = async () => {
@@ -125,6 +127,7 @@ export default function Home() {
       let liqiRemainingTileCount: number[] = []
       let liDoraCount: number[] = []
       let zimoParentCoverScores: number[] = []
+      let huleAfterMingCount: number = 0
 
       querySnapshot.forEach((doc: any) => {
         let data = doc.data()
@@ -142,6 +145,7 @@ export default function Home() {
             liqiIncomes.push(hule.deltaScore)
             liDoraCount.push(hule.liDora)
           }
+          if (hule.ming.length > 0) huleAfterMingCount++
         })
         noTileCount += data.noTile.total
         noTileTingpaiCount += data.noTile.tingpai
@@ -192,6 +196,7 @@ export default function Home() {
       setTotalLiqiRemainingTileCount(liqiRemainingTileCount)
       setTotalLiDoraCount(liDoraCount)
       setTotalZimoParentCoverScores(zimoParentCoverScores)
+      setTotalHuleAfterMingCount(huleAfterMingCount)
     }
 
     firestore()
@@ -313,6 +318,7 @@ export default function Home() {
               <th>放銃時立直率</th>
               <th>放銃時副露率</th>
               <th>副露後放銃率</th>
+              <th>副露後和了率</th>
             </tr>
           </thead>
           <tbody>
@@ -322,6 +328,7 @@ export default function Home() {
               <td>{ CulcUnrongAfterLiqiRateBasedOnUnrong(totalUnrongCount, totalUnrongAfterLiqiCount) }％</td>
               <td>{ CulcUnrongAfterChiPengGangRateBasedOnUnrong(totalUnrongCount, totalUnrongAfterChiPengGang)}％</td>
               <td>{ CulcUnrongAfterChiPengGangRateBasedOnMing(totalChiPengGangCount, totalUnrongAfterChiPengGang) }％</td>
+              <td>{ CulcHuleAfterMingRate(totalChiPengGangCount, totalHuleAfterMingCount)}％</td>
             </tr>
           </tbody>
         </table>
