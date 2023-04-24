@@ -36,6 +36,7 @@ import { CulcUnrongAfterLiqiRateBasedOnUnrong } from '@/hooks/useUnrongAfterLiqi
 import { CulcUnrongUnmingRate } from '@/hooks/useUnrongUnmingRate'
 import { CulcUnrongAfterChiPengGangRateBasedOnMing } from '@/hooks/useUnrongAfterChiPengGangRateBasedOnMing'
 import { CulcHuleAfterMingRate } from '@/hooks/useHuleAfterMingRate'
+import { CulcNoTileAfterChiPengGangRate } from '@/hooks/useNoTileAfterChiPengGangRate'
 import db from '../../firebase'
 import { collection, getDocs } from "firebase/firestore"
 
@@ -94,6 +95,7 @@ export default function Home() {
   const [totalLiDoraCount, setTotalLiDoraCount] = useState<number[]>([])
   const [totalZimoParentCoverScores, setTotalZimoParentCoverScores] = useState<number[]>([])
   const [totalHuleAfterMingCount, setTotalHuleAfterMingCount] = useState<number>(0)
+  const [totalNoTileAfterChiPengGangCount, setTotalNoTileAfterChiPengGangCount] = useState<number>(0)
 
   useEffect(() => {
     const firestore = async () => {
@@ -128,6 +130,7 @@ export default function Home() {
       let liDoraCount: number[] = []
       let zimoParentCoverScores: number[] = []
       let huleAfterMingCount: number = 0
+      let noTileAfterChiPengGangCount: number = 0
 
       querySnapshot.forEach((doc: any) => {
         let data = doc.data()
@@ -165,6 +168,7 @@ export default function Home() {
         liqiWaitingTileCount.push(...data.liqi.waitingTileCount)
         liqiRemainingTileCount.push(...data.liqi.remainingTileCount)
         zimoParentCoverScores.push(...data.zimo.parentCoverScores)
+        noTileAfterChiPengGangCount += data.noTile.afterChiPengGang
       })
 
       setGameCount(numberOfGame)
@@ -197,6 +201,7 @@ export default function Home() {
       setTotalLiDoraCount(liDoraCount)
       setTotalZimoParentCoverScores(zimoParentCoverScores)
       setTotalHuleAfterMingCount(huleAfterMingCount)
+      setTotalNoTileAfterChiPengGangCount(noTileAfterChiPengGangCount)
     }
 
     firestore()
@@ -329,6 +334,16 @@ export default function Home() {
               <td>{ CulcUnrongAfterChiPengGangRateBasedOnUnrong(totalUnrongCount, totalUnrongAfterChiPengGang)}％</td>
               <td>{ CulcUnrongAfterChiPengGangRateBasedOnMing(totalChiPengGangCount, totalUnrongAfterChiPengGang) }％</td>
               <td>{ CulcHuleAfterMingRate(totalChiPengGangCount, totalHuleAfterMingCount) }％</td>
+            </tr>
+          </tbody>
+          <thead>
+            <tr>
+              <th>副露後流局率</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{ CulcNoTileAfterChiPengGangRate(totalChiPengGangCount, totalNoTileAfterChiPengGangCount) }％</td>
             </tr>
           </tbody>
         </table>

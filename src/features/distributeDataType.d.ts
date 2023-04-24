@@ -36,7 +36,8 @@ export type PlayerResult = {
   },
   noTile: {
     total: number,
-    tingpai: number
+    tingpai: number,
+    afterChiPengGang: number
   },
   chiPengGang: number,
   liqi: {

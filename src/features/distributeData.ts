@@ -22,6 +22,7 @@ import { countLiqiWaitingTile } from './userAction/liqi/liqiWaitingTileCounter';
 import { countLiqiRemainingTile } from './userAction/liqi/liqiRemainingTileCounter';
 import { countZimoSevereParentCover } from './userAction/zimo/zimoParentCoverCounter';
 import { countUnrongAfterChiPengGang } from './userAction/unrong/unrongAfterChiPengGangCounter';
+import { countNoTileAfterChiPengGang } from './userAction/noTile/noTileAfterChiPengGangCounter';
 import { sendGameResult } from './sendGameResult'
 import type { PlayerResult } from './distributeDataType';
 import type { UserActions } from './userAction/userActionType'
@@ -61,7 +62,8 @@ export const distributeData = (data: string) => {
     },
     noTile: {
       total: 0,
-      tingpai: 0
+      tingpai: 0,
+      afterChiPengGang: 0
     },
     chiPengGang: 0,
     liqi: {
@@ -162,6 +164,7 @@ export const distributeData = (data: string) => {
   playerResult.liqi.waitingTileCount = countLiqiWaitingTile(playerResult.seat, recordDiscardTile, unrongTimes, rounds)
   playerResult.liqi.remainingTileCount = countLiqiRemainingTile(playerResult.seat, recordDiscardTile, recordChiPengGang, recordAnGangAddGang, recordNewRound, recordDealTile, unrongTimes, rounds)
   playerResult.zimo.parentCoverScores = countZimoSevereParentCover(playerResult.seat, recordHule, rounds)
+  playerResult.noTile.afterChiPengGang = countNoTileAfterChiPengGang(playerResult.seat, recordChiPengGang, recordNoTile, rounds)
 
   return sendGameResult(playerResult)
 }
