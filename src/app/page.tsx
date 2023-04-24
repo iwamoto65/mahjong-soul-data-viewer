@@ -15,7 +15,7 @@ import { CulcAverageUnrongScore } from '@/hooks/useAverageUnrongScore'
 import { CulcAveragePlace } from '@/hooks/useAveragePlace'
 import { CulcLiqiSuccessRate } from '@/hooks/useLiqiSuccessRate'
 import { CulcUnrongIncludeOnLiqiRate } from '@/hooks/useUnrongIncludeOnLiqiRate'
-import { CulcUnrongAfterLiqiRate } from '@/hooks/useUnrongAfterLiqiRate'
+import { CulcUnrongAfterLiqiRateBasedOnLiqi } from '@/hooks/useUnrongAfterLiqiRateBasedOnLiqi'
 import { CulcLiqiIncome } from '@/hooks/useLiqiIncome'
 import { CulcLiqiExpenditure } from '@/hooks/useLiqiExpenditure'
 import { CulcLiqiIncomeAndExpenditure } from '@/hooks/useLiqiIncomeAndExpenditure'
@@ -258,7 +258,7 @@ export default function Home() {
               <td>{ CulcAveragePlace(totalPlace) }</td>
               <td>{ CulcLiqiSuccessRate(totalHuleOutOfLiqiCount, totalLiqiCount) }％</td>
               <td>{ CulcUnrongIncludeOnLiqiRate(totalLiqiCount, totalUnrongAlongWithLiqiCount, totalUnrongAfterLiqiCount) }％</td>
-              <td>{ CulcUnrongAfterLiqiRate(totalLiqiCount, totalUnrongAfterLiqiCount) }％</td>
+              <td>{ CulcUnrongAfterLiqiRateBasedOnLiqi(totalLiqiCount, totalUnrongAfterLiqiCount) }％</td>
               <td>{ CulcLiqiIncome(totalLiqiIncome) }</td>
               <td>{ CulcLiqiExpenditure(totalLiqiExpenditure) }</td>
             </tr>
@@ -306,12 +306,14 @@ export default function Home() {
           <thead>
             <tr>
               <th>痛い親被り平均</th>
+              <th>放銃時立直率</th>
               <th>放銃時副露率</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>{ CulcZimoSereveParentCoverScore(totalZimoParentCoverScores) }</td>
+              <td>{ CulcZimoSereveParentCoverScore(totalZimoParentCoverScores )}</td>
+              <td>{ }％</td>
               <td>{ CulcUnrongAfterChiPengGangRate(totalUnrongCount, totalUnrongAfterChiPengGang)}％</td>
             </tr>
           </tbody>
