@@ -4,5 +4,5 @@ export const CulcAverageDadianScore = (dadian: number[]) => {
   const sumScore: number = dadian.reduce((a, b) => a + b)
   const totalHuleCount: number = dadian.length
 
-  return (sumScore / totalHuleCount).toFixed(0)
+  return Number((sumScore / totalHuleCount).toFixed(0))
 }
