@@ -31,9 +31,10 @@ import { CulcLiqiGoodShapeRate } from '@/hooks/useLiqiGoodShapeRate'
 import { CulcLidoraRate } from '@/hooks/useLiDoraRate'
 import { CulcZimoSereveParentCoverRate } from '@/hooks/useZimoSereveParentCoverRate'
 import { CulcZimoSereveParentCoverScore } from '@/hooks/useZimoSereveParentCoverScore'
-import { CulcUnrongAfterChiPengGangRate } from '@/hooks/useUnrongAfterChiPengGangRate'
+import { CulcUnrongAfterChiPengGangRateBasedOnUnrong } from '@/hooks/useUnrongAfterChiPengGangRateBasedOnUnrong'
 import { CulcUnrongAfterLiqiRateBasedOnUnrong } from '@/hooks/useUnrongAfterLiqiRateBasedOnUnrong'
 import { CulcUnrongUnmingRate } from '@/hooks/useUnrongUnmingRate'
+import { CulcUnrongAfterChiPengGangRateBasedOnMing } from '@/hooks/useUnrongAfterChiPengGangRateBasedOnMing'
 import db from '../../firebase'
 import { collection, getDocs } from "firebase/firestore"
 
@@ -311,6 +312,7 @@ export default function Home() {
               <th>放銃時面前率</th>
               <th>放銃時立直率</th>
               <th>放銃時副露率</th>
+              <th>副露後放銃率</th>
             </tr>
           </thead>
           <tbody>
@@ -318,7 +320,8 @@ export default function Home() {
               <td>{ CulcZimoSereveParentCoverScore(totalZimoParentCoverScores )}</td>
               <td>{ CulcUnrongUnmingRate(totalUnrongCount, totalUnrongAfterLiqiCount, totalUnrongAfterChiPengGang) }％</td>
               <td>{ CulcUnrongAfterLiqiRateBasedOnUnrong(totalUnrongCount, totalUnrongAfterLiqiCount) }％</td>
-              <td>{ CulcUnrongAfterChiPengGangRate(totalUnrongCount, totalUnrongAfterChiPengGang)}％</td>
+              <td>{ CulcUnrongAfterChiPengGangRateBasedOnUnrong(totalUnrongCount, totalUnrongAfterChiPengGang)}％</td>
+              <td>{ CulcUnrongAfterChiPengGangRateBasedOnMing(totalChiPengGangCount, totalUnrongAfterChiPengGang) }％</td>
             </tr>
           </tbody>
         </table>
