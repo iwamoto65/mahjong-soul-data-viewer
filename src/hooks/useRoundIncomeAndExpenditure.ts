@@ -8,5 +8,5 @@ export const CulcRoundIncomeAndExpenditure = (totalGame: number, totalRound: num
   const sumPoints = finalPoints.reduce((a, b) => a + b)
   const averagePoints = (sumPoints / finalPoints.length)
 
-  return ((averagePoints - 25000) * totalGame / totalRound)
+  return Number(((averagePoints - 25000) * totalGame / totalRound).toFixed(0))
 }
