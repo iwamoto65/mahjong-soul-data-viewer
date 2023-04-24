@@ -21,6 +21,7 @@ import { countLiqiZhenting } from './userAction/liqi/liqiZhentingCounter';
 import { countLiqiWaitingTile } from './userAction/liqi/liqiWaitingTileCounter';
 import { countLiqiRemainingTile } from './userAction/liqi/liqiRemainingTileCounter';
 import { countZimoSevereParentCover } from './userAction/zimo/zimoParentCoverCounter';
+import { countUnrongAfterChiPengGang } from './userAction/unrong/unrongAfterChiPengGangCounter';
 import { sendGameResult } from './sendGameResult'
 import type { PlayerResult } from './distributeDataType';
 import type { UserActions } from './userAction/userActionType'
@@ -53,6 +54,10 @@ export const distributeData = (data: string) => {
         count: 0,
         scores: []
       },
+      afterChiPengGang: {
+        count: 0,
+        scores: []
+      }
     },
     noTile: {
       total: 0,
@@ -146,6 +151,7 @@ export const distributeData = (data: string) => {
   const unrongTimes: number[] = getUnrongTimes(playerResult.seat, recordHule)
   playerResult.unrong.alongWithLiqi = countUnrongAlongWithLiqi(playerResult.seat, recordDiscardTile, unrongTimes, recordHule)
   playerResult.unrong.afterLiqi = countUnrongAfterLiqi(playerResult.seat, rounds, recordDealTile, recordChiPengGang, unrongTimes, recordHule)
+  playerResult.unrong.afterChiPengGang = countUnrongAfterChiPengGang(playerResult.seat, recordChiPengGang, recordDiscardTile, recordHule, unrongTimes, rounds)
   playerResult.liqi.total = countLiqi(playerResult.seat, userInput, playerResult.unrong.alongWithLiqi.count)
   playerResult.liqi.preemption = countLiqiPreemption(playerResult.seat, userInput, recordDiscardTile, unrongTimes, rounds)
   playerResult.liqi.chased = countLiqiChased(playerResult.seat, userInput, rounds)

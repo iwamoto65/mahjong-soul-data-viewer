@@ -31,6 +31,7 @@ import { CulcLiqiGoodShapeRate } from '@/hooks/useLiqiGoodShapeRate'
 import { CulcLidoraRate } from '@/hooks/useLiDoraRate'
 import { CulcZimoSereveParentCoverRate } from '@/hooks/useZimoSereveParentCoverRate'
 import { CulcZimoSereveParentCoverScore } from '@/hooks/useZimoSereveParentCoverScore'
+import { CulcUnrongAfterChiPengGangRate } from '@/hooks/useUnrongAfterChiPengGangRate'
 import db from '../../firebase'
 import { collection, getDocs } from "firebase/firestore"
 
@@ -79,6 +80,7 @@ export default function Home() {
   const [totalLiqiExpenditure, setTotalLiqiExpenditure] = useState<number[]>([])
   const [totalUnrongAlongWithLiqiCount, setTotalUnrongAlongWithLiqiCount] = useState<number>(0)
   const [totalUnrongAfterLiqiCount, setTotalUnrongAfterLiqiCount] = useState<number>(0)
+  const [totalUnrongAfterChiPengGang, setTotalUnrongAfterChiPengGang] = useState<number>(0)
   const [totalLiqiTurn, setTotalLiqiTurn] = useState<number[]>([])
   const [totalLiqiNoTileCount, setTotalLiqiNoTileCount] = useState<number>(0)
   const [totalLiqiFirstTurnHuleCount, setTotalLiqiFirstTurnHuleCount] = useState<number>(0)
@@ -111,6 +113,7 @@ export default function Home() {
       let liqiExpenditures: number[] = []
       let unrongAlongWithLiqiCount: number = 0
       let unrongAfterLiqiCount: number = 0
+      let unrongAfterChiPengGang: number = 0
       let liqiTurns: number[] = []
       let liqiNoTileCount: number = 0
       let liqiFirstTurnHuleCount: number = 0
@@ -146,6 +149,7 @@ export default function Home() {
         places.push(data.gameRecord.place)
         unrongAlongWithLiqiCount += data.unrong.alongWithLiqi.count
         unrongAfterLiqiCount += data.unrong.afterLiqi.count
+        unrongAfterChiPengGang += data.unrong.afterChiPengGang.count
         liqiExpenditures.push(...data.unrong.afterLiqi.scores)
         liqiTurns.push(...data.liqi.turns)
         liqiNoTileCount += data.liqi.noTile
@@ -176,6 +180,7 @@ export default function Home() {
       setTotalLiqiExpenditure(liqiExpenditures)
       setTotalUnrongAlongWithLiqiCount(unrongAlongWithLiqiCount)
       setTotalUnrongAfterLiqiCount(unrongAfterLiqiCount)
+      setTotalUnrongAfterChiPengGang(unrongAfterChiPengGang)
       setTotalLiqiTurn(liqiTurns)
       setTotalLiqiNoTileCount(liqiNoTileCount)
       setTotalLiqiFirstTurnHuleCount(liqiFirstTurnHuleCount)
@@ -301,11 +306,13 @@ export default function Home() {
           <thead>
             <tr>
               <th>痛い親被り平均</th>
+              <th>放銃時副露率</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>{ CulcZimoSereveParentCoverScore(totalZimoParentCoverScores) }</td>
+              <td>{ CulcUnrongAfterChiPengGangRate(totalUnrongCount, totalUnrongAfterChiPengGang)}％</td>
             </tr>
           </tbody>
         </table>

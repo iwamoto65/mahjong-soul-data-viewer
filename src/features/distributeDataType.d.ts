@@ -29,6 +29,10 @@ export type PlayerResult = {
       count: number,
       scores: number[]
     },
+    afterChiPengGang: {
+      count: number,
+      scores: number[]
+    }
   },
   noTile: {
     total: number,
