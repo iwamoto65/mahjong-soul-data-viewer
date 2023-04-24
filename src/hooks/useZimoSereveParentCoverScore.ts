@@ -10,5 +10,5 @@ export const CulcZimoSereveParentCoverScore = (parentCoverScores: number[]) => {
   parentCoverScores.forEach((score) => { if (Math.abs(score) >= 3900) sereveParentCoverScores.push(score) })
   const totalScore: number = parentCoverScores.reduce((a, b) => Math.abs(a) + Math.abs(b))
 
-  return (totalScore / sereveParentCoverScores.length)
+  return (totalScore / sereveParentCoverScores.length).toFixed(0)
 }

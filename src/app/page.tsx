@@ -38,6 +38,7 @@ import { CulcUnrongAfterChiPengGangRateBasedOnMing } from '@/hooks/useUnrongAfte
 import { CulcHuleAfterMingRate } from '@/hooks/useHuleAfterMingRate'
 import { CulcNoTileAfterChiPengGangRate } from '@/hooks/useNoTileAfterChiPengGangRate'
 import { CulcAttackBalanceIndex } from '@/hooks/useAttackBalanceIndex'
+import { CulcDefenseBalanceIndex } from '@/hooks/useDefenseBalanceIndex'
 import db from '../../firebase'
 import { collection, getDocs } from "firebase/firestore"
 
@@ -341,12 +342,14 @@ export default function Home() {
             <tr>
               <th>副露後流局率</th>
               <th>打点効率</th>
+              <th>銃点損失</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>{ CulcNoTileAfterChiPengGangRate(totalChiPengGangCount, totalNoTileAfterChiPengGangCount) }％</td>
               <td>{ CulcAttackBalanceIndex(totalRoundCount, totalHuleCount, totalDadian)}</td>
+              <td>{ CulcDefenseBalanceIndex(totalRoundCount, totalUnrongCount, totalUnrongScore) }</td>
             </tr>
           </tbody>
         </table>

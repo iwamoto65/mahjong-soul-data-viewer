@@ -8,5 +8,5 @@ export const CulcAverageUnrongScore = (unrong: number[]) => {
   const sumScore: number = unrong.reduce((a, b) => Math.abs(a) + Math.abs(b))
   const totalUnrongCount: number = unrong.length
 
-  return (sumScore / totalUnrongCount).toFixed(0)
+  return Number((sumScore / totalUnrongCount).toFixed(0))
 }
