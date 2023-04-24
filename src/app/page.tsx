@@ -328,7 +328,7 @@ export default function Home() {
               <td>{ CulcUnrongAfterLiqiRateBasedOnUnrong(totalUnrongCount, totalUnrongAfterLiqiCount) }％</td>
               <td>{ CulcUnrongAfterChiPengGangRateBasedOnUnrong(totalUnrongCount, totalUnrongAfterChiPengGang)}％</td>
               <td>{ CulcUnrongAfterChiPengGangRateBasedOnMing(totalChiPengGangCount, totalUnrongAfterChiPengGang) }％</td>
-              <td>{ CulcHuleAfterMingRate(totalChiPengGangCount, totalHuleAfterMingCount)}％</td>
+              <td>{ CulcHuleAfterMingRate(totalChiPengGangCount, totalHuleAfterMingCount) }％</td>
             </tr>
           </tbody>
         </table>
