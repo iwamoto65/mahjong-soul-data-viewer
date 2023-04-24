@@ -30,6 +30,7 @@ import { CulcLiqiMultipleWaitingRate } from '@/hooks/useLiqiMultipleWaitingRate'
 import { CulcLiqiGoodShapeRate } from '@/hooks/useLiqiGoodShapeRate'
 import { CulcLidoraRate } from '@/hooks/useLiDoraRate'
 import { CulcZimoSereveParentCoverRate } from '@/hooks/useZimoSereveParentCoverRate'
+import { CulcZimoSereveParentCoverScore } from '@/hooks/useZimoSereveParentCoverScore'
 import db from '../../firebase'
 import { collection, getDocs } from "firebase/firestore"
 
@@ -295,6 +296,16 @@ export default function Home() {
               <td>{ CulcLiqiGoodShapeRate(totalLiqiRemainingTileCount) }％</td>
               <td>{ CulcLidoraRate(totalLiDoraCount) }％</td>
               <td>{ CulcZimoSereveParentCoverRate(totalZimoParentCoverScores) }%</td>
+            </tr>
+          </tbody>
+          <thead>
+            <tr>
+              <th>痛い親被り平均</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{ CulcZimoSereveParentCoverScore(totalZimoParentCoverScores) }</td>
             </tr>
           </tbody>
         </table>
