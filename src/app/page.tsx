@@ -32,6 +32,8 @@ import { CulcLidoraRate } from '@/hooks/useLiDoraRate'
 import { CulcZimoSereveParentCoverRate } from '@/hooks/useZimoSereveParentCoverRate'
 import { CulcZimoSereveParentCoverScore } from '@/hooks/useZimoSereveParentCoverScore'
 import { CulcUnrongAfterChiPengGangRate } from '@/hooks/useUnrongAfterChiPengGangRate'
+import { CulcUnrongAfterLiqiRateBasedOnUnrong } from '@/hooks/useUnrongAfterLiqiRateBasedOnUnrong'
+import { CulcUnrongUnmingRate } from '@/hooks/useUnrongUnmingRate'
 import db from '../../firebase'
 import { collection, getDocs } from "firebase/firestore"
 
@@ -306,6 +308,7 @@ export default function Home() {
           <thead>
             <tr>
               <th>痛い親被り平均</th>
+              <th>放銃時面前率</th>
               <th>放銃時立直率</th>
               <th>放銃時副露率</th>
             </tr>
@@ -313,7 +316,8 @@ export default function Home() {
           <tbody>
             <tr>
               <td>{ CulcZimoSereveParentCoverScore(totalZimoParentCoverScores )}</td>
-              <td>{ }％</td>
+              <td>{ CulcUnrongUnmingRate(totalUnrongCount, totalUnrongAfterLiqiCount, totalUnrongAfterChiPengGang) }％</td>
+              <td>{ CulcUnrongAfterLiqiRateBasedOnUnrong(totalUnrongCount, totalUnrongAfterLiqiCount) }％</td>
               <td>{ CulcUnrongAfterChiPengGangRate(totalUnrongCount, totalUnrongAfterChiPengGang)}％</td>
             </tr>
           </tbody>
