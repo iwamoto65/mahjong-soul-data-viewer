@@ -2,7 +2,7 @@ export const CulcRoundIncomeAndExpenditure = (totalGame: number, totalRound: num
   if (finalPoints.length === 0) {
     return 0
   } else if (finalPoints.length === 1) {
-    return ((finalPoints[0] - 25000) * totalGame / totalRound)
+    return Number(((finalPoints[0] - 25000) * totalGame / totalRound).toFixed(0))
   }
 
   const sumPoints = finalPoints.reduce((a, b) => a + b)
