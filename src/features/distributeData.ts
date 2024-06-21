@@ -23,11 +23,11 @@ import { countLiqiRemainingTile } from './userAction/liqi/liqiRemainingTileCount
 import { countZimoSevereParentCover } from './userAction/zimo/zimoParentCoverCounter';
 import { countUnrongAfterChiPengGang } from './userAction/unrong/unrongAfterChiPengGangCounter';
 import { countNoTileAfterChiPengGang } from './userAction/noTile/noTileAfterChiPengGangCounter';
-import { sendGameResult } from './sendGameResult'
+import { storeScoreTrend } from './userResult/scoreTrendStorer';
 import type { PlayerResult } from './distributeDataType';
 import type { UserActions } from './userAction/userActionType'
 
-export const distributeData = (data: string) => {
+export const distributeData = (data: string): PlayerResult => {
   const paifu = JSON.parse(data)
   const userActions: [] = paifu.data.data.actions
   const userAccounts: [] = paifu.head.accounts
@@ -165,8 +165,9 @@ export const distributeData = (data: string) => {
   playerResult.liqi.remainingTileCount = countLiqiRemainingTile(playerResult.seat, recordDiscardTile, recordChiPengGang, recordAnGangAddGang, recordNewRound, recordDealTile, unrongTimes, rounds)
   playerResult.zimo.parentCoverScores = countZimoSevereParentCover(playerResult.seat, recordHule, rounds)
   playerResult.noTile.afterChiPengGang = countNoTileAfterChiPengGang(playerResult.seat, recordChiPengGang, recordNoTile, rounds)
+  storeScoreTrend(userAccounts, userResults, recordNewRound)
 
-  return sendGameResult(playerResult)
+  return playerResult
 }
 
 const divideByRound = (userActions: [], recordNewRound: any[]) => {

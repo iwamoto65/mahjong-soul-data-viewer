@@ -1,229 +1,229 @@
-'use client'
-import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { distributeData } from '@/features/distributeData'
-import { CulcHuleRate } from '../hooks/useHuleRate'
-import { CulcUnrongRate } from '@/hooks/useUnrongRate'
-import { CulcZimoRate } from '@/hooks/useZimoRate'
-import { CulcUnliqiUnmingHuleRate } from '@/hooks/useUnliqiUnmingHuleRate'
-import { CulcNoTileRate } from '@/hooks/useNoTileRate'
-import { CulcNoTileTingpaiRate } from '@/hooks/useNoTileTingpaiRate'
-import { CulcChiPengGangRate } from '@/hooks/useChiPengGangRate'
-import { CulcLiqiRate } from '@/hooks/useLiqiRate'
-import { CulcAverageDadianScore } from '@/hooks/useAverageDadianScore'
-import { CulcAverageUnrongScore } from '@/hooks/useAverageUnrongScore'
-import { CulcAveragePlace } from '@/hooks/useAveragePlace'
-import { CulcLiqiSuccessRate } from '@/hooks/useLiqiSuccessRate'
-import { CulcUnrongIncludeOnLiqiRate } from '@/hooks/useUnrongIncludeOnLiqiRate'
-import { CulcUnrongAfterLiqiRateBasedOnLiqi } from '@/hooks/useUnrongAfterLiqiRateBasedOnLiqi'
-import { CulcLiqiIncome } from '@/hooks/useLiqiIncome'
-import { CulcLiqiExpenditure } from '@/hooks/useLiqiExpenditure'
-import { CulcLiqiIncomeAndExpenditure } from '@/hooks/useLiqiIncomeAndExpenditure'
-import { CulcLiqiPreemptionRate } from '@/hooks/useLiqiPreemptionRate'
-import { CulcLiqiChasingRate } from '@/hooks/useLiqiChasingRate'
-import { CulcLiqiChasedRate } from '@/hooks/useLiqiChasedRate'
-import { CulcAverageLiqiTurn } from '@/hooks/useAverageLiqiTurn'
-import { CulcLiqiNoTileRate } from '@/hooks/useLiqiNoTileRate'
-import { CulcLiqiFirstTurnHuleRate } from '@/hooks/useLiqiFirstTurnHuleRate'
-import { CulcLiqiZhentingRate } from '@/hooks/useLiqiZhentingRate'
-import { CulcLiqiMultipleWaitingRate } from '@/hooks/useLiqiMultipleWaitingRate'
-import { CulcLiqiGoodShapeRate } from '@/hooks/useLiqiGoodShapeRate'
-import { CulcLidoraRate } from '@/hooks/useLiDoraRate'
-import { CulcZimoSereveParentCoverRate } from '@/hooks/useZimoSereveParentCoverRate'
-import { CulcZimoSereveParentCoverScore } from '@/hooks/useZimoSereveParentCoverScore'
-import { CulcUnrongAfterChiPengGangRateBasedOnUnrong } from '@/hooks/useUnrongAfterChiPengGangRateBasedOnUnrong'
-import { CulcUnrongAfterLiqiRateBasedOnUnrong } from '@/hooks/useUnrongAfterLiqiRateBasedOnUnrong'
-import { CulcUnrongUnmingRate } from '@/hooks/useUnrongUnmingRate'
-import { CulcUnrongAfterChiPengGangRateBasedOnMing } from '@/hooks/useUnrongAfterChiPengGangRateBasedOnMing'
-import { CulcHuleAfterMingRate } from '@/hooks/useHuleAfterMingRate'
-import { CulcNoTileAfterChiPengGangRate } from '@/hooks/useNoTileAfterChiPengGangRate'
-import { CulcAttackBalanceIndex } from '@/hooks/useAttackBalanceIndex'
-import { CulcDefenseBalanceIndex } from '@/hooks/useDefenseBalanceIndex'
-import { CulcAttackAndDefenseBalanceIndex } from '@/hooks/useAttackAndDefenseBalanceIndex'
-import { CulcRoundIncomeAndExpenditure } from '@/hooks/useRoundIncomeAndExpenditure'
-import db from '../../firebase'
-import { collection, getDocs } from "firebase/firestore"
+"use client";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { distributeData } from "@/features/distributeData";
+import { CulcHuleRate } from "../hooks/useHuleRate";
+import { CulcUnrongRate } from "@/hooks/useUnrongRate";
+import { CulcZimoRate } from "@/hooks/useZimoRate";
+import { CulcUnliqiUnmingHuleRate } from "@/hooks/useUnliqiUnmingHuleRate";
+import { CulcNoTileRate } from "@/hooks/useNoTileRate";
+import { CulcNoTileTingpaiRate } from "@/hooks/useNoTileTingpaiRate";
+import { CulcChiPengGangRate } from "@/hooks/useChiPengGangRate";
+import { CulcLiqiRate } from "@/hooks/useLiqiRate";
+import { CulcAverageDadianScore } from "@/hooks/useAverageDadianScore";
+import { CulcAverageUnrongScore } from "@/hooks/useAverageUnrongScore";
+import { CulcAveragePlace } from "@/hooks/useAveragePlace";
+import { CulcLiqiSuccessRate } from "@/hooks/useLiqiSuccessRate";
+import { CulcUnrongIncludeOnLiqiRate } from "@/hooks/useUnrongIncludeOnLiqiRate";
+import { CulcUnrongAfterLiqiRateBasedOnLiqi } from "@/hooks/useUnrongAfterLiqiRateBasedOnLiqi";
+import { CulcLiqiIncome } from "@/hooks/useLiqiIncome";
+import { CulcLiqiExpenditure } from "@/hooks/useLiqiExpenditure";
+import { CulcLiqiIncomeAndExpenditure } from "@/hooks/useLiqiIncomeAndExpenditure";
+import { CulcLiqiPreemptionRate } from "@/hooks/useLiqiPreemptionRate";
+import { CulcLiqiChasingRate } from "@/hooks/useLiqiChasingRate";
+import { CulcLiqiChasedRate } from "@/hooks/useLiqiChasedRate";
+import { CulcAverageLiqiTurn } from "@/hooks/useAverageLiqiTurn";
+import { CulcLiqiNoTileRate } from "@/hooks/useLiqiNoTileRate";
+import { CulcLiqiFirstTurnHuleRate } from "@/hooks/useLiqiFirstTurnHuleRate";
+import { CulcLiqiZhentingRate } from "@/hooks/useLiqiZhentingRate";
+import { CulcLiqiMultipleWaitingRate } from "@/hooks/useLiqiMultipleWaitingRate";
+import { CulcLiqiGoodShapeRate } from "@/hooks/useLiqiGoodShapeRate";
+import { CulcLidoraRate } from "@/hooks/useLiDoraRate";
+import { CulcZimoSereveParentCoverRate } from "@/hooks/useZimoSereveParentCoverRate";
+import { CulcZimoSereveParentCoverScore } from "@/hooks/useZimoSereveParentCoverScore";
+import { CulcUnrongAfterChiPengGangRateBasedOnUnrong } from "@/hooks/useUnrongAfterChiPengGangRateBasedOnUnrong";
+import { CulcUnrongAfterLiqiRateBasedOnUnrong } from "@/hooks/useUnrongAfterLiqiRateBasedOnUnrong";
+import { CulcUnrongUnmingRate } from "@/hooks/useUnrongUnmingRate";
+import { CulcUnrongAfterChiPengGangRateBasedOnMing } from "@/hooks/useUnrongAfterChiPengGangRateBasedOnMing";
+import { CulcHuleAfterMingRate } from "@/hooks/useHuleAfterMingRate";
+import { CulcNoTileAfterChiPengGangRate } from "@/hooks/useNoTileAfterChiPengGangRate";
+import { CulcAttackBalanceIndex } from "@/hooks/useAttackBalanceIndex";
+import { CulcDefenseBalanceIndex } from "@/hooks/useDefenseBalanceIndex";
+import { CulcAttackAndDefenseBalanceIndex } from "@/hooks/useAttackAndDefenseBalanceIndex";
+import { CulcRoundIncomeAndExpenditure } from "@/hooks/useRoundIncomeAndExpenditure";
+import db from "../../firebase";
+import { collection, getDocs } from "firebase/firestore";
 
 export default function Home() {
-  const { register, handleSubmit } = useForm()
+  const { register, handleSubmit } = useForm();
 
   const onSubmit = (file: any) => {
     if (file.paifu.length !== 0) {
-      const reader = new FileReader()
-      reader.readAsText(file.paifu[0])
+      const reader = new FileReader();
+      reader.readAsText(file.paifu[0]);
       reader.onload = () => {
-        if (typeof reader.result == 'string') {
-          distributeData(reader.result)
-            // .then(res => {
-            //   if (res.status === 'ok') {
-            //     // alert('アップロードが完了しました。')
-            //     // window.location.reload()
-            //   }
-            // })
+        if (typeof reader.result == "string") {
+          distributeData(reader.result);
+          // .then(res => {
+          //   if (res.status === 'ok') {
+          //     // alert('アップロードが完了しました。')
+          //     // window.location.reload()
+          //   }
+          // })
         } else {
-          reader.abort()
+          reader.abort();
         }
-      }
+      };
     } else {
-      alert('ファイルを選択してください')
+      alert("ファイルを選択してください");
     }
-  }
+  };
 
-  const [gameCount, setGameCount] = useState<number>(0)
-  const [totalRoundCount, setTotalRoundCount] = useState<number>(0)
-  const [totalHuleCount, setTotalHuleCount] = useState<number>(0)
-  const [totalUnrongCount, setTotalUnrongCount] = useState<number>(0)
-  const [totalUnrongScore, setTotalUnrongScore] = useState<number[]>([])
-  const [totalZimoCount, setTotalZimoCount] = useState<number>(0)
-  const [totalUnliqiCount, setTotalUnliqiCount] = useState<number>(0)
-  const [totalNoTileCount, setTotalNoTileCount] = useState<number>(0)
-  const [totalNoTileTingpaiCount, setTotalNoTileTingpaiCount] = useState<number>(0)
-  const [totalChiPengGangCount, setTotalChiPengGangCount] = useState<number>(0)
-  const [totalLiqiCount, setTotalLiqiCount] = useState<number>(0)
-  const [totalLiqiPreemptionCount, setTotalLiqiPreemptionCount] = useState<number>(0)
-  const [totalLiqiChasedCount, setTotalLiqiChasedCount] = useState<number>(0)
-  const [totalDadian, setTotalDadian] = useState<number[]>([])
-  const [totalPlace, setTotalPlace] = useState<number[]>([])
-  const [totalHuleOutOfLiqiCount, setTotalHuleOutOfLiqiCount] = useState<number>(0)
-  const [totalLiqiIncome, setTotalLiqiIncome] = useState<number[]>([])
-  const [totalLiqiExpenditure, setTotalLiqiExpenditure] = useState<number[]>([])
-  const [totalUnrongAlongWithLiqiCount, setTotalUnrongAlongWithLiqiCount] = useState<number>(0)
-  const [totalUnrongAfterLiqiCount, setTotalUnrongAfterLiqiCount] = useState<number>(0)
-  const [totalUnrongAfterChiPengGang, setTotalUnrongAfterChiPengGang] = useState<number>(0)
-  const [totalLiqiTurn, setTotalLiqiTurn] = useState<number[]>([])
-  const [totalLiqiNoTileCount, setTotalLiqiNoTileCount] = useState<number>(0)
-  const [totalLiqiFirstTurnHuleCount, setTotalLiqiFirstTurnHuleCount] = useState<number>(0)
-  const [totalLiqiZhentingCount, setTotalLiqiZhentingCount] = useState<number>(0)
-  const [totalLiqiWaitingTiles, setTotalLiqiWaitingTiles] = useState<number[]>([])
-  const [totalLiqiRemainingTileCount, setTotalLiqiRemainingTileCount] = useState<number[]>([])
-  const [totalLiDoraCount, setTotalLiDoraCount] = useState<number[]>([])
-  const [totalZimoParentCoverScores, setTotalZimoParentCoverScores] = useState<number[]>([])
-  const [totalHuleAfterMingCount, setTotalHuleAfterMingCount] = useState<number>(0)
-  const [totalNoTileAfterChiPengGangCount, setTotalNoTileAfterChiPengGangCount] = useState<number>(0)
-  const [totalFinalPoints, setTotalFinalPoints] = useState<number[]>([])
+  const [gameCount, setGameCount] = useState<number>(0);
+  const [totalRoundCount, setTotalRoundCount] = useState<number>(0);
+  const [totalHuleCount, setTotalHuleCount] = useState<number>(0);
+  const [totalUnrongCount, setTotalUnrongCount] = useState<number>(0);
+  const [totalUnrongScore, setTotalUnrongScore] = useState<number[]>([]);
+  const [totalZimoCount, setTotalZimoCount] = useState<number>(0);
+  const [totalUnliqiCount, setTotalUnliqiCount] = useState<number>(0);
+  const [totalNoTileCount, setTotalNoTileCount] = useState<number>(0);
+  const [totalNoTileTingpaiCount, setTotalNoTileTingpaiCount] = useState<number>(0);
+  const [totalChiPengGangCount, setTotalChiPengGangCount] = useState<number>(0);
+  const [totalLiqiCount, setTotalLiqiCount] = useState<number>(0);
+  const [totalLiqiPreemptionCount, setTotalLiqiPreemptionCount] = useState<number>(0);
+  const [totalLiqiChasedCount, setTotalLiqiChasedCount] = useState<number>(0);
+  const [totalDadian, setTotalDadian] = useState<number[]>([]);
+  const [totalPlace, setTotalPlace] = useState<number[]>([]);
+  const [totalHuleOutOfLiqiCount, setTotalHuleOutOfLiqiCount] = useState<number>(0);
+  const [totalLiqiIncome, setTotalLiqiIncome] = useState<number[]>([]);
+  const [totalLiqiExpenditure, setTotalLiqiExpenditure] = useState<number[]>([]);
+  const [totalUnrongAlongWithLiqiCount, setTotalUnrongAlongWithLiqiCount] = useState<number>(0);
+  const [totalUnrongAfterLiqiCount, setTotalUnrongAfterLiqiCount] = useState<number>(0);
+  const [totalUnrongAfterChiPengGang, setTotalUnrongAfterChiPengGang] = useState<number>(0);
+  const [totalLiqiTurn, setTotalLiqiTurn] = useState<number[]>([]);
+  const [totalLiqiNoTileCount, setTotalLiqiNoTileCount] = useState<number>(0);
+  const [totalLiqiFirstTurnHuleCount, setTotalLiqiFirstTurnHuleCount] = useState<number>(0);
+  const [totalLiqiZhentingCount, setTotalLiqiZhentingCount] = useState<number>(0);
+  const [totalLiqiWaitingTiles, setTotalLiqiWaitingTiles] = useState<number[]>([]);
+  const [totalLiqiRemainingTileCount, setTotalLiqiRemainingTileCount] = useState<number[]>([]);
+  const [totalLiDoraCount, setTotalLiDoraCount] = useState<number[]>([]);
+  const [totalZimoParentCoverScores, setTotalZimoParentCoverScores] = useState<number[]>([]);
+  const [totalHuleAfterMingCount, setTotalHuleAfterMingCount] = useState<number>(0);
+  const [totalNoTileAfterChiPengGangCount, setTotalNoTileAfterChiPengGangCount] = useState<number>(0);
+  const [totalFinalPoints, setTotalFinalPoints] = useState<number[]>([]);
 
   useEffect(() => {
     const firestore = async () => {
-      const querySnapshot = await getDocs(collection(db, "paifu"))
-      let numberOfGame: number = 0
-      let roundCount: number = 0
-      let huleCount: number = 0
-      let unrongCount: number = 0
-      let unrongScores: number[] = []
-      let zimoCount: number = 0
-      let unliqiCount: number = 0
-      let noTileCount: number = 0
-      let noTileTingpaiCount: number = 0
-      let chiPengGangCount: number = 0
-      let liqiCount: number = 0
-      let liqiPreemptionCount: number = 0
-      let liqiChasedCount: number = 0
-      let dadianScores: number[] = []
-      let places: number[] = []
-      let huleOutOfLiqiCount: number = 0
-      let liqiIncomes: number[] = []
-      let liqiExpenditures: number[] = []
-      let unrongAlongWithLiqiCount: number = 0
-      let unrongAfterLiqiCount: number = 0
-      let unrongAfterChiPengGang: number = 0
-      let liqiTurns: number[] = []
-      let liqiNoTileCount: number = 0
-      let liqiFirstTurnHuleCount: number = 0
-      let liqiZhentingCount: number = 0
-      let liqiWaitingTileCount: number[] = []
-      let liqiRemainingTileCount: number[] = []
-      let liDoraCount: number[] = []
-      let zimoParentCoverScores: number[] = []
-      let huleAfterMingCount: number = 0
-      let noTileAfterChiPengGangCount: number = 0
-      let finalPoints: number[] = []
+      const querySnapshot = await getDocs(collection(db, "paifu"));
+      let numberOfGame: number = 0;
+      let roundCount: number = 0;
+      let huleCount: number = 0;
+      let unrongCount: number = 0;
+      let unrongScores: number[] = [];
+      let zimoCount: number = 0;
+      let unliqiCount: number = 0;
+      let noTileCount: number = 0;
+      let noTileTingpaiCount: number = 0;
+      let chiPengGangCount: number = 0;
+      let liqiCount: number = 0;
+      let liqiPreemptionCount: number = 0;
+      let liqiChasedCount: number = 0;
+      let dadianScores: number[] = [];
+      let places: number[] = [];
+      let huleOutOfLiqiCount: number = 0;
+      let liqiIncomes: number[] = [];
+      let liqiExpenditures: number[] = [];
+      let unrongAlongWithLiqiCount: number = 0;
+      let unrongAfterLiqiCount: number = 0;
+      let unrongAfterChiPengGang: number = 0;
+      let liqiTurns: number[] = [];
+      let liqiNoTileCount: number = 0;
+      let liqiFirstTurnHuleCount: number = 0;
+      let liqiZhentingCount: number = 0;
+      let liqiWaitingTileCount: number[] = [];
+      let liqiRemainingTileCount: number[] = [];
+      let liDoraCount: number[] = [];
+      let zimoParentCoverScores: number[] = [];
+      let huleAfterMingCount: number = 0;
+      let noTileAfterChiPengGangCount: number = 0;
+      let finalPoints: number[] = [];
 
       querySnapshot.forEach((doc: any) => {
-        let data = doc.data()
-        numberOfGame++
-        roundCount += data.totalRound
-        huleCount += data.hule.length
-        unrongCount += data.unrong.total
-        unrongScores.push(...data.unrong.scores)
+        let data = doc.data();
+        numberOfGame++;
+        roundCount += data.totalRound;
+        huleCount += data.hule.length;
+        unrongCount += data.unrong.total;
+        unrongScores.push(...data.unrong.scores);
         data.hule.forEach((hule: any) => {
-          dadianScores.push(hule.dadian)
-          if (hule.zimo) zimoCount++
-          if (!hule.liqi && hule.ming.length === 0) unliqiCount++
+          dadianScores.push(hule.dadian);
+          if (hule.zimo) zimoCount++;
+          if (!hule.liqi && hule.ming.length === 0) unliqiCount++;
           if (hule.liqi) {
-            huleOutOfLiqiCount++
-            liqiIncomes.push(hule.deltaScore)
-            liDoraCount.push(hule.liDora)
+            huleOutOfLiqiCount++;
+            liqiIncomes.push(hule.deltaScore);
+            liDoraCount.push(hule.liDora);
           }
-          if (hule.ming.length > 0) huleAfterMingCount++
-        })
-        noTileCount += data.noTile.total
-        noTileTingpaiCount += data.noTile.tingpai
-        chiPengGangCount += data.chiPengGang
-        liqiCount += data.liqi.total
-        liqiPreemptionCount += data.liqi.preemption
-        liqiChasedCount += data.liqi.chased
-        places.push(data.gameRecord.place)
-        unrongAlongWithLiqiCount += data.unrong.alongWithLiqi.count
-        unrongAfterLiqiCount += data.unrong.afterLiqi.count
-        unrongAfterChiPengGang += data.unrong.afterChiPengGang.count
-        liqiExpenditures.push(...data.unrong.afterLiqi.scores)
-        liqiTurns.push(...data.liqi.turns)
-        liqiNoTileCount += data.liqi.noTile
-        liqiFirstTurnHuleCount += data.liqi.firstTurnHule
-        liqiZhentingCount += data.liqi.zhenting
-        liqiWaitingTileCount.push(...data.liqi.waitingTileCount)
-        liqiRemainingTileCount.push(...data.liqi.remainingTileCount)
-        zimoParentCoverScores.push(...data.zimo.parentCoverScores)
-        noTileAfterChiPengGangCount += data.noTile.afterChiPengGang
-        finalPoints.push(data.gameRecord.finalPoint)
-      })
+          if (hule.ming.length > 0) huleAfterMingCount++;
+        });
+        noTileCount += data.noTile.total;
+        noTileTingpaiCount += data.noTile.tingpai;
+        chiPengGangCount += data.chiPengGang;
+        liqiCount += data.liqi.total;
+        liqiPreemptionCount += data.liqi.preemption;
+        liqiChasedCount += data.liqi.chased;
+        places.push(data.gameRecord.place);
+        unrongAlongWithLiqiCount += data.unrong.alongWithLiqi.count;
+        unrongAfterLiqiCount += data.unrong.afterLiqi.count;
+        unrongAfterChiPengGang += data.unrong.afterChiPengGang.count;
+        liqiExpenditures.push(...data.unrong.afterLiqi.scores);
+        liqiTurns.push(...data.liqi.turns);
+        liqiNoTileCount += data.liqi.noTile;
+        liqiFirstTurnHuleCount += data.liqi.firstTurnHule;
+        liqiZhentingCount += data.liqi.zhenting;
+        liqiWaitingTileCount.push(...data.liqi.waitingTileCount);
+        liqiRemainingTileCount.push(...data.liqi.remainingTileCount);
+        zimoParentCoverScores.push(...data.zimo.parentCoverScores);
+        noTileAfterChiPengGangCount += data.noTile.afterChiPengGang;
+        finalPoints.push(data.gameRecord.finalPoint);
+      });
 
-      setGameCount(numberOfGame)
-      setTotalRoundCount(roundCount)
-      setTotalHuleCount(huleCount)
-      setTotalUnrongCount(unrongCount)
-      setTotalUnrongScore(unrongScores)
-      setTotalZimoCount(zimoCount)
-      setTotalUnliqiCount(unliqiCount)
-      setTotalNoTileCount(noTileCount)
-      setTotalNoTileTingpaiCount(noTileTingpaiCount)
-      setTotalChiPengGangCount(chiPengGangCount)
-      setTotalLiqiCount(liqiCount)
-      setTotalLiqiPreemptionCount(liqiPreemptionCount)
-      setTotalLiqiChasedCount(liqiChasedCount)
-      setTotalDadian(dadianScores)
-      setTotalPlace(places)
-      setTotalHuleOutOfLiqiCount(huleOutOfLiqiCount)
-      setTotalLiqiIncome(liqiIncomes)
-      setTotalLiqiExpenditure(liqiExpenditures)
-      setTotalUnrongAlongWithLiqiCount(unrongAlongWithLiqiCount)
-      setTotalUnrongAfterLiqiCount(unrongAfterLiqiCount)
-      setTotalUnrongAfterChiPengGang(unrongAfterChiPengGang)
-      setTotalLiqiTurn(liqiTurns)
-      setTotalLiqiNoTileCount(liqiNoTileCount)
-      setTotalLiqiFirstTurnHuleCount(liqiFirstTurnHuleCount)
-      setTotalLiqiZhentingCount(liqiZhentingCount)
-      setTotalLiqiWaitingTiles(liqiWaitingTileCount)
-      setTotalLiqiRemainingTileCount(liqiRemainingTileCount)
-      setTotalLiDoraCount(liDoraCount)
-      setTotalZimoParentCoverScores(zimoParentCoverScores)
-      setTotalHuleAfterMingCount(huleAfterMingCount)
-      setTotalNoTileAfterChiPengGangCount(noTileAfterChiPengGangCount)
-      setTotalFinalPoints(finalPoints)
-    }
+      setGameCount(numberOfGame);
+      setTotalRoundCount(roundCount);
+      setTotalHuleCount(huleCount);
+      setTotalUnrongCount(unrongCount);
+      setTotalUnrongScore(unrongScores);
+      setTotalZimoCount(zimoCount);
+      setTotalUnliqiCount(unliqiCount);
+      setTotalNoTileCount(noTileCount);
+      setTotalNoTileTingpaiCount(noTileTingpaiCount);
+      setTotalChiPengGangCount(chiPengGangCount);
+      setTotalLiqiCount(liqiCount);
+      setTotalLiqiPreemptionCount(liqiPreemptionCount);
+      setTotalLiqiChasedCount(liqiChasedCount);
+      setTotalDadian(dadianScores);
+      setTotalPlace(places);
+      setTotalHuleOutOfLiqiCount(huleOutOfLiqiCount);
+      setTotalLiqiIncome(liqiIncomes);
+      setTotalLiqiExpenditure(liqiExpenditures);
+      setTotalUnrongAlongWithLiqiCount(unrongAlongWithLiqiCount);
+      setTotalUnrongAfterLiqiCount(unrongAfterLiqiCount);
+      setTotalUnrongAfterChiPengGang(unrongAfterChiPengGang);
+      setTotalLiqiTurn(liqiTurns);
+      setTotalLiqiNoTileCount(liqiNoTileCount);
+      setTotalLiqiFirstTurnHuleCount(liqiFirstTurnHuleCount);
+      setTotalLiqiZhentingCount(liqiZhentingCount);
+      setTotalLiqiWaitingTiles(liqiWaitingTileCount);
+      setTotalLiqiRemainingTileCount(liqiRemainingTileCount);
+      setTotalLiDoraCount(liDoraCount);
+      setTotalZimoParentCoverScores(zimoParentCoverScores);
+      setTotalHuleAfterMingCount(huleAfterMingCount);
+      setTotalNoTileAfterChiPengGangCount(noTileAfterChiPengGangCount);
+      setTotalFinalPoints(finalPoints);
+    };
 
-    firestore()
-  }, [])
+    firestore();
+  }, []);
 
   return (
     <>
-      <main style={{ textAlign: 'center', margin: '50px 0' }}>
+      <main style={{ textAlign: "center", margin: "50px 0" }}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <input type='file' accept='text/plain' {...register('paifu')} />
+          <input type="file" accept="text/plain" {...register("paifu")} />
           <br />
-          <input type='submit' />
+          <input type="submit" />
         </form>
-        <table border={1} style={{ marginTop: '30px', width: '100%' }}>
+        <table border={1} style={{ marginTop: "30px", width: "100%" }}>
           <thead>
             <tr>
               <th>対戦数</th>
@@ -236,12 +236,12 @@ export default function Home() {
           </thead>
           <tbody>
             <tr>
-              <td>{ gameCount }</td>
-              <td>{ totalRoundCount }</td>
-              <td>{ CulcHuleRate(totalRoundCount, totalHuleCount) }％</td>
-              <td>{ CulcUnrongRate(totalRoundCount, totalUnrongCount) }%</td>
-              <td>{ CulcZimoRate(totalHuleCount, totalZimoCount) }％</td>
-              <td>{ CulcUnliqiUnmingHuleRate(totalHuleCount, totalUnliqiCount) }％</td>
+              <td>{gameCount}</td>
+              <td>{totalRoundCount}</td>
+              <td>{CulcHuleRate(totalRoundCount, totalHuleCount)}％</td>
+              <td>{CulcUnrongRate(totalRoundCount, totalUnrongCount)}%</td>
+              <td>{CulcZimoRate(totalHuleCount, totalZimoCount)}％</td>
+              <td>{CulcUnliqiUnmingHuleRate(totalHuleCount, totalUnliqiCount)}％</td>
             </tr>
           </tbody>
           <thead>
@@ -256,12 +256,12 @@ export default function Home() {
           </thead>
           <tbody>
             <tr>
-              <td>{ CulcNoTileRate(totalRoundCount, totalNoTileCount) }％</td>
-              <td>{ CulcNoTileTingpaiRate(totalNoTileCount, totalNoTileTingpaiCount) }％</td>
-              <td>{ CulcChiPengGangRate(totalRoundCount, totalChiPengGangCount) }％</td>
-              <td>{ CulcLiqiRate(totalRoundCount, totalLiqiCount) }％</td>
-              <td>{ CulcAverageDadianScore(totalDadian) }</td>
-              <td>{ CulcAverageUnrongScore(totalUnrongScore) }</td>
+              <td>{CulcNoTileRate(totalRoundCount, totalNoTileCount)}％</td>
+              <td>{CulcNoTileTingpaiRate(totalNoTileCount, totalNoTileTingpaiCount)}％</td>
+              <td>{CulcChiPengGangRate(totalRoundCount, totalChiPengGangCount)}％</td>
+              <td>{CulcLiqiRate(totalRoundCount, totalLiqiCount)}％</td>
+              <td>{CulcAverageDadianScore(totalDadian)}</td>
+              <td>{CulcAverageUnrongScore(totalUnrongScore)}</td>
             </tr>
           </tbody>
           <thead>
@@ -276,12 +276,12 @@ export default function Home() {
           </thead>
           <tbody>
             <tr>
-              <td>{ CulcAveragePlace(totalPlace) }</td>
-              <td>{ CulcLiqiSuccessRate(totalHuleOutOfLiqiCount, totalLiqiCount) }％</td>
-              <td>{ CulcUnrongIncludeOnLiqiRate(totalLiqiCount, totalUnrongAlongWithLiqiCount, totalUnrongAfterLiqiCount) }％</td>
-              <td>{ CulcUnrongAfterLiqiRateBasedOnLiqi(totalLiqiCount, totalUnrongAfterLiqiCount) }％</td>
-              <td>{ CulcLiqiIncome(totalLiqiIncome) }</td>
-              <td>{ CulcLiqiExpenditure(totalLiqiExpenditure) }</td>
+              <td>{CulcAveragePlace(totalPlace)}</td>
+              <td>{CulcLiqiSuccessRate(totalHuleOutOfLiqiCount, totalLiqiCount)}％</td>
+              <td>{CulcUnrongIncludeOnLiqiRate(totalLiqiCount, totalUnrongAlongWithLiqiCount, totalUnrongAfterLiqiCount)}％</td>
+              <td>{CulcUnrongAfterLiqiRateBasedOnLiqi(totalLiqiCount, totalUnrongAfterLiqiCount)}％</td>
+              <td>{CulcLiqiIncome(totalLiqiIncome)}</td>
+              <td>{CulcLiqiExpenditure(totalLiqiExpenditure)}</td>
             </tr>
           </tbody>
           <thead>
@@ -296,12 +296,12 @@ export default function Home() {
           </thead>
           <tbody>
             <tr>
-              <td>{ CulcLiqiIncomeAndExpenditure(totalLiqiCount, totalLiqiIncome, totalLiqiExpenditure) }</td>
-              <td>{ CulcLiqiPreemptionRate(totalLiqiCount, totalLiqiPreemptionCount) }％</td>
-              <td>{ CulcLiqiChasingRate(totalLiqiCount, totalLiqiPreemptionCount) }％</td>
-              <td>{ CulcLiqiChasedRate(totalLiqiCount, totalLiqiChasedCount) }％</td>
-              <td>{ CulcAverageLiqiTurn(totalLiqiTurn) }</td>
-              <td>{ CulcLiqiNoTileRate(totalLiqiCount, totalLiqiNoTileCount)}％</td>
+              <td>{CulcLiqiIncomeAndExpenditure(totalLiqiCount, totalLiqiIncome, totalLiqiExpenditure)}</td>
+              <td>{CulcLiqiPreemptionRate(totalLiqiCount, totalLiqiPreemptionCount)}％</td>
+              <td>{CulcLiqiChasingRate(totalLiqiCount, totalLiqiPreemptionCount)}％</td>
+              <td>{CulcLiqiChasedRate(totalLiqiCount, totalLiqiChasedCount)}％</td>
+              <td>{CulcAverageLiqiTurn(totalLiqiTurn)}</td>
+              <td>{CulcLiqiNoTileRate(totalLiqiCount, totalLiqiNoTileCount)}％</td>
             </tr>
           </tbody>
           <thead>
@@ -316,12 +316,12 @@ export default function Home() {
           </thead>
           <tbody>
             <tr>
-              <td>{ CulcLiqiFirstTurnHuleRate(totalLiqiCount, totalLiqiFirstTurnHuleCount) }％</td>
-              <td>{ CulcLiqiZhentingRate(totalLiqiCount, totalLiqiZhentingCount) }％</td>
-              <td>{ CulcLiqiMultipleWaitingRate(totalLiqiCount, totalLiqiWaitingTiles) }％</td>
-              <td>{ CulcLiqiGoodShapeRate(totalLiqiRemainingTileCount) }％</td>
-              <td>{ CulcLidoraRate(totalLiDoraCount) }％</td>
-              <td>{ CulcZimoSereveParentCoverRate(totalZimoParentCoverScores) }%</td>
+              <td>{CulcLiqiFirstTurnHuleRate(totalLiqiCount, totalLiqiFirstTurnHuleCount)}％</td>
+              <td>{CulcLiqiZhentingRate(totalLiqiCount, totalLiqiZhentingCount)}％</td>
+              <td>{CulcLiqiMultipleWaitingRate(totalLiqiCount, totalLiqiWaitingTiles)}％</td>
+              <td>{CulcLiqiGoodShapeRate(totalLiqiRemainingTileCount)}％</td>
+              <td>{CulcLidoraRate(totalLiDoraCount)}％</td>
+              <td>{CulcZimoSereveParentCoverRate(totalZimoParentCoverScores)}%</td>
             </tr>
           </tbody>
           <thead>
@@ -336,12 +336,12 @@ export default function Home() {
           </thead>
           <tbody>
             <tr>
-              <td>{ CulcZimoSereveParentCoverScore(totalZimoParentCoverScores )}</td>
-              <td>{ CulcUnrongUnmingRate(totalUnrongCount, totalUnrongAfterLiqiCount, totalUnrongAfterChiPengGang) }％</td>
-              <td>{ CulcUnrongAfterLiqiRateBasedOnUnrong(totalUnrongCount, totalUnrongAfterLiqiCount) }％</td>
-              <td>{ CulcUnrongAfterChiPengGangRateBasedOnUnrong(totalUnrongCount, totalUnrongAfterChiPengGang)}％</td>
-              <td>{ CulcUnrongAfterChiPengGangRateBasedOnMing(totalChiPengGangCount, totalUnrongAfterChiPengGang) }％</td>
-              <td>{ CulcHuleAfterMingRate(totalChiPengGangCount, totalHuleAfterMingCount) }％</td>
+              <td>{CulcZimoSereveParentCoverScore(totalZimoParentCoverScores)}</td>
+              <td>{CulcUnrongUnmingRate(totalUnrongCount, totalUnrongAfterLiqiCount, totalUnrongAfterChiPengGang)}％</td>
+              <td>{CulcUnrongAfterLiqiRateBasedOnUnrong(totalUnrongCount, totalUnrongAfterLiqiCount)}％</td>
+              <td>{CulcUnrongAfterChiPengGangRateBasedOnUnrong(totalUnrongCount, totalUnrongAfterChiPengGang)}％</td>
+              <td>{CulcUnrongAfterChiPengGangRateBasedOnMing(totalChiPengGangCount, totalUnrongAfterChiPengGang)}％</td>
+              <td>{CulcHuleAfterMingRate(totalChiPengGangCount, totalHuleAfterMingCount)}％</td>
             </tr>
           </tbody>
           <thead>
@@ -355,15 +355,15 @@ export default function Home() {
           </thead>
           <tbody>
             <tr>
-              <td>{ CulcNoTileAfterChiPengGangRate(totalChiPengGangCount, totalNoTileAfterChiPengGangCount) }％</td>
-              <td>{ CulcAttackBalanceIndex(totalRoundCount, totalHuleCount, totalDadian)}</td>
-              <td>{ CulcDefenseBalanceIndex(totalRoundCount, totalUnrongCount, totalUnrongScore) }</td>
-              <td>{ CulcAttackAndDefenseBalanceIndex(totalRoundCount, totalHuleCount, totalDadian, totalUnrongCount, totalUnrongScore) }</td>
-              <td>{ CulcRoundIncomeAndExpenditure(gameCount, totalRoundCount, totalFinalPoints) }</td>
+              <td>{CulcNoTileAfterChiPengGangRate(totalChiPengGangCount, totalNoTileAfterChiPengGangCount)}％</td>
+              <td>{CulcAttackBalanceIndex(totalRoundCount, totalHuleCount, totalDadian)}</td>
+              <td>{CulcDefenseBalanceIndex(totalRoundCount, totalUnrongCount, totalUnrongScore)}</td>
+              <td>{CulcAttackAndDefenseBalanceIndex(totalRoundCount, totalHuleCount, totalDadian, totalUnrongCount, totalUnrongScore)}</td>
+              <td>{CulcRoundIncomeAndExpenditure(gameCount, totalRoundCount, totalFinalPoints)}</td>
             </tr>
           </tbody>
         </table>
       </main>
     </>
-  )
+  );
 }
