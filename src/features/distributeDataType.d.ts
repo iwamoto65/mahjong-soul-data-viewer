@@ -6,18 +6,21 @@ export type PlayerResult = {
     format: string,
     people: number
   },
-  endTime: string | null,
+  endTime: string,
   seat: number,
   totalRound: number,
   hule: {
-    ming: string[] | [],
-    zimo: boolean,
-    qinjia: boolean,
-    liqi: boolean,
-    dadian: number,
-    deltaScore: number,
-    liDora: number,
-  }[],
+    total: number,
+    details: {
+      ming: string[] | [],
+      zimo: boolean,
+      qinjia: boolean,
+      liqi: boolean,
+      dadian: number,
+      deltaScore: number,
+      liDora: number,
+    }[]
+  },
   unrong: {
     total: number,
     scores: number[],
@@ -39,7 +42,9 @@ export type PlayerResult = {
     tingpai: number,
     afterChiPengGang: number
   },
-  chiPengGang: number,
+  chiPengGang: {
+    total: number
+  },
   liqi: {
     total: number,
     preemption: number,

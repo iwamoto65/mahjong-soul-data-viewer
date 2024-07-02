@@ -43,7 +43,10 @@ export const distributeData = (data: string): PlayerResult => {
     endTime: '',
     seat: 0,
     totalRound: 0,
-    hule: [],
+    hule: {
+      total: 0,
+      details: []
+    },
     unrong: {
       total: 0,
       scores: [],
@@ -65,7 +68,9 @@ export const distributeData = (data: string): PlayerResult => {
       tingpai: 0,
       afterChiPengGang: 0
     },
-    chiPengGang: 0,
+    chiPengGang: {
+      total: 0
+    },
     liqi: {
       total: 0,
       preemption: 0,
@@ -141,14 +146,15 @@ export const distributeData = (data: string): PlayerResult => {
   playerResult.rank = identifyRank(playerResult.seat, userAccounts)
   playerResult.gameRecord = storeGameRecord(playerResult.seat, userResults)
   playerResult.totalRound = recordNewRound.length
-  playerResult.hule = categorizeHule(playerResult.seat, recordHule)
+  playerResult.hule.details = categorizeHule(playerResult.seat, recordHule)
+  playerResult.hule.total = playerResult.hule.details.length
   playerResult.unrong.total = countUnrong(playerResult.seat, recordHule)
   playerResult.unrong.scores = storeUnrongScore(playerResult.seat, recordHule)
   playerResult.noTile.total = countNoTile(recordNoTile, recordLiuju)
   playerResult.noTile.tingpai = countNoTileTingpai(playerResult.seat, recordNoTile)
 
   const rounds: { round: number, startTime: number, endTime: number }[] = divideByRound(userActions, recordNewRound)
-  playerResult.chiPengGang = countChiPengGang(rounds, recordChiPengGang, playerResult.seat)
+  playerResult.chiPengGang.total = countChiPengGang(rounds, recordChiPengGang, playerResult.seat)
 
   const unrongTimes: number[] = getUnrongTimes(playerResult.seat, recordHule)
   playerResult.unrong.alongWithLiqi = countUnrongAlongWithLiqi(playerResult.seat, recordDiscardTile, unrongTimes, recordHule)

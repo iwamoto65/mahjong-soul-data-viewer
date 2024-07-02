@@ -10,23 +10,55 @@ import { CulcHuleRate } from "@/hooks/useHuleRate";
 import { CulcUnrongRate } from "@/hooks/useUnrongRate";
 import { CulcChiPengGangRate } from "@/hooks/useChiPengGangRate";
 import { GameLatestCard } from "@/components/game/latest/card";
+import { PlayerResult } from "@/features/distributeDataType";
 
 export default function GameLatestPage() {
+  const [modeType, setModeType] = useState<string>("");
+  const [modeRoom, setModeRoom] = useState<string>("");
+  const [modeFormat, setModeFormat] = useState<string>("");
+  const [modePeople, setModePeople] = useState<number>(0);
+  const [gameEndTime, setGameEndTime] = useState<string>("");
   const [totalRoundCount, setTotalRoundCount] = useState<number>(0);
   const [totalHuleCount, setTotalHuleCount] = useState<number>(0);
   const [totalUnrongCount, setTotalUnrongCount] = useState<number>(0);
   const [totalChiPengGangCount, setTotalChiPengGangCount] = useState<number>(0);
   const [totalNoTileCount, setTotalNoTileCount] = useState<number>(0);
+  const [gameRecordFinalPoint, setGameRecordFinalPoint] = useState<number>(0);
+  const [gameRecordGradingScore, setGameRecordGradingScore] = useState<number>(0);
+  const [gameRecordPlace, setGameRecordPlace] = useState<number>(0);
+  const [rankLevel, setRankLevel] = useState<string>("");
 
   useEffect(() => {
     const storageData: string | null = window.localStorage.getItem("mahjongsoulpaifu");
     if (typeof storageData != "string") return;
-    const paifuResult = distributeData(storageData);
-    setTotalRoundCount(paifuResult.totalRound);
-    setTotalHuleCount(paifuResult.hule.length);
-    setTotalUnrongCount(paifuResult.unrong.total);
-    setTotalChiPengGangCount(paifuResult.chiPengGang);
-    setTotalNoTileCount(paifuResult.noTile.total);
+
+    const paifuResult: PlayerResult = distributeData(storageData);
+    const {
+      mode: { type, room, format, people },
+      endTime,
+      totalRound,
+      hule,
+      unrong,
+      chiPengGang,
+      noTile,
+      gameRecord: { finalPoint, gradingScore, place },
+      rank: { level },
+    } = paifuResult;
+
+    setModeType(type);
+    setModeRoom(room);
+    setModeFormat(format);
+    setModePeople(people);
+    setGameEndTime(endTime);
+    setTotalRoundCount(totalRound);
+    setTotalHuleCount(hule.total);
+    setTotalUnrongCount(unrong.total);
+    setTotalChiPengGangCount(chiPengGang.total);
+    setTotalNoTileCount(noTile.total);
+    setGameRecordFinalPoint(finalPoint);
+    setGameRecordGradingScore(gradingScore);
+    setGameRecordPlace(place);
+    setRankLevel(level);
   }, []);
 
   return (
@@ -35,8 +67,8 @@ export default function GameLatestPage() {
         <div className="m-10 p-10 rounded-lg bg-white min-w-7/12">
           <div className="flex justify-between">
             <h1 className="m-0 text-xl font-bold" style={{ color: "#00002A" }}>
-              最新対局
-              <span className="ml-4">2022/01/01 12:33</span>
+              {`${modeType} ${modeRoom} ${modePeople}人 ${modeFormat}`}
+              <span className="ml-4 text-gray-500 text-base">{gameEndTime}</span>
             </h1>
             <Link href="https://game.mahjongsoul.com/?paipu=230507-09a9caa7-073e-46c1-b6d0-afdce819901a_a419341639" target="_blank" rel="noopener noreferrer">
               <div className="flex">
@@ -93,38 +125,100 @@ export default function GameLatestPage() {
             </div>
             <div className="basis-4/12">
               <h1 className="m-0 text-xl font-bold" style={{ color: "#00002A" }}>
-                対局結果
+                対局者情報
               </h1>
               <div className="grid grid-cols-2 gap-y-8 mt-10">
                 <p className="text-xl">部屋</p>
-                <p className="text-right text-xl">玉の間</p>
+                <p className="text-right text-xl">
+                  {modeType}
+                  {modeRoom}
+                </p>
                 <p className="text-xl">段位</p>
-                <p className="text-right text-xl">雀豪</p>
+                <p className="text-right text-xl">{rankLevel.replace(/三麻|四麻/g, "")}</p>
                 <p className="text-xl">順位</p>
-                <p className="text-right text-xl">1位</p>
+                <p className="text-right text-xl">{gameRecordPlace}</p>
                 <p className="text-xl">最終持ち点</p>
-                <p className="text-right text-xl">54,000</p>
+                <p className="text-right text-xl">{gameRecordFinalPoint}</p>
                 <p className="text-xl">獲得ポイント</p>
-                <p className="text-right text-xl">220</p>
+                <p className="text-right text-xl">{gameRecordGradingScore}</p>
               </div>
             </div>
           </div>
 
-          <div className="mt-10">
+          <div className="h-36 mt-10">
             <Tabs>
               <TabList>
+                <Tab>対局結果</Tab>
                 <Tab>和了</Tab>
                 <Tab>放銃</Tab>
+                <Tab>立直</Tab>
+                <Tab>副露</Tab>
+                <Tab>その他</Tab>
               </TabList>
 
-              <TabPanel className="grid grid-cols-5 grid-rows-3 grid-flow-row gap-x-12 text-base">
-                <div className="flex justify-between">
-                  <p>和了率</p>
-                  <p>24.07%</p>
+              <TabPanel>
+                <div className="grid grid-cols-6 gap-x-12 gap-y-2 text-base">
+                  <TabElement title="総局数" count={totalRoundCount} />
+                  <TabElement title="順位" count={gameRecordPlace} />
+                  <TabElement title="点数" count={gameRecordFinalPoint} />
+                  <TabElement title="和了" count={totalHuleCount} />
+                  <TabElement title="放銃" count={totalUnrongCount} />
                 </div>
               </TabPanel>
-              <TabPanel className="grid grid-cols-4 grid-rows-3 grid-flow-row text-base">
-                <p>aaaaa</p>
+              <TabPanel>
+                <div className="grid grid-cols-6 gap-x-12 gap-y-2 text-base">
+                  <TabElement title="和了" count={totalHuleCount} />
+                  <TabElement title="立直ツモ" count={0} />
+                  <TabElement title="黙聴ツモ" count={0} />
+                  <TabElement title="副露ツモ" count={0} />
+                  <TabElement title="立直ロン" count={0} style="col-start-2" />
+                  <TabElement title="黙聴ロン" count={0} />
+                  <TabElement title="副露ロン" count={0} />
+                </div>
+              </TabPanel>
+              <TabPanel>
+                <div className="grid grid-cols-6 gap-x-12 gap-y-2 text-base">
+                  <TabElement title="放銃" count={0} />
+                  <TabElement title="立直被ロン" count={0} />
+                  <TabElement title="黙聴被ロン" count={0} />
+                  <TabElement title="副露被ロン" count={0} />
+                </div>
+              </TabPanel>
+              <TabPanel>
+                <div className="grid grid-cols-6 gap-x-12 gap-y-2 text-base">
+                  <TabElement title="立直" count={0} />
+                  <TabElement title="和了" count={0} />
+                  <TabElement title="放銃" count={0} />
+                  <TabElement title="流局" count={0} />
+                  <TabElement title="収入" count={0} />
+                  <TabElement title="支出" count={0} />
+                  <TabElement title="収支" count={0} />
+                  <TabElement title="先制" count={0} />
+                  <TabElement title="追っかけ" count={0} />
+                  <TabElement title="追っかけられ" count={0} />
+                  <TabElement title="良型" count={0} />
+                  <TabElement title="愚形" count={0} />
+                  <TabElement title="多面" count={0} />
+                  <TabElement title="振聴" count={0} />
+                  <TabElement title="一発" count={0} />
+                  <TabElement title="裏ドラ" count={0} />
+                </div>
+              </TabPanel>
+              <TabPanel>
+                <div className="grid grid-cols-6 gap-x-12 gap-y-2 text-base">
+                  <TabElement title="副露" count={0} />
+                  <TabElement title="和了" count={0} />
+                  <TabElement title="放銃" count={0} />
+                  <TabElement title="流局" count={0} />
+                </div>
+              </TabPanel>
+              <TabPanel>
+                <div className="grid grid-cols-6 gap-x-12 gap-y-2 text-base">
+                  <TabElement title="流局" count={0} />
+                  <TabElement title="流局聴牌" count={0} />
+                  <TabElement title="親被り" count={0} />
+                  <TabElement title="親被り点数" count={0} />
+                </div>
               </TabPanel>
             </Tabs>
           </div>
@@ -133,6 +227,15 @@ export default function GameLatestPage() {
     </>
   );
 }
+
+const TabElement = ({ title, count, style }: { title: string; count: number; style?: string }) => {
+  return (
+    <div className={`flex justify-between ${style}`}>
+      <span>{title}</span>
+      <span>{count}</span>
+    </div>
+  );
+};
 
 const LineChart = ({ roundCount, noTileCount }: { roundCount: number; noTileCount: number }) => {
   ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
