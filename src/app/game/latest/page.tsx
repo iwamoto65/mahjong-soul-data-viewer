@@ -9,6 +9,12 @@ import { distributeData } from "@/features/distributeData";
 import { CulcHuleRate } from "@/hooks/useHuleRate";
 import { CulcUnrongRate } from "@/hooks/useUnrongRate";
 import { CulcChiPengGangRate } from "@/hooks/useChiPengGangRate";
+import { CulcHuleZimoWithLiqi } from "@/hooks/useHuleZimoWithLiqi";
+import { CulcHuleRongWithLiqi } from "@/hooks/useHuleRongWithLiqi";
+import { CulcHuleZimoWithUnliqiUnming } from "@/hooks/useHuleZimoWithUnliqiUnming";
+import { CulcHuleRongWithUnliqiUnming } from "@/hooks/useHuleRongWithUnliqiUnming";
+import { CulcHuleZimoWithMing } from "@/hooks/useHuleRongWithMing";
+import { CulcHuleRongWithMing } from "@/hooks/useHuleZimoWithMing";
 import { GameLatestCard } from "@/components/game/latest/card";
 import { PlayerResult } from "@/features/distributeDataType";
 
@@ -27,6 +33,12 @@ export default function GameLatestPage() {
   const [gameRecordGradingScore, setGameRecordGradingScore] = useState<number>(0);
   const [gameRecordPlace, setGameRecordPlace] = useState<number>(0);
   const [rankLevel, setRankLevel] = useState<string>("");
+  const [totalHuleZimoWithLiqi, setTotalHuleZimoWithLiqi] = useState<number>(0);
+  const [totalHuleRongWithLiqi, setTotalHuleRongWithLiqi] = useState<number>(0);
+  const [totalHuleZimoWithUnliqiUnming, setTotalHuleZimoWithUnliqiUnming] = useState<number>(0);
+  const [totalHuleRongWithUnliqiUnming, setTotalHuleRongWithUnliqiUnming] = useState<number>(0);
+  const [totalHuleZimoWithMing, setTotalHuleZimoWithMing] = useState<number>(0);
+  const [totalHuleRongWithMing, setTotalHuleRongWithMing] = useState<number>(0);
 
   useEffect(() => {
     const storageData: string | null = window.localStorage.getItem("mahjongsoulpaifu");
@@ -59,6 +71,12 @@ export default function GameLatestPage() {
     setGameRecordGradingScore(gradingScore);
     setGameRecordPlace(place);
     setRankLevel(level);
+    setTotalHuleZimoWithLiqi(CulcHuleZimoWithLiqi(hule.details));
+    setTotalHuleRongWithLiqi(CulcHuleRongWithLiqi(hule.details));
+    setTotalHuleZimoWithUnliqiUnming(CulcHuleZimoWithUnliqiUnming(hule.details));
+    setTotalHuleRongWithUnliqiUnming(CulcHuleRongWithUnliqiUnming(hule.details));
+    setTotalHuleZimoWithMing(CulcHuleZimoWithMing(hule.details));
+    setTotalHuleRongWithMing(CulcHuleRongWithMing(hule.details));
   }, []);
 
   return (
@@ -168,12 +186,12 @@ export default function GameLatestPage() {
               <TabPanel>
                 <div className="grid grid-cols-6 gap-x-12 gap-y-2 text-base">
                   <TabElement title="和了" count={totalHuleCount} />
-                  <TabElement title="立直ツモ" count={0} />
-                  <TabElement title="黙聴ツモ" count={0} />
-                  <TabElement title="副露ツモ" count={0} />
-                  <TabElement title="立直ロン" count={0} style="col-start-2" />
-                  <TabElement title="黙聴ロン" count={0} />
-                  <TabElement title="副露ロン" count={0} />
+                  <TabElement title="立直ツモ" count={totalHuleZimoWithLiqi} />
+                  <TabElement title="黙聴ツモ" count={totalHuleZimoWithUnliqiUnming} />
+                  <TabElement title="副露ツモ" count={totalHuleZimoWithMing} />
+                  <TabElement title="立直ロン" count={totalHuleRongWithLiqi} style="col-start-2" />
+                  <TabElement title="黙聴ロン" count={totalHuleRongWithUnliqiUnming} />
+                  <TabElement title="副露ロン" count={totalHuleRongWithMing} />
                 </div>
               </TabPanel>
               <TabPanel>
