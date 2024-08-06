@@ -3,8 +3,8 @@ export const countUnrong = (seat: number, recordHule: any[]) => {
 
   recordHule.forEach((record) => {
     if (record.result.data.delta_scores[seat] < 0) {
-      const NumberOfPeopleWithNegativeScore: number = record.result.data.delta_scores.filter((score: number) => score < 0).length
-      if (NumberOfPeopleWithNegativeScore === 1) unrongCount++
+      const numberOfPeopleWithNegativeScore: number = record.result.data.delta_scores.filter((score: number) => score < 0).length
+      if (numberOfPeopleWithNegativeScore === 1) unrongCount++
     }
   })
 

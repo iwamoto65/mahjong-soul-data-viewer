@@ -48,8 +48,6 @@ export const culculateShanten = (tiles: string[]) => {
   tiles.forEach((tile: string) => {
     pai.filter((p) => { if (p.label === tile) targeTiles.push(p.no)})
   })
-
-  console.log(tiles, culculateKokushiShanten(targeTiles), culculateSevenPairsShanten(targeTiles))
 }
 
 const culculateKokushiShanten = (tiles: number[]) => {

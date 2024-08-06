@@ -19,6 +19,7 @@ import { GameLatestCard } from "@/components/game/latest/card";
 import { PlayerResult } from "@/features/distributeDataType";
 
 export default function GameLatestPage() {
+  const [paifuUrl, setPaifuUrl] = useState<string>("");
   const [modeType, setModeType] = useState<string>("");
   const [modeRoom, setModeRoom] = useState<string>("");
   const [modeFormat, setModeFormat] = useState<string>("");
@@ -39,44 +40,41 @@ export default function GameLatestPage() {
   const [totalHuleRongWithUnliqiUnming, setTotalHuleRongWithUnliqiUnming] = useState<number>(0);
   const [totalHuleZimoWithMing, setTotalHuleZimoWithMing] = useState<number>(0);
   const [totalHuleRongWithMing, setTotalHuleRongWithMing] = useState<number>(0);
+  const [totalUnrongAfterLiqiCount, setTotalUnrongAfterLiqiCount] = useState<number>(0);
+  const [totalUnrongUnmingCount, setTotalUnrongUnmingCount] = useState<number>(0);
+  const [totalUnrongAfterChiPengGangCount, setTotalUnrongAfterChiPengGangCount] = useState<number>(0);
 
   useEffect(() => {
     const storageData: string | null = window.localStorage.getItem("mahjongsoulpaifu");
     if (typeof storageData != "string") return;
 
     const paifuResult: PlayerResult = distributeData(storageData);
-    const {
-      mode: { type, room, format, people },
-      endTime,
-      totalRound,
-      hule,
-      unrong,
-      chiPengGang,
-      noTile,
-      gameRecord: { finalPoint, gradingScore, place },
-      rank: { level },
-    } = paifuResult;
+    const { uuid, mode, endTime, totalRound, hule, unrong, chiPengGang, noTile, gameRecord, rank } = paifuResult;
 
-    setModeType(type);
-    setModeRoom(room);
-    setModeFormat(format);
-    setModePeople(people);
+    setPaifuUrl("https://game.mahjongsoul.com/?paipu=" + uuid);
+    setModeType(mode.type);
+    setModeRoom(mode.room);
+    setModeFormat(mode.format);
+    setModePeople(mode.people);
     setGameEndTime(endTime);
     setTotalRoundCount(totalRound);
     setTotalHuleCount(hule.total);
     setTotalUnrongCount(unrong.total);
     setTotalChiPengGangCount(chiPengGang.total);
     setTotalNoTileCount(noTile.total);
-    setGameRecordFinalPoint(finalPoint);
-    setGameRecordGradingScore(gradingScore);
-    setGameRecordPlace(place);
-    setRankLevel(level);
+    setGameRecordFinalPoint(gameRecord.finalPoint);
+    setGameRecordGradingScore(gameRecord.gradingScore);
+    setGameRecordPlace(gameRecord.place);
+    setRankLevel(rank.level);
     setTotalHuleZimoWithLiqi(CulcHuleZimoWithLiqi(hule.details));
     setTotalHuleRongWithLiqi(CulcHuleRongWithLiqi(hule.details));
     setTotalHuleZimoWithUnliqiUnming(CulcHuleZimoWithUnliqiUnming(hule.details));
     setTotalHuleRongWithUnliqiUnming(CulcHuleRongWithUnliqiUnming(hule.details));
     setTotalHuleZimoWithMing(CulcHuleZimoWithMing(hule.details));
     setTotalHuleRongWithMing(CulcHuleRongWithMing(hule.details));
+    setTotalUnrongAfterLiqiCount(unrong.afterLiqi.total);
+    setTotalUnrongUnmingCount(unrong.total - (unrong.afterLiqi.total + unrong.afterChiPengGang.total));
+    setTotalUnrongAfterChiPengGangCount(unrong.afterChiPengGang.total);
   }, []);
 
   return (
@@ -88,7 +86,7 @@ export default function GameLatestPage() {
               {`${modeType} ${modeRoom} ${modePeople}人 ${modeFormat}`}
               <span className="ml-4 text-gray-500 text-base">{gameEndTime}</span>
             </h1>
-            <Link href="https://game.mahjongsoul.com/?paipu=230507-09a9caa7-073e-46c1-b6d0-afdce819901a_a419341639" target="_blank" rel="noopener noreferrer">
+            <Link href={paifuUrl} target="_blank" rel="noopener noreferrer">
               <div className="flex">
                 <p className="text-xl" style={{ color: "#00002A" }}>
                   牌譜
@@ -196,10 +194,10 @@ export default function GameLatestPage() {
               </TabPanel>
               <TabPanel>
                 <div className="grid grid-cols-6 gap-x-12 gap-y-2 text-base">
-                  <TabElement title="放銃" count={0} />
-                  <TabElement title="立直被ロン" count={0} />
-                  <TabElement title="黙聴被ロン" count={0} />
-                  <TabElement title="副露被ロン" count={0} />
+                  <TabElement title="放銃" count={totalUnrongCount} />
+                  <TabElement title="立直時被ロン" count={totalUnrongAfterLiqiCount} />
+                  <TabElement title="黙聴時被ロン" count={totalUnrongUnmingCount} />
+                  <TabElement title="副露時被ロン" count={totalUnrongAfterChiPengGangCount} />
                 </div>
               </TabPanel>
               <TabPanel>

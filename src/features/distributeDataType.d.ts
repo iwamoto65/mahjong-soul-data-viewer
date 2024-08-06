@@ -25,15 +25,15 @@ export type PlayerResult = {
     total: number,
     scores: number[],
     alongWithLiqi: {
-      count: number,
+      total: number,
       scores: number[]
     },
     afterLiqi: {
-      count: number,
+      total: number,
       scores: number[]
     },
     afterChiPengGang: {
-      count: number,
+      total: number,
       scores: number[]
     }
   },

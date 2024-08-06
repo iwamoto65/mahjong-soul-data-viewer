@@ -8,7 +8,7 @@ export const countUnrongAfterLiqi = (
 ) => {
   let liqiFixedPassed: number[] = []
   let status: { round: number, liqi: boolean, unrong: boolean, score: number }[] = new Array(rounds.length).fill(null).map((_, i) => ({ round: i+1, liqi: false, unrong: false, score: 0 }))
-  let unrongAfterLiqi: { count: number, scores: number[] } = { count: 0, scores: [] }
+  let unrongAfterLiqi: { total: number, scores: number[] } = { total: 0, scores: [] }
   let unrongFixed: { passed: number, score: number }[] = []
 
   // 立直が成立した時間を取得
@@ -46,7 +46,7 @@ export const countUnrongAfterLiqi = (
   // 自分が立直している状態かつ放銃したときのみカウントする
   status.forEach((s) => {
     if (s.liqi && s.unrong) {
-      unrongAfterLiqi.count++
+      unrongAfterLiqi.total++
       unrongAfterLiqi.scores.push(s.score)
     }
   })

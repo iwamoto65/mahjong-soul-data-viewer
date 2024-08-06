@@ -3,7 +3,7 @@ export const countUnrongAlongWithLiqi = (seat: number, recordDiscardTile: any[],
   let discardTilePassed: any[] = []
   let passedJustBeforeUnrong: number[] = []
   let passedJustAfterLiqi: (number | undefined)[] = []
-  let unrongAlongWithLiqi: { count: number, scores: number[] } = { count: 0, scores: [] }
+  let unrongAlongWithLiqi: { total: number, scores: number[] } = { total: 0, scores: [] }
 
   recordDiscardTile.forEach((record) => {
     if (record.result.data.seat === seat) discardTiles.push(record)
@@ -16,7 +16,7 @@ export const countUnrongAlongWithLiqi = (seat: number, recordDiscardTile: any[],
   discardTiles.forEach((data: { passed: number, result: { data: { is_liqi: boolean }}}) => {
     passedJustBeforeUnrong.forEach((passed: number) => {
       if (data.passed === passed && data.result.data.is_liqi) {
-        unrongAlongWithLiqi.count++
+        unrongAlongWithLiqi.total++
         passedJustAfterLiqi.push(unrongTimes.find((unrongTime: number) => unrongTime > passed))
       }
     })

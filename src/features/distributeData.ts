@@ -51,15 +51,15 @@ export const distributeData = (data: string): PlayerResult => {
       total: 0,
       scores: [],
       alongWithLiqi: {
-        count: 0,
+        total: 0,
         scores: []
       },
       afterLiqi: {
-        count: 0,
+        total: 0,
         scores: []
       },
       afterChiPengGang: {
-        count: 0,
+        total: 0,
         scores: []
       }
     },
@@ -159,8 +159,8 @@ export const distributeData = (data: string): PlayerResult => {
   const unrongTimes: number[] = getUnrongTimes(playerResult.seat, recordHule)
   playerResult.unrong.alongWithLiqi = countUnrongAlongWithLiqi(playerResult.seat, recordDiscardTile, unrongTimes, recordHule)
   playerResult.unrong.afterLiqi = countUnrongAfterLiqi(playerResult.seat, rounds, recordDealTile, recordChiPengGang, unrongTimes, recordHule)
-  playerResult.unrong.afterChiPengGang = countUnrongAfterChiPengGang(playerResult.seat, recordChiPengGang, recordDiscardTile, recordHule, unrongTimes, rounds)
-  playerResult.liqi.total = countLiqi(playerResult.seat, userInput, playerResult.unrong.alongWithLiqi.count)
+  playerResult.unrong.afterChiPengGang = countUnrongAfterChiPengGang(playerResult.seat, recordChiPengGang, recordHule, unrongTimes, rounds)
+  playerResult.liqi.total = countLiqi(playerResult.seat, userInput, playerResult.unrong.alongWithLiqi.total)
   playerResult.liqi.preemption = countLiqiPreemption(playerResult.seat, userInput, recordDiscardTile, unrongTimes, rounds)
   playerResult.liqi.chased = countLiqiChased(playerResult.seat, userInput, rounds)
   playerResult.liqi.turns = countLiqiTurn(playerResult.seat, userInput, recordDiscardTile, unrongTimes, rounds)
