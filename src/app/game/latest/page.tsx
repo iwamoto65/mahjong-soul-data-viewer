@@ -15,6 +15,7 @@ import { CulcHuleZimoWithUnliqiUnming } from "@/hooks/useHuleZimoWithUnliqiUnmin
 import { CulcHuleRongWithUnliqiUnming } from "@/hooks/useHuleRongWithUnliqiUnming";
 import { CulcHuleZimoWithMing } from "@/hooks/useHuleRongWithMing";
 import { CulcHuleRongWithMing } from "@/hooks/useHuleZimoWithMing";
+import { CulcHuleWithLiqi } from "@/hooks/useHuleWithLiqi";
 import { GameLatestCard } from "@/components/game/latest/card";
 import { PlayerResult } from "@/features/distributeDataType";
 
@@ -43,13 +44,15 @@ export default function GameLatestPage() {
   const [totalUnrongAfterLiqiCount, setTotalUnrongAfterLiqiCount] = useState<number>(0);
   const [totalUnrongUnmingCount, setTotalUnrongUnmingCount] = useState<number>(0);
   const [totalUnrongAfterChiPengGangCount, setTotalUnrongAfterChiPengGangCount] = useState<number>(0);
+  const [totalLiqiCount, setTotalLiqiCount] = useState<number>(0);
+  const [totalHuleWithLiqiCount, setTotalHuleWithLiqiCount] = useState<number>(0);
 
   useEffect(() => {
     const storageData: string | null = window.localStorage.getItem("mahjongsoulpaifu");
     if (typeof storageData != "string") return;
 
     const paifuResult: PlayerResult = distributeData(storageData);
-    const { uuid, mode, endTime, totalRound, hule, unrong, chiPengGang, noTile, gameRecord, rank } = paifuResult;
+    const { uuid, mode, endTime, totalRound, hule, unrong, chiPengGang, liqi, noTile, gameRecord, rank } = paifuResult;
 
     setPaifuUrl("https://game.mahjongsoul.com/?paipu=" + uuid);
     setModeType(mode.type);
@@ -75,6 +78,8 @@ export default function GameLatestPage() {
     setTotalUnrongAfterLiqiCount(unrong.afterLiqi.total);
     setTotalUnrongUnmingCount(unrong.total - (unrong.afterLiqi.total + unrong.afterChiPengGang.total));
     setTotalUnrongAfterChiPengGangCount(unrong.afterChiPengGang.total);
+    setTotalLiqiCount(liqi.total);
+    setTotalHuleWithLiqiCount(CulcHuleWithLiqi(hule.details));
   }, []);
 
   return (
@@ -202,8 +207,8 @@ export default function GameLatestPage() {
               </TabPanel>
               <TabPanel>
                 <div className="grid grid-cols-6 gap-x-12 gap-y-2 text-base">
-                  <TabElement title="立直" count={0} />
-                  <TabElement title="和了" count={0} />
+                  <TabElement title="立直" count={totalLiqiCount} />
+                  <TabElement title="和了" count={totalHuleWithLiqiCount} />
                   <TabElement title="放銃" count={0} />
                   <TabElement title="流局" count={0} />
                   <TabElement title="収入" count={0} />

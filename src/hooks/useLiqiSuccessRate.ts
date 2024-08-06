@@ -1,7 +1,7 @@
 import { fixFloatNumber } from "@/utils/fixFloatNumber"
 
-export const CulcLiqiSuccessRate = (hule: number, liqi: number) => {
-  if (hule === 0) return 0
+export const CulcLiqiSuccessRate = (huleWithLiqi: number, liqi: number) => {
+  if (huleWithLiqi === 0) return 0
 
-  return fixFloatNumber(hule / liqi * 100)
+  return fixFloatNumber(huleWithLiqi / liqi * 100)
 }
