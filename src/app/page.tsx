@@ -280,7 +280,8 @@ export default function Home() {
               <td>{CulcLiqiSuccessRate(totalHuleOutOfLiqiCount, totalLiqiCount)}％</td>
               <td>{CulcUnrongIncludeOnLiqiRate(totalLiqiCount, totalUnrongAlongWithLiqiCount, totalUnrongAfterLiqiCount)}％</td>
               <td>{CulcUnrongAfterLiqiRateBasedOnLiqi(totalLiqiCount, totalUnrongAfterLiqiCount)}％</td>
-              <td>{CulcLiqiIncome(totalLiqiIncome)}</td>
+              {/* <td>{CulcLiqiIncome(totalLiqiIncome)}</td> */}
+              <td>CulcLiqiIncomeの引数変更必須</td>
               <td>{CulcLiqiExpenditure(totalLiqiExpenditure)}</td>
             </tr>
           </tbody>

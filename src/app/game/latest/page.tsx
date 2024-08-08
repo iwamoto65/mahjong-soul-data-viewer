@@ -16,6 +16,7 @@ import { CulcHuleRongWithUnliqiUnming } from "@/hooks/useHuleRongWithUnliqiUnmin
 import { CulcHuleZimoWithMing } from "@/hooks/useHuleRongWithMing";
 import { CulcHuleRongWithMing } from "@/hooks/useHuleZimoWithMing";
 import { CulcHuleWithLiqi } from "@/hooks/useHuleWithLiqi";
+import { CulcLiqiIncome } from "@/hooks/useLiqiIncome";
 import { GameLatestCard } from "@/components/game/latest/card";
 import { PlayerResult } from "@/features/distributeDataType";
 
@@ -46,6 +47,8 @@ export default function GameLatestPage() {
   const [totalUnrongAfterChiPengGangCount, setTotalUnrongAfterChiPengGangCount] = useState<number>(0);
   const [totalLiqiCount, setTotalLiqiCount] = useState<number>(0);
   const [totalHuleWithLiqiCount, setTotalHuleWithLiqiCount] = useState<number>(0);
+  const [totalNoTileAfterLiqi, setTotalNoTileAfterLiqi] = useState<number>(0);
+  const [liqiIncome, setLiqiIncome] = useState<number>(0);
 
   useEffect(() => {
     const storageData: string | null = window.localStorage.getItem("mahjongsoulpaifu");
@@ -80,6 +83,8 @@ export default function GameLatestPage() {
     setTotalUnrongAfterChiPengGangCount(unrong.afterChiPengGang.total);
     setTotalLiqiCount(liqi.total);
     setTotalHuleWithLiqiCount(CulcHuleWithLiqi(hule.details));
+    setTotalNoTileAfterLiqi(liqi.noTile);
+    setLiqiIncome(CulcLiqiIncome(hule.details));
   }, []);
 
   return (
@@ -209,9 +214,9 @@ export default function GameLatestPage() {
                 <div className="grid grid-cols-6 gap-x-12 gap-y-2 text-base">
                   <TabElement title="立直" count={totalLiqiCount} />
                   <TabElement title="和了" count={totalHuleWithLiqiCount} />
-                  <TabElement title="放銃" count={0} />
-                  <TabElement title="流局" count={0} />
-                  <TabElement title="収入" count={0} />
+                  <TabElement title="放銃" count={totalUnrongAfterLiqiCount} />
+                  <TabElement title="流局" count={totalNoTileAfterLiqi} />
+                  <TabElement title="収入" count={liqiIncome} />
                   <TabElement title="支出" count={0} />
                   <TabElement title="収支" count={0} />
                   <TabElement title="先制" count={0} />
