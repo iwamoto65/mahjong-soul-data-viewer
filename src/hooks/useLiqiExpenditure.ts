@@ -1,4 +1,4 @@
-export const CulcLiqiExpenditure = (expenditures: number[]) => {
+export const CulcLiqiExpenditure = (expenditures: number[]): number => {
   if (expenditures.length === 0) {
     return 0
   } else if (expenditures.length === 1) {
@@ -9,5 +9,5 @@ export const CulcLiqiExpenditure = (expenditures: number[]) => {
   const liqibengs = (1000 * expenditures.length)
   const totalHuleCount = expenditures.length
 
-  return ((sumScore + liqibengs) / totalHuleCount).toFixed(0)
+  return Number(((sumScore + liqibengs) / totalHuleCount).toFixed(0))
 }
