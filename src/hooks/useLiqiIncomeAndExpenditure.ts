@@ -1,5 +1,8 @@
-export const CulcLiqiIncomeAndExpenditure = (liqi: number, incomes: number[], expenditures: number[]) => {
+export const CulcLiqiIncomeAndExpenditure = (liqi: number, hule: { liqi: boolean, deltaScore: number }[], expenditures: number[]): number => {
   if (liqi === 0) return 0
+
+  let incomes: number[] = []
+  hule.forEach((h) => { if (h.liqi) incomes.push(h.deltaScore) })
 
   let incomeSumScore: number
   if (incomes.length === 0) {
@@ -19,5 +22,5 @@ export const CulcLiqiIncomeAndExpenditure = (liqi: number, incomes: number[], ex
     expenditureSumScore = expenditures.reduce((a, b) => a + b)
   }
 
-  return ((incomeSumScore + expenditureSumScore - liqi * 1000) / liqi).toFixed(0)
+  return Number(((incomeSumScore + expenditureSumScore - liqi * 1000) / liqi).toFixed(0))
 }

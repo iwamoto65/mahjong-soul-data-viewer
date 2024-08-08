@@ -18,6 +18,7 @@ import { CulcHuleRongWithMing } from "@/hooks/useHuleZimoWithMing";
 import { CulcHuleWithLiqi } from "@/hooks/useHuleWithLiqi";
 import { CulcLiqiIncome } from "@/hooks/useLiqiIncome";
 import { CulcLiqiExpenditure } from "@/hooks/useLiqiExpenditure";
+import { CulcLiqiIncomeAndExpenditure } from "@/hooks/useLiqiIncomeAndExpenditure";
 import { GameLatestCard } from "@/components/game/latest/card";
 import { PlayerResult } from "@/features/distributeDataType";
 
@@ -51,6 +52,7 @@ export default function GameLatestPage() {
   const [totalNoTileAfterLiqi, setTotalNoTileAfterLiqi] = useState<number>(0);
   const [liqiIncome, setLiqiIncome] = useState<number>(0);
   const [liqiExpenditure, setLiqiExpenditure] = useState<number>(0);
+  const [liqiIncomeAndExpenditure, setLiqiIncomeAndExpenditure] = useState<number>(0);
 
   useEffect(() => {
     const storageData: string | null = window.localStorage.getItem("mahjongsoulpaifu");
@@ -88,6 +90,7 @@ export default function GameLatestPage() {
     setTotalNoTileAfterLiqi(liqi.noTile);
     setLiqiIncome(CulcLiqiIncome(hule.details));
     setLiqiExpenditure(CulcLiqiExpenditure(unrong.afterLiqi.scores));
+    setLiqiIncomeAndExpenditure(CulcLiqiIncomeAndExpenditure(liqi.total, hule.details, unrong.afterLiqi.scores));
   }, []);
 
   return (
@@ -221,7 +224,7 @@ export default function GameLatestPage() {
                   <TabElement title="流局" count={totalNoTileAfterLiqi} />
                   <TabElement title="収入" count={liqiIncome} />
                   <TabElement title="支出" count={liqiExpenditure} />
-                  <TabElement title="収支" count={0} />
+                  <TabElement title="収支" count={liqiIncomeAndExpenditure} />
                   <TabElement title="先制" count={0} />
                   <TabElement title="追っかけ" count={0} />
                   <TabElement title="追っかけられ" count={0} />
