@@ -60,6 +60,8 @@ export default function GameLatestPage() {
   const [liqiChased, setLiqiChased] = useState<number>(0);
   const [liqiGoodShapeCount, setLiqiGoodShapeCount] = useState<number>(0);
   const [liqiBadShapeCount, setLiqiBadShapeCount] = useState<number>(0);
+  const [liqiZhenting, setLiqiZhenting] = useState<number>(0);
+  const [liqiFirstTurnHule, setLiqiFirstTurnHule] = useState<number>(0);
 
   useEffect(() => {
     const storageData: string | null = window.localStorage.getItem("mahjongsoulpaifu");
@@ -103,6 +105,8 @@ export default function GameLatestPage() {
     setLiqiChased(liqi.chased);
     setLiqiGoodShapeCount(CulcLiqiGoodShape(liqi.remainingTileCount));
     setLiqiBadShapeCount(CulcLiqiBadShape(liqi.remainingTileCount));
+    setLiqiZhenting(liqi.zhenting);
+    setLiqiFirstTurnHule(liqi.firstTurnHule);
   }, []);
 
   return (
@@ -242,9 +246,8 @@ export default function GameLatestPage() {
                   <TabElement title="追っかけられ" count={liqiChased} />
                   <TabElement title="良型" count={liqiGoodShapeCount} />
                   <TabElement title="愚形" count={liqiBadShapeCount} />
-                  <TabElement title="多面" count={0} />
-                  <TabElement title="振聴" count={0} />
-                  <TabElement title="一発" count={0} />
+                  <TabElement title="振聴" count={liqiZhenting} />
+                  <TabElement title="一発" count={liqiFirstTurnHule} />
                   <TabElement title="裏ドラ" count={0} />
                 </div>
               </TabPanel>
