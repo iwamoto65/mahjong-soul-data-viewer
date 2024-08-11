@@ -22,6 +22,7 @@ import { CulcLiqiIncomeAndExpenditure } from "@/hooks/useLiqiIncomeAndExpenditur
 import { CulcLiqiGoodShape } from "@/hooks/useLiqiGoodShape";
 import { CulcLiqiBadShape } from "@/hooks/useLiqiBadShape";
 import { CulcHuleLiqiDora } from "@/hooks/useHuleLiqiDora";
+import { CulcHuleAfterMing } from "@/hooks/useHuleAfterMing";
 import { GameLatestCard } from "@/components/game/latest/card";
 import { PlayerResult } from "@/features/distributeDataType";
 
@@ -64,6 +65,7 @@ export default function GameLatestPage() {
   const [liqiZhenting, setLiqiZhenting] = useState<number>(0);
   const [liqiFirstTurnHule, setLiqiFirstTurnHule] = useState<number>(0);
   const [liqiDoraCount, setLiqiDoraCount] = useState<number>(0);
+  const [totalHuleAfterMing, setTotalHuleAfterMing] = useState<number>(0);
 
   useEffect(() => {
     const storageData: string | null = window.localStorage.getItem("mahjongsoulpaifu");
@@ -110,6 +112,7 @@ export default function GameLatestPage() {
     setLiqiZhenting(liqi.zhenting);
     setLiqiFirstTurnHule(liqi.firstTurnHule);
     setLiqiDoraCount(CulcHuleLiqiDora(hule.details));
+    setTotalHuleAfterMing(CulcHuleAfterMing(hule.details));
   }, []);
 
   return (
@@ -256,8 +259,8 @@ export default function GameLatestPage() {
               </TabPanel>
               <TabPanel>
                 <div className="grid grid-cols-6 gap-x-12 gap-y-2 text-base">
-                  <TabElement title="副露" count={0} />
-                  <TabElement title="和了" count={0} />
+                  <TabElement title="副露" count={totalChiPengGangCount} />
+                  <TabElement title="和了" count={totalHuleAfterMing} />
                   <TabElement title="放銃" count={0} />
                   <TabElement title="流局" count={0} />
                 </div>
