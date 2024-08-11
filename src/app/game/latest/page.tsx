@@ -67,13 +67,17 @@ export default function GameLatestPage() {
   const [liqiDoraCount, setLiqiDoraCount] = useState<number>(0);
   const [totalHuleAfterMing, setTotalHuleAfterMing] = useState<number>(0);
   const [totalNoTileAfterMing, setTotalNoTileAfterMing] = useState<number>(0);
+  const [totalNoTile, setTotalNoTile] = useState<number>(0);
+  const [totalNoTileTingpai, setTotalNoTileTingpai] = useState<number>(0);
+  const [totalParentCover, setTotalParentCover] = useState<number>(0);
+  const [totalParentCoverScore, setTotalParentCoverScore] = useState<number>(0);
 
   useEffect(() => {
     const storageData: string | null = window.localStorage.getItem("mahjongsoulpaifu");
     if (typeof storageData != "string") return;
 
     const paifuResult: PlayerResult = distributeData(storageData);
-    const { uuid, mode, endTime, totalRound, hule, unrong, chiPengGang, liqi, noTile, gameRecord, rank } = paifuResult;
+    const { uuid, mode, endTime, totalRound, hule, unrong, chiPengGang, liqi, noTile, zimo, gameRecord, rank } = paifuResult;
 
     setPaifuUrl("https://game.mahjongsoul.com/?paipu=" + uuid);
     setModeType(mode.type);
@@ -115,6 +119,10 @@ export default function GameLatestPage() {
     setLiqiDoraCount(CulcHuleLiqiDora(hule.details));
     setTotalHuleAfterMing(CulcHuleAfterMing(hule.details));
     setTotalNoTileAfterMing(noTile.afterChiPengGang);
+    setTotalNoTile(noTile.total);
+    setTotalNoTileTingpai(noTile.tingpai);
+    setTotalParentCover(zimo.parentCoverScores.length);
+    setTotalParentCoverScore(Math.abs(zimo.parentCoverScores.reduce((a, b) => a + b)));
   }, []);
 
   return (
@@ -214,65 +222,65 @@ export default function GameLatestPage() {
 
               <TabPanel>
                 <div className="grid grid-cols-6 gap-x-12 gap-y-2 text-base">
-                  <TabElement title="総局数" count={totalRoundCount} />
-                  <TabElement title="順位" count={gameRecordPlace} />
-                  <TabElement title="点数" count={gameRecordFinalPoint} />
-                  <TabElement title="和了" count={totalHuleCount} />
-                  <TabElement title="放銃" count={totalUnrongCount} />
+                  <TabItem title="総局数" count={totalRoundCount} />
+                  <TabItem title="順位" count={gameRecordPlace} />
+                  <TabItem title="点数" count={gameRecordFinalPoint} />
+                  <TabItem title="和了" count={totalHuleCount} />
+                  <TabItem title="放銃" count={totalUnrongCount} />
                 </div>
               </TabPanel>
               <TabPanel>
                 <div className="grid grid-cols-6 gap-x-12 gap-y-2 text-base">
-                  <TabElement title="和了" count={totalHuleCount} />
-                  <TabElement title="立直ツモ" count={totalHuleZimoWithLiqi} />
-                  <TabElement title="黙聴ツモ" count={totalHuleZimoWithUnliqiUnming} />
-                  <TabElement title="副露ツモ" count={totalHuleZimoWithMing} />
-                  <TabElement title="立直ロン" count={totalHuleRongWithLiqi} style="col-start-2" />
-                  <TabElement title="黙聴ロン" count={totalHuleRongWithUnliqiUnming} />
-                  <TabElement title="副露ロン" count={totalHuleRongWithMing} />
+                  <TabItem title="和了" count={totalHuleCount} />
+                  <TabItem title="立直ツモ" count={totalHuleZimoWithLiqi} />
+                  <TabItem title="黙聴ツモ" count={totalHuleZimoWithUnliqiUnming} />
+                  <TabItem title="副露ツモ" count={totalHuleZimoWithMing} />
+                  <TabItem title="立直ロン" count={totalHuleRongWithLiqi} style="col-start-2" />
+                  <TabItem title="黙聴ロン" count={totalHuleRongWithUnliqiUnming} />
+                  <TabItem title="副露ロン" count={totalHuleRongWithMing} />
                 </div>
               </TabPanel>
               <TabPanel>
                 <div className="grid grid-cols-6 gap-x-12 gap-y-2 text-base">
-                  <TabElement title="放銃" count={totalUnrongCount} />
-                  <TabElement title="立直時被ロン" count={totalUnrongAfterLiqiCount} />
-                  <TabElement title="黙聴時被ロン" count={totalUnrongUnmingCount} />
-                  <TabElement title="副露時被ロン" count={totalUnrongAfterChiPengGangCount} />
+                  <TabItem title="放銃" count={totalUnrongCount} />
+                  <TabItem title="立直時被ロン" count={totalUnrongAfterLiqiCount} />
+                  <TabItem title="黙聴時被ロン" count={totalUnrongUnmingCount} />
+                  <TabItem title="副露時被ロン" count={totalUnrongAfterChiPengGangCount} />
                 </div>
               </TabPanel>
               <TabPanel>
                 <div className="grid grid-cols-6 gap-x-12 gap-y-2 text-base">
-                  <TabElement title="立直" count={totalLiqiCount} />
-                  <TabElement title="和了" count={totalHuleWithLiqiCount} />
-                  <TabElement title="放銃" count={totalUnrongAfterLiqiCount} />
-                  <TabElement title="流局" count={totalNoTileAfterLiqi} />
-                  <TabElement title="収入" count={liqiIncome} />
-                  <TabElement title="支出" count={liqiExpenditure} />
-                  <TabElement title="収支" count={liqiIncomeAndExpenditure} />
-                  <TabElement title="先制" count={liqiPreemption} />
-                  <TabElement title="追っかけ" count={liqiChasing} />
-                  <TabElement title="追っかけられ" count={liqiChased} />
-                  <TabElement title="良型" count={liqiGoodShapeCount} />
-                  <TabElement title="愚形" count={liqiBadShapeCount} />
-                  <TabElement title="振聴" count={liqiZhenting} />
-                  <TabElement title="一発" count={liqiFirstTurnHule} />
-                  <TabElement title="裏ドラ回数" count={liqiDoraCount} />
+                  <TabItem title="立直" count={totalLiqiCount} />
+                  <TabItem title="和了" count={totalHuleWithLiqiCount} />
+                  <TabItem title="放銃" count={totalUnrongAfterLiqiCount} />
+                  <TabItem title="流局" count={totalNoTileAfterLiqi} />
+                  <TabItem title="収入" count={liqiIncome} />
+                  <TabItem title="支出" count={liqiExpenditure} />
+                  <TabItem title="収支" count={liqiIncomeAndExpenditure} />
+                  <TabItem title="先制" count={liqiPreemption} />
+                  <TabItem title="追っかけ" count={liqiChasing} />
+                  <TabItem title="追っかけられ" count={liqiChased} />
+                  <TabItem title="良型" count={liqiGoodShapeCount} />
+                  <TabItem title="愚形" count={liqiBadShapeCount} />
+                  <TabItem title="振聴" count={liqiZhenting} />
+                  <TabItem title="一発" count={liqiFirstTurnHule} />
+                  <TabItem title="裏ドラ回数" count={liqiDoraCount} />
                 </div>
               </TabPanel>
               <TabPanel>
                 <div className="grid grid-cols-6 gap-x-12 gap-y-2 text-base">
-                  <TabElement title="副露" count={totalChiPengGangCount} />
-                  <TabElement title="和了" count={totalHuleAfterMing} />
-                  <TabElement title="放銃" count={totalUnrongAfterChiPengGangCount} />
-                  <TabElement title="流局" count={totalNoTileAfterMing} />
+                  <TabItem title="副露" count={totalChiPengGangCount} />
+                  <TabItem title="和了" count={totalHuleAfterMing} />
+                  <TabItem title="放銃" count={totalUnrongAfterChiPengGangCount} />
+                  <TabItem title="流局" count={totalNoTileAfterMing} />
                 </div>
               </TabPanel>
               <TabPanel>
-                <div className="grid grid-cols-6 gap-x-12 gap-y-2 text-base">
-                  <TabElement title="流局" count={0} />
-                  <TabElement title="流局聴牌" count={0} />
-                  <TabElement title="親被り" count={0} />
-                  <TabElement title="親被り点数" count={0} />
+                <div className="grid grid-cols-6 gap-x-10 gap-y-2 text-base">
+                  <TabItem title="流局" count={totalNoTile} />
+                  <TabItem title="流局聴牌" count={totalNoTileTingpai} />
+                  <TabItem title="親被り" count={totalParentCover} />
+                  <TabItem title="親被り点数" count={totalParentCoverScore} />
                 </div>
               </TabPanel>
             </Tabs>
@@ -283,7 +291,7 @@ export default function GameLatestPage() {
   );
 }
 
-const TabElement = ({ title, count, style }: { title: string; count: number; style?: string }) => {
+const TabItem = ({ title, count, style }: { title: string; count: number; style?: string }) => {
   return (
     <div className={`flex justify-between ${style}`}>
       <span>{title}</span>
