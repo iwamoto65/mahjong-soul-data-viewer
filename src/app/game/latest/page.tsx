@@ -66,6 +66,7 @@ export default function GameLatestPage() {
   const [liqiFirstTurnHule, setLiqiFirstTurnHule] = useState<number>(0);
   const [liqiDoraCount, setLiqiDoraCount] = useState<number>(0);
   const [totalHuleAfterMing, setTotalHuleAfterMing] = useState<number>(0);
+  const [totalNoTileAfterMing, setTotalNoTileAfterMing] = useState<number>(0);
 
   useEffect(() => {
     const storageData: string | null = window.localStorage.getItem("mahjongsoulpaifu");
@@ -113,6 +114,7 @@ export default function GameLatestPage() {
     setLiqiFirstTurnHule(liqi.firstTurnHule);
     setLiqiDoraCount(CulcHuleLiqiDora(hule.details));
     setTotalHuleAfterMing(CulcHuleAfterMing(hule.details));
+    setTotalNoTileAfterMing(noTile.afterChiPengGang);
   }, []);
 
   return (
@@ -261,8 +263,8 @@ export default function GameLatestPage() {
                 <div className="grid grid-cols-6 gap-x-12 gap-y-2 text-base">
                   <TabElement title="副露" count={totalChiPengGangCount} />
                   <TabElement title="和了" count={totalHuleAfterMing} />
-                  <TabElement title="放銃" count={0} />
-                  <TabElement title="流局" count={0} />
+                  <TabElement title="放銃" count={totalUnrongAfterChiPengGangCount} />
+                  <TabElement title="流局" count={totalNoTileAfterMing} />
                 </div>
               </TabPanel>
               <TabPanel>
