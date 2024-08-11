@@ -53,6 +53,9 @@ export default function GameLatestPage() {
   const [liqiIncome, setLiqiIncome] = useState<number>(0);
   const [liqiExpenditure, setLiqiExpenditure] = useState<number>(0);
   const [liqiIncomeAndExpenditure, setLiqiIncomeAndExpenditure] = useState<number>(0);
+  const [liqiPreemption, setLiqiPreemption] = useState<number>(0);
+  const [liqiChasing, setLiqiChasing] = useState<number>(0);
+  const [liqiChased, setLiqiChased] = useState<number>(0);
 
   useEffect(() => {
     const storageData: string | null = window.localStorage.getItem("mahjongsoulpaifu");
@@ -91,6 +94,9 @@ export default function GameLatestPage() {
     setLiqiIncome(CulcLiqiIncome(hule.details));
     setLiqiExpenditure(CulcLiqiExpenditure(unrong.afterLiqi.scores));
     setLiqiIncomeAndExpenditure(CulcLiqiIncomeAndExpenditure(liqi.total, hule.details, unrong.afterLiqi.scores));
+    setLiqiPreemption(liqi.preemption);
+    setLiqiChasing(liqi.total - liqi.preemption);
+    setLiqiChased(liqi.chased);
   }, []);
 
   return (
@@ -225,9 +231,9 @@ export default function GameLatestPage() {
                   <TabElement title="収入" count={liqiIncome} />
                   <TabElement title="支出" count={liqiExpenditure} />
                   <TabElement title="収支" count={liqiIncomeAndExpenditure} />
-                  <TabElement title="先制" count={0} />
-                  <TabElement title="追っかけ" count={0} />
-                  <TabElement title="追っかけられ" count={0} />
+                  <TabElement title="先制" count={liqiPreemption} />
+                  <TabElement title="追っかけ" count={liqiChasing} />
+                  <TabElement title="追っかけられ" count={liqiChased} />
                   <TabElement title="良型" count={0} />
                   <TabElement title="愚形" count={0} />
                   <TabElement title="多面" count={0} />
