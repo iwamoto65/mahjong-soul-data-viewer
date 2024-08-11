@@ -19,6 +19,8 @@ import { CulcHuleWithLiqi } from "@/hooks/useHuleWithLiqi";
 import { CulcLiqiIncome } from "@/hooks/useLiqiIncome";
 import { CulcLiqiExpenditure } from "@/hooks/useLiqiExpenditure";
 import { CulcLiqiIncomeAndExpenditure } from "@/hooks/useLiqiIncomeAndExpenditure";
+import { CulcLiqiGoodShape } from "@/hooks/useLiqiGoodShape";
+import { CulcLiqiBadShape } from "@/hooks/useLiqiBadShape";
 import { GameLatestCard } from "@/components/game/latest/card";
 import { PlayerResult } from "@/features/distributeDataType";
 
@@ -56,6 +58,8 @@ export default function GameLatestPage() {
   const [liqiPreemption, setLiqiPreemption] = useState<number>(0);
   const [liqiChasing, setLiqiChasing] = useState<number>(0);
   const [liqiChased, setLiqiChased] = useState<number>(0);
+  const [liqiGoodShapeCount, setLiqiGoodShapeCount] = useState<number>(0);
+  const [liqiBadShapeCount, setLiqiBadShapeCount] = useState<number>(0);
 
   useEffect(() => {
     const storageData: string | null = window.localStorage.getItem("mahjongsoulpaifu");
@@ -97,6 +101,8 @@ export default function GameLatestPage() {
     setLiqiPreemption(liqi.preemption);
     setLiqiChasing(liqi.total - liqi.preemption);
     setLiqiChased(liqi.chased);
+    setLiqiGoodShapeCount(CulcLiqiGoodShape(liqi.remainingTileCount));
+    setLiqiBadShapeCount(CulcLiqiBadShape(liqi.remainingTileCount));
   }, []);
 
   return (
@@ -234,8 +240,8 @@ export default function GameLatestPage() {
                   <TabElement title="先制" count={liqiPreemption} />
                   <TabElement title="追っかけ" count={liqiChasing} />
                   <TabElement title="追っかけられ" count={liqiChased} />
-                  <TabElement title="良型" count={0} />
-                  <TabElement title="愚形" count={0} />
+                  <TabElement title="良型" count={liqiGoodShapeCount} />
+                  <TabElement title="愚形" count={liqiBadShapeCount} />
                   <TabElement title="多面" count={0} />
                   <TabElement title="振聴" count={0} />
                   <TabElement title="一発" count={0} />
