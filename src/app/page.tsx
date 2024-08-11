@@ -297,7 +297,7 @@ export default function Home() {
           </thead>
           <tbody>
             <tr>
-              <td>{CulcLiqiIncomeAndExpenditure(totalLiqiCount, totalLiqiIncome, totalLiqiExpenditure)}</td>
+              {/* <td>{CulcLiqiIncomeAndExpenditure(totalLiqiCount, totalLiqiIncome, totalLiqiExpenditure)}</td> */}
               <td>{CulcLiqiPreemptionRate(totalLiqiCount, totalLiqiPreemptionCount)}％</td>
               <td>{CulcLiqiChasingRate(totalLiqiCount, totalLiqiPreemptionCount)}％</td>
               <td>{CulcLiqiChasedRate(totalLiqiCount, totalLiqiChasedCount)}％</td>
