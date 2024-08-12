@@ -181,7 +181,7 @@ export default function GameLatestPage() {
             </div>
             <div className="basis-4/12">
               <h1 className="m-0 text-xl font-bold" style={{ color: "#00002A" }}>
-                対局者情報
+                対局結果
               </h1>
               <div className="grid grid-cols-2 gap-y-8 mt-10">
                 <p className="text-xl">部屋</p>
@@ -204,7 +204,7 @@ export default function GameLatestPage() {
           <div className="h-36 mt-10">
             <Tabs>
               <TabList>
-                <Tab>対局結果</Tab>
+                <Tab>結果</Tab>
                 <Tab>和了</Tab>
                 <Tab>放銃</Tab>
                 <Tab>立直</Tab>
