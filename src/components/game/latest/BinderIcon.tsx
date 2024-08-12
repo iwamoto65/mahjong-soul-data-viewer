@@ -1,4 +1,4 @@
-export const BinderIcon = () => {
+export const GameLatestBinderIcon = () => {
   return (
     <svg
       style={{ width: "26px", height: "26px" }}

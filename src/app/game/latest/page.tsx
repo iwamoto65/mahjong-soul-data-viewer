@@ -23,8 +23,8 @@ import { CulcLiqiGoodShape } from "@/hooks/useLiqiGoodShape";
 import { CulcLiqiBadShape } from "@/hooks/useLiqiBadShape";
 import { CulcHuleLiqiDora } from "@/hooks/useHuleLiqiDora";
 import { CulcHuleAfterMing } from "@/hooks/useHuleAfterMing";
-import { BinderIcon } from "@/components/game/latest/BinderIcon";
-import { GameLatestCard } from "@/components/game/latest/card";
+import { GameLatestBinderIcon } from "@/components/game/latest/BinderIcon";
+import { GameLatestTitleCard } from "@/components/game/latest/TitleCard";
 import { PlayerResult } from "@/features/distributeDataType";
 
 export default function GameLatestPage() {
@@ -140,17 +140,22 @@ export default function GameLatestPage() {
                 <p className="text-xl" style={{ color: "#00002A" }}>
                   牌譜
                 </p>
-                <BinderIcon />
+                <GameLatestBinderIcon />
               </div>
             </Link>
           </div>
 
           <div className="flex flex-row space-x-10 mt-10">
             <div className="basis-1/3">
-              <GameLatestCard title="和了" result={CulcHuleRate(totalRoundCount, totalHuleCount)} totalCount={totalHuleCount} totalRound={totalRoundCount} />
+              <GameLatestTitleCard
+                title="和了"
+                result={CulcHuleRate(totalRoundCount, totalHuleCount)}
+                totalCount={totalHuleCount}
+                totalRound={totalRoundCount}
+              />
             </div>
             <div className="basis-1/3">
-              <GameLatestCard
+              <GameLatestTitleCard
                 title="放銃"
                 result={CulcUnrongRate(totalRoundCount, totalUnrongCount)}
                 totalCount={totalUnrongCount}
@@ -158,7 +163,7 @@ export default function GameLatestPage() {
               />
             </div>
             <div className="basis-1/3">
-              <GameLatestCard
+              <GameLatestTitleCard
                 title="副露"
                 result={CulcChiPengGangRate(totalRoundCount, totalChiPengGangCount)}
                 totalCount={totalChiPengGangCount}
