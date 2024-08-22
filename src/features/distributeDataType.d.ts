@@ -68,4 +68,10 @@ export type PlayerResult = {
     level: string,
     point: number,
   },
+  scoreTrend: {
+    player: string,
+    scores: {
+      [key: string]: number
+    }
+  }[] | []
 }

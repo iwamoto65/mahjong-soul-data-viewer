@@ -94,6 +94,7 @@ export const distributeData = (data: string): PlayerResult => {
       level: '',
       point: 0,
     },
+    scoreTrend: []
   }
 
   let recordNewRound: any[] = []
@@ -171,7 +172,7 @@ export const distributeData = (data: string): PlayerResult => {
   playerResult.liqi.remainingTileCount = countLiqiRemainingTile(playerResult.seat, recordDiscardTile, recordChiPengGang, recordAnGangAddGang, recordNewRound, recordDealTile, unrongTimes, rounds)
   playerResult.zimo.parentCoverScores = countZimoSevereParentCover(playerResult.seat, recordHule, rounds)
   playerResult.noTile.afterChiPengGang = countNoTileAfterChiPengGang(playerResult.seat, recordChiPengGang, recordNoTile, rounds)
-  storeScoreTrend(userAccounts, userResults, recordNewRound)
+  playerResult.scoreTrend = storeScoreTrend(userAccounts, userResults, recordNewRound)
 
   return playerResult
 }
