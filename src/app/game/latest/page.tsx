@@ -4,23 +4,23 @@ import Link from "next/link";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { distributeData } from "@/features/distributeData";
-import { CulcHuleRate } from "@/hooks/useHuleRate";
-import { CulcUnrongRate } from "@/hooks/useUnrongRate";
-import { CulcChiPengGangRate } from "@/hooks/useChiPengGangRate";
-import { CulcHuleZimoWithLiqi } from "@/hooks/useHuleZimoWithLiqi";
-import { CulcHuleRongWithLiqi } from "@/hooks/useHuleRongWithLiqi";
-import { CulcHuleZimoWithUnliqiUnming } from "@/hooks/useHuleZimoWithUnliqiUnming";
-import { CulcHuleRongWithUnliqiUnming } from "@/hooks/useHuleRongWithUnliqiUnming";
-import { CulcHuleZimoWithMing } from "@/hooks/useHuleRongWithMing";
-import { CulcHuleRongWithMing } from "@/hooks/useHuleZimoWithMing";
-import { CulcHuleWithLiqi } from "@/hooks/useHuleWithLiqi";
-import { CulcLiqiIncome } from "@/hooks/useLiqiIncome";
-import { CulcLiqiExpenditure } from "@/hooks/useLiqiExpenditure";
-import { CulcLiqiIncomeAndExpenditure } from "@/hooks/useLiqiIncomeAndExpenditure";
-import { CulcLiqiGoodShape } from "@/hooks/useLiqiGoodShape";
-import { CulcLiqiBadShape } from "@/hooks/useLiqiBadShape";
-import { CulcHuleLiqiDora } from "@/hooks/useHuleLiqiDora";
-import { CulcHuleAfterMing } from "@/hooks/useHuleAfterMing";
+import { useHuleRateHook } from "@/hooks/useHuleRateHook";
+import { useUnrongRateHook } from "@/hooks/useUnrongRateHook";
+import { useChiPengGangRateHook } from "@/hooks/useChiPengGangRateHook";
+import { useHuleZimoWithLiqiHook } from "@/hooks/useHuleZimoWithLiqiHook";
+import { useHuleRongWithLiqiHook } from "@/hooks/useHuleRongWithLiqiHook";
+import { useHuleZimoWithUnliqiUnmingHook } from "@/hooks/useHuleZimoWithUnliqiUnmingHook";
+import { useHuleRongWithUnliqiUnmingHook } from "@/hooks/useHuleRongWithUnliqiUnmingHook";
+import { useHuleZimoWithMingHook } from "@/hooks/useHuleZimoWithMingHook";
+import { useHuleRongWithMingHook } from "@/hooks/useHuleRongWithMingHook";
+import { useHuleWithLiqiHook } from "@/hooks/useHuleWithLiqiHook";
+import { useLiqiIncomeHook } from "@/hooks/useLiqiIncomeHook";
+import { useLiqiExpenditureHook } from "@/hooks/useLiqiExpenditureHook";
+import { useLiqiIncomeAndExpenditureHook } from "@/hooks/useLiqiIncomeAndExpenditureHook";
+import { useLiqiGoodShapeHook } from "@/hooks/useLiqiGoodShapeHook";
+import { useLiqiBadShapeHook } from "@/hooks/useLiqiBadShapeHook";
+import { useHuleLiqiDoraHook } from "@/hooks/useHuleLiqiDoraHook";
+import { useHuleAfterMingHook } from "@/hooks/useHuleAfterMingHook";
 import { GameLatestBinderIcon } from "@/components/game/latest/BinderIcon";
 import { GameLatestTitleCard } from "@/components/game/latest/TitleCard";
 import { GameLatestLineChart as LineChart } from "@/components/game/latest/LineChart";
@@ -104,30 +104,30 @@ export default function GameLatestPage() {
     setGameRecordGradingScore(gameRecord.gradingScore);
     setGameRecordPlace(gameRecord.place);
     setRankLevel(rank.level);
-    setTotalHuleZimoWithLiqi(CulcHuleZimoWithLiqi(hule.details));
-    setTotalHuleRongWithLiqi(CulcHuleRongWithLiqi(hule.details));
-    setTotalHuleZimoWithUnliqiUnming(CulcHuleZimoWithUnliqiUnming(hule.details));
-    setTotalHuleRongWithUnliqiUnming(CulcHuleRongWithUnliqiUnming(hule.details));
-    setTotalHuleZimoWithMing(CulcHuleZimoWithMing(hule.details));
-    setTotalHuleRongWithMing(CulcHuleRongWithMing(hule.details));
+    setTotalHuleZimoWithLiqi(useHuleZimoWithLiqiHook(hule.details));
+    setTotalHuleRongWithLiqi(useHuleRongWithLiqiHook(hule.details));
+    setTotalHuleZimoWithUnliqiUnming(useHuleZimoWithUnliqiUnmingHook(hule.details));
+    setTotalHuleRongWithUnliqiUnming(useHuleRongWithUnliqiUnmingHook(hule.details));
+    setTotalHuleZimoWithMing(useHuleZimoWithMingHook(hule.details));
+    setTotalHuleRongWithMing(useHuleRongWithMingHook(hule.details));
     setTotalUnrongAfterLiqiCount(unrong.afterLiqi.total);
     setTotalUnrongUnmingCount(unrong.total - (unrong.afterLiqi.total + unrong.afterChiPengGang.total));
     setTotalUnrongAfterChiPengGangCount(unrong.afterChiPengGang.total);
     setTotalLiqiCount(liqi.total);
-    setTotalHuleWithLiqiCount(CulcHuleWithLiqi(hule.details));
+    setTotalHuleWithLiqiCount(useHuleWithLiqiHook(hule.details));
     setTotalNoTileAfterLiqi(liqi.noTile);
-    setLiqiIncome(CulcLiqiIncome(hule.details));
-    setLiqiExpenditure(CulcLiqiExpenditure(unrong.afterLiqi.scores));
-    setLiqiIncomeAndExpenditure(CulcLiqiIncomeAndExpenditure(liqi.total, hule.details, unrong.afterLiqi.scores));
+    setLiqiIncome(useLiqiIncomeHook(hule.details));
+    setLiqiExpenditure(useLiqiExpenditureHook(unrong.afterLiqi.scores));
+    setLiqiIncomeAndExpenditure(useLiqiIncomeAndExpenditureHook(liqi.total, hule.details, unrong.afterLiqi.scores));
     setLiqiPreemption(liqi.preemption);
     setLiqiChasing(liqi.total - liqi.preemption);
     setLiqiChased(liqi.chased);
-    setLiqiGoodShapeCount(CulcLiqiGoodShape(liqi.remainingTileCount));
-    setLiqiBadShapeCount(CulcLiqiBadShape(liqi.remainingTileCount));
+    setLiqiGoodShapeCount(useLiqiGoodShapeHook(liqi.remainingTileCount));
+    setLiqiBadShapeCount(useLiqiBadShapeHook(liqi.remainingTileCount));
     setLiqiZhenting(liqi.zhenting);
     setLiqiFirstTurnHule(liqi.firstTurnHule);
-    setLiqiDoraCount(CulcHuleLiqiDora(hule.details));
-    setTotalHuleAfterMing(CulcHuleAfterMing(hule.details));
+    setLiqiDoraCount(useHuleLiqiDoraHook(hule.details));
+    setTotalHuleAfterMing(useHuleAfterMingHook(hule.details));
     setTotalNoTileAfterMing(noTile.afterChiPengGang);
     setTotalNoTile(noTile.total);
     setTotalNoTileTingpai(noTile.tingpai);
@@ -159,7 +159,7 @@ export default function GameLatestPage() {
             <div className="basis-1/3">
               <GameLatestTitleCard
                 title="和了"
-                result={CulcHuleRate(totalRoundCount, totalHuleCount)}
+                result={useHuleRateHook(totalRoundCount, totalHuleCount)}
                 totalCount={totalHuleCount}
                 totalRound={totalRoundCount}
               />
@@ -167,7 +167,7 @@ export default function GameLatestPage() {
             <div className="basis-1/3">
               <GameLatestTitleCard
                 title="放銃"
-                result={CulcUnrongRate(totalRoundCount, totalUnrongCount)}
+                result={useUnrongRateHook(totalRoundCount, totalUnrongCount)}
                 totalCount={totalUnrongCount}
                 totalRound={totalRoundCount}
               />
@@ -175,7 +175,7 @@ export default function GameLatestPage() {
             <div className="basis-1/3">
               <GameLatestTitleCard
                 title="副露"
-                result={CulcChiPengGangRate(totalRoundCount, totalChiPengGangCount)}
+                result={useChiPengGangRateHook(totalRoundCount, totalChiPengGangCount)}
                 totalCount={totalChiPengGangCount}
                 totalRound={totalRoundCount}
               />

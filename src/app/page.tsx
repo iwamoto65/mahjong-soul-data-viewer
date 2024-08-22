@@ -2,45 +2,45 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { distributeData } from "@/features/distributeData";
-import { CulcHuleRate } from "../hooks/useHuleRate";
-import { CulcUnrongRate } from "@/hooks/useUnrongRate";
-import { CulcZimoRate } from "@/hooks/useZimoRate";
-import { CulcUnliqiUnmingHuleRate } from "@/hooks/useUnliqiUnmingHuleRate";
-import { CulcNoTileRate } from "@/hooks/useNoTileRate";
-import { CulcNoTileTingpaiRate } from "@/hooks/useNoTileTingpaiRate";
-import { CulcChiPengGangRate } from "@/hooks/useChiPengGangRate";
-import { CulcLiqiRate } from "@/hooks/useLiqiRate";
-import { CulcAverageDadianScore } from "@/hooks/useAverageDadianScore";
-import { CulcAverageUnrongScore } from "@/hooks/useAverageUnrongScore";
-import { CulcAveragePlace } from "@/hooks/useAveragePlace";
-import { CulcLiqiSuccessRate } from "@/hooks/useLiqiSuccessRate";
-import { CulcUnrongIncludeOnLiqiRate } from "@/hooks/useUnrongIncludeOnLiqiRate";
-import { CulcUnrongAfterLiqiRateBasedOnLiqi } from "@/hooks/useUnrongAfterLiqiRateBasedOnLiqi";
-import { CulcLiqiIncome } from "@/hooks/useLiqiIncome";
-import { CulcLiqiExpenditure } from "@/hooks/useLiqiExpenditure";
-import { CulcLiqiIncomeAndExpenditure } from "@/hooks/useLiqiIncomeAndExpenditure";
-import { CulcLiqiPreemptionRate } from "@/hooks/useLiqiPreemptionRate";
-import { CulcLiqiChasingRate } from "@/hooks/useLiqiChasingRate";
-import { CulcLiqiChasedRate } from "@/hooks/useLiqiChasedRate";
-import { CulcAverageLiqiTurn } from "@/hooks/useAverageLiqiTurn";
-import { CulcLiqiNoTileRate } from "@/hooks/useLiqiNoTileRate";
-import { CulcLiqiFirstTurnHuleRate } from "@/hooks/useLiqiFirstTurnHuleRate";
-import { CulcLiqiZhentingRate } from "@/hooks/useLiqiZhentingRate";
-import { CulcLiqiMultipleWaitingRate } from "@/hooks/useLiqiMultipleWaitingRate";
-import { CulcLiqiGoodShapeRate } from "@/hooks/useLiqiGoodShapeRate";
-import { CulcLidoraRate } from "@/hooks/useLiDoraRate";
-import { CulcZimoSereveParentCoverRate } from "@/hooks/useZimoSereveParentCoverRate";
-import { CulcZimoSereveParentCoverScore } from "@/hooks/useZimoSereveParentCoverScore";
-import { CulcUnrongAfterChiPengGangRateBasedOnUnrong } from "@/hooks/useUnrongAfterChiPengGangRateBasedOnUnrong";
-import { CulcUnrongAfterLiqiRateBasedOnUnrong } from "@/hooks/useUnrongAfterLiqiRateBasedOnUnrong";
-import { CulcUnrongUnmingRate } from "@/hooks/useUnrongUnmingRate";
-import { CulcUnrongAfterChiPengGangRateBasedOnMing } from "@/hooks/useUnrongAfterChiPengGangRateBasedOnMing";
-import { CulcHuleAfterMingRate } from "@/hooks/useHuleAfterMingRate";
-import { CulcNoTileAfterChiPengGangRate } from "@/hooks/useNoTileAfterChiPengGangRate";
-import { CulcAttackBalanceIndex } from "@/hooks/useAttackBalanceIndex";
-import { CulcDefenseBalanceIndex } from "@/hooks/useDefenseBalanceIndex";
-import { CulcAttackAndDefenseBalanceIndex } from "@/hooks/useAttackAndDefenseBalanceIndex";
-import { CulcRoundIncomeAndExpenditure } from "@/hooks/useRoundIncomeAndExpenditure";
+import { useHuleRateHook } from "../hooks/useHuleRateHook";
+import { useUnrongRateHook } from "@/hooks/useUnrongRateHook";
+import { useZimoRateHook } from "@/hooks/useZimoRateHook";
+import { useUnliqiUnmingHuleRateHook } from "@/hooks/useUnliqiUnmingHuleRateHook";
+import { useNoTileRateHook } from "@/hooks/useNoTileRateHook";
+import { useNoTileTingpaiRateHook } from "@/hooks/useNoTileTingpaiRateHook";
+import { useChiPengGangRateHook } from "@/hooks/useChiPengGangRateHook";
+import { useLiqiRateHook } from "@/hooks/useLiqiRateHook";
+import { useAverageDadianScoreHook } from "@/hooks/useAverageDadianScoreHook";
+import { useAverageUnrongScoreHook } from "@/hooks/useAverageUnrongScoreHook";
+import { useAveragePlaceHook } from "@/hooks/useAveragePlaceHook";
+import { useLiqiSuccessRateHook } from "@/hooks/useLiqiSuccessRateHook";
+import { useUnrongIncludeOnLiqiRateHook } from "@/hooks/useUnrongIncludeOnLiqiRateHook";
+import { useUnrongAfterLiqiRateBasedOnLiqiHook } from "@/hooks/useUnrongAfterLiqiRateBasedOnLiqiHook";
+import { useLiqiIncomeHook } from "@/hooks/useLiqiIncomeHook";
+import { useLiqiExpenditureHook } from "@/hooks/useLiqiExpenditureHook";
+import { useLiqiIncomeAndExpenditureHook } from "@/hooks/useLiqiIncomeAndExpenditureHook";
+import { useLiqiPreemptionRateHook } from "@/hooks/useLiqiPreemptionRateHook";
+import { useLiqiChasingRateHook } from "@/hooks/useLiqiChasingRateHook";
+import { useLiqiChasedRateHook } from "@/hooks/useLiqiChasedRateHook";
+import { useAverageLiqiTurnHook } from "@/hooks/useAverageLiqiTurnHook";
+import { useLiqiNoTileRateHook } from "@/hooks/useLiqiNoTileRateHook";
+import { useLiqiFirstTurnHuleRateHook } from "@/hooks/useLiqiFirstTurnHuleRateHook";
+import { useLiqiZhentingRateHook } from "@/hooks/useLiqiZhentingRateHook";
+import { useLiqiMultipleWaitingRateHook } from "@/hooks/useLiqiMultipleWaitingRateHook";
+import { useLiqiGoodShapeRateHook } from "@/hooks/useLiqiGoodShapeRateHook";
+import { useLiDoraRateHook } from "@/hooks/useLiDoraRateHook";
+import { useZimoSereveParentCoverRateHook } from "@/hooks/useZimoSereveParentCoverRateHook";
+import { useZimoSereveParentCoverScoreHook } from "@/hooks/useZimoSereveParentCoverScoreHook";
+import { useUnrongAfterChiPengGangRateBasedOnUnrongHook } from "@/hooks/useUnrongAfterChiPengGangRateBasedOnUnrongHook";
+import { useUnrongAfterLiqiRateBasedOnUnrongHook } from "@/hooks/useUnrongAfterLiqiRateBasedOnUnrongHook";
+import { useUnrongUnmingRateHook } from "@/hooks/useUnrongUnmingRateHook";
+import { useUnrongAfterChiPengGangRateBasedOnMingHook } from "@/hooks/useUnrongAfterChiPengGangRateBasedOnMingHook";
+import { useHuleAfterMingRateHook } from "@/hooks/useHuleAfterMingRateHook";
+import { useNoTileAfterChiPengGangRateHook } from "@/hooks/useNoTileAfterChiPengGangRateHook";
+import { useAttackBalanceIndexHook } from "@/hooks/useAttackBalanceIndexHook";
+import { useDefenseBalanceIndexHook } from "@/hooks/useDefenseBalanceIndexHook";
+import { useAttackAndDefenseBalanceIndexHook } from "@/hooks/useAttackAndDefenseBalanceIndexHook";
+import { useRoundIncomeAndExpenditureHook } from "@/hooks/useRoundIncomeAndExpenditureHook";
 import db from "../../firebase";
 import { collection, getDocs } from "firebase/firestore";
 
@@ -238,10 +238,10 @@ export default function Home() {
             <tr>
               <td>{gameCount}</td>
               <td>{totalRoundCount}</td>
-              <td>{CulcHuleRate(totalRoundCount, totalHuleCount)}％</td>
-              <td>{CulcUnrongRate(totalRoundCount, totalUnrongCount)}%</td>
-              <td>{CulcZimoRate(totalHuleCount, totalZimoCount)}％</td>
-              <td>{CulcUnliqiUnmingHuleRate(totalHuleCount, totalUnliqiCount)}％</td>
+              <td>{useHuleRateHook(totalRoundCount, totalHuleCount)}％</td>
+              <td>{useUnrongRateHook(totalRoundCount, totalUnrongCount)}%</td>
+              <td>{useZimoRateHook(totalHuleCount, totalZimoCount)}％</td>
+              <td>{useUnliqiUnmingHuleRateHook(totalHuleCount, totalUnliqiCount)}％</td>
             </tr>
           </tbody>
           <thead>
@@ -256,12 +256,12 @@ export default function Home() {
           </thead>
           <tbody>
             <tr>
-              <td>{CulcNoTileRate(totalRoundCount, totalNoTileCount)}％</td>
-              <td>{CulcNoTileTingpaiRate(totalNoTileCount, totalNoTileTingpaiCount)}％</td>
-              <td>{CulcChiPengGangRate(totalRoundCount, totalChiPengGangCount)}％</td>
-              <td>{CulcLiqiRate(totalRoundCount, totalLiqiCount)}％</td>
-              <td>{CulcAverageDadianScore(totalDadian)}</td>
-              <td>{CulcAverageUnrongScore(totalUnrongScore)}</td>
+              <td>{useNoTileRateHook(totalRoundCount, totalNoTileCount)}％</td>
+              <td>{useNoTileTingpaiRateHook(totalNoTileCount, totalNoTileTingpaiCount)}％</td>
+              <td>{useChiPengGangRateHook(totalRoundCount, totalChiPengGangCount)}％</td>
+              <td>{useLiqiRateHook(totalRoundCount, totalLiqiCount)}％</td>
+              <td>{useAverageDadianScoreHook(totalDadian)}</td>
+              <td>{useAverageUnrongScoreHook(totalUnrongScore)}</td>
             </tr>
           </tbody>
           <thead>
@@ -276,13 +276,13 @@ export default function Home() {
           </thead>
           <tbody>
             <tr>
-              <td>{CulcAveragePlace(totalPlace)}</td>
-              <td>{CulcLiqiSuccessRate(totalHuleOutOfLiqiCount, totalLiqiCount)}％</td>
-              <td>{CulcUnrongIncludeOnLiqiRate(totalLiqiCount, totalUnrongAlongWithLiqiCount, totalUnrongAfterLiqiCount)}％</td>
-              <td>{CulcUnrongAfterLiqiRateBasedOnLiqi(totalLiqiCount, totalUnrongAfterLiqiCount)}％</td>
-              {/* <td>{CulcLiqiIncome(totalLiqiIncome)}</td> */}
-              <td>CulcLiqiIncomeの引数変更必須</td>
-              <td>{CulcLiqiExpenditure(totalLiqiExpenditure)}</td>
+              <td>{useAveragePlaceHook(totalPlace)}</td>
+              <td>{useLiqiSuccessRateHook(totalHuleOutOfLiqiCount, totalLiqiCount)}％</td>
+              <td>{useUnrongIncludeOnLiqiRateHook(totalLiqiCount, totalUnrongAlongWithLiqiCount, totalUnrongAfterLiqiCount)}％</td>
+              <td>{useUnrongAfterLiqiRateBasedOnLiqiHook(totalLiqiCount, totalUnrongAfterLiqiCount)}％</td>
+              {/* <td>{useLiqiIncomeHook(totalLiqiIncome)}</td> */}
+              <td>useLiqiIncomeの引数変更必須</td>
+              <td>{useLiqiExpenditureHook(totalLiqiExpenditure)}</td>
             </tr>
           </tbody>
           <thead>
@@ -297,12 +297,12 @@ export default function Home() {
           </thead>
           <tbody>
             <tr>
-              {/* <td>{CulcLiqiIncomeAndExpenditure(totalLiqiCount, totalLiqiIncome, totalLiqiExpenditure)}</td> */}
-              <td>{CulcLiqiPreemptionRate(totalLiqiCount, totalLiqiPreemptionCount)}％</td>
-              <td>{CulcLiqiChasingRate(totalLiqiCount, totalLiqiPreemptionCount)}％</td>
-              <td>{CulcLiqiChasedRate(totalLiqiCount, totalLiqiChasedCount)}％</td>
-              <td>{CulcAverageLiqiTurn(totalLiqiTurn)}</td>
-              <td>{CulcLiqiNoTileRate(totalLiqiCount, totalLiqiNoTileCount)}％</td>
+              {/* <td>{useLiqiIncomeAndExpenditureHook(totalLiqiCount, totalLiqiIncome, totalLiqiExpenditure)}</td> */}
+              <td>{useLiqiPreemptionRateHook(totalLiqiCount, totalLiqiPreemptionCount)}％</td>
+              <td>{useLiqiChasingRateHook(totalLiqiCount, totalLiqiPreemptionCount)}％</td>
+              <td>{useLiqiChasedRateHook(totalLiqiCount, totalLiqiChasedCount)}％</td>
+              <td>{useAverageLiqiTurnHook(totalLiqiTurn)}</td>
+              <td>{useLiqiNoTileRateHook(totalLiqiCount, totalLiqiNoTileCount)}％</td>
             </tr>
           </tbody>
           <thead>
@@ -317,12 +317,12 @@ export default function Home() {
           </thead>
           <tbody>
             <tr>
-              <td>{CulcLiqiFirstTurnHuleRate(totalLiqiCount, totalLiqiFirstTurnHuleCount)}％</td>
-              <td>{CulcLiqiZhentingRate(totalLiqiCount, totalLiqiZhentingCount)}％</td>
-              <td>{CulcLiqiMultipleWaitingRate(totalLiqiCount, totalLiqiWaitingTiles)}％</td>
-              <td>{CulcLiqiGoodShapeRate(totalLiqiRemainingTileCount)}％</td>
-              <td>{CulcLidoraRate(totalLiDoraCount)}％</td>
-              <td>{CulcZimoSereveParentCoverRate(totalZimoParentCoverScores)}%</td>
+              <td>{useLiqiFirstTurnHuleRateHook(totalLiqiCount, totalLiqiFirstTurnHuleCount)}％</td>
+              <td>{useLiqiZhentingRateHook(totalLiqiCount, totalLiqiZhentingCount)}％</td>
+              <td>{useLiqiMultipleWaitingRateHook(totalLiqiCount, totalLiqiWaitingTiles)}％</td>
+              <td>{useLiqiGoodShapeRateHook(totalLiqiRemainingTileCount)}％</td>
+              <td>{useLiDoraRateHook(totalLiDoraCount)}％</td>
+              <td>{useZimoSereveParentCoverRateHook(totalZimoParentCoverScores)}%</td>
             </tr>
           </tbody>
           <thead>
@@ -337,12 +337,12 @@ export default function Home() {
           </thead>
           <tbody>
             <tr>
-              <td>{CulcZimoSereveParentCoverScore(totalZimoParentCoverScores)}</td>
-              <td>{CulcUnrongUnmingRate(totalUnrongCount, totalUnrongAfterLiqiCount, totalUnrongAfterChiPengGang)}％</td>
-              <td>{CulcUnrongAfterLiqiRateBasedOnUnrong(totalUnrongCount, totalUnrongAfterLiqiCount)}％</td>
-              <td>{CulcUnrongAfterChiPengGangRateBasedOnUnrong(totalUnrongCount, totalUnrongAfterChiPengGang)}％</td>
-              <td>{CulcUnrongAfterChiPengGangRateBasedOnMing(totalChiPengGangCount, totalUnrongAfterChiPengGang)}％</td>
-              <td>{CulcHuleAfterMingRate(totalChiPengGangCount, totalHuleAfterMingCount)}％</td>
+              <td>{useZimoSereveParentCoverScoreHook(totalZimoParentCoverScores)}</td>
+              <td>{useUnrongUnmingRateHook(totalUnrongCount, totalUnrongAfterLiqiCount, totalUnrongAfterChiPengGang)}％</td>
+              <td>{useUnrongAfterLiqiRateBasedOnUnrongHook(totalUnrongCount, totalUnrongAfterLiqiCount)}％</td>
+              <td>{useUnrongAfterChiPengGangRateBasedOnUnrongHook(totalUnrongCount, totalUnrongAfterChiPengGang)}％</td>
+              <td>{useUnrongAfterChiPengGangRateBasedOnMingHook(totalChiPengGangCount, totalUnrongAfterChiPengGang)}％</td>
+              <td>{useHuleAfterMingRateHook(totalChiPengGangCount, totalHuleAfterMingCount)}％</td>
             </tr>
           </tbody>
           <thead>
@@ -356,11 +356,11 @@ export default function Home() {
           </thead>
           <tbody>
             <tr>
-              <td>{CulcNoTileAfterChiPengGangRate(totalChiPengGangCount, totalNoTileAfterChiPengGangCount)}％</td>
-              <td>{CulcAttackBalanceIndex(totalRoundCount, totalHuleCount, totalDadian)}</td>
-              <td>{CulcDefenseBalanceIndex(totalRoundCount, totalUnrongCount, totalUnrongScore)}</td>
-              <td>{CulcAttackAndDefenseBalanceIndex(totalRoundCount, totalHuleCount, totalDadian, totalUnrongCount, totalUnrongScore)}</td>
-              <td>{CulcRoundIncomeAndExpenditure(gameCount, totalRoundCount, totalFinalPoints)}</td>
+              <td>{useNoTileAfterChiPengGangRateHook(totalChiPengGangCount, totalNoTileAfterChiPengGangCount)}％</td>
+              <td>{useAttackBalanceIndexHook(totalRoundCount, totalHuleCount, totalDadian)}</td>
+              <td>{useDefenseBalanceIndexHook(totalRoundCount, totalUnrongCount, totalUnrongScore)}</td>
+              <td>{useAttackAndDefenseBalanceIndexHook(totalRoundCount, totalHuleCount, totalDadian, totalUnrongCount, totalUnrongScore)}</td>
+              <td>{useRoundIncomeAndExpenditureHook(gameCount, totalRoundCount, totalFinalPoints)}</td>
             </tr>
           </tbody>
         </table>
