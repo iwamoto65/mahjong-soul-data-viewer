@@ -1,5 +1,5 @@
 import { useHuleRateHook } from "./useHuleRateHook"
-import { useAverageDadianScoreHook } from '@/hooks/useAverageDadianScoreHook';
+import { useAverageDadianScoreHook } from '@/hooks/shared/useAverageDadianScoreHook';
 
 export const useAttackBalanceIndexHook = (totalRoundCount: number, totalHuleCount: number, totalDadian: number[]) => {
   const huleRate: number = useHuleRateHook(totalRoundCount, totalHuleCount)
