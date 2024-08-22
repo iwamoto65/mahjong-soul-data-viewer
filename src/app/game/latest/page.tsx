@@ -1,8 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
-import { Line } from "react-chartjs-2";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { distributeData } from "@/features/distributeData";
@@ -25,7 +23,17 @@ import { CulcHuleLiqiDora } from "@/hooks/useHuleLiqiDora";
 import { CulcHuleAfterMing } from "@/hooks/useHuleAfterMing";
 import { GameLatestBinderIcon } from "@/components/game/latest/BinderIcon";
 import { GameLatestTitleCard } from "@/components/game/latest/TitleCard";
+import { GameLatestLineChart as LineChart } from "@/components/game/latest/LineChart";
 import { PlayerResult } from "@/features/distributeDataType";
+
+type Scores =
+  | {
+      player: string;
+      scores: {
+        [key: string]: number;
+      };
+    }[]
+  | [];
 
 export default function GameLatestPage() {
   const [paifuUrl, setPaifuUrl] = useState<string>("");
@@ -72,13 +80,14 @@ export default function GameLatestPage() {
   const [totalNoTileTingpai, setTotalNoTileTingpai] = useState<number>(0);
   const [totalParentCover, setTotalParentCover] = useState<number>(0);
   const [totalParentCoverScore, setTotalParentCoverScore] = useState<number>(0);
+  const [scores, setScores] = useState<Scores>([]);
 
   useEffect(() => {
     const storageData: string | null = window.localStorage.getItem("mahjongsoulpaifu");
     if (typeof storageData != "string") return;
 
     const paifuResult: PlayerResult = distributeData(storageData);
-    const { uuid, mode, endTime, totalRound, hule, unrong, chiPengGang, liqi, noTile, zimo, gameRecord, rank } = paifuResult;
+    const { uuid, mode, endTime, totalRound, hule, unrong, chiPengGang, liqi, noTile, zimo, gameRecord, rank, scoreTrend } = paifuResult;
 
     setPaifuUrl("https://game.mahjongsoul.com/?paipu=" + uuid);
     setModeType(mode.type);
@@ -124,6 +133,7 @@ export default function GameLatestPage() {
     setTotalNoTileTingpai(noTile.tingpai);
     setTotalParentCover(zimo.parentCoverScores.length);
     setTotalParentCoverScore(Math.abs(zimo.parentCoverScores.reduce((a, b) => a + b)));
+    setScores(scoreTrend);
   }, []);
 
   return (
@@ -177,7 +187,7 @@ export default function GameLatestPage() {
               <h1 className="m-0 text-xl font-bold" style={{ color: "#00002A" }}>
                 得点推移
               </h1>
-              <LineChart roundCount={totalRoundCount} noTileCount={totalNoTileCount} />
+              <LineChart roundCount={totalRoundCount} noTileCount={totalNoTileCount} scores={scores} />
             </div>
             <div className="basis-4/12">
               <h1 className="m-0 text-xl font-bold" style={{ color: "#00002A" }}>
@@ -290,79 +300,4 @@ const TabItem = ({ title, count, style }: { title: string; count: number; style?
       <span>{count}</span>
     </div>
   );
-};
-
-const LineChart = ({ roundCount, noTileCount }: { roundCount: number; noTileCount: number }) => {
-  ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
-
-  const data = {
-    labels: ["東1", "2", "3", "", "南1", "2", "3"],
-    datasets: [
-      {
-        label: "Aさん",
-        data: [25000, 27900, 30000, 14000, 20000, 1000, -1000],
-        borderColor: "rgb(255, 127, 127)",
-        backgroundColor: "rgba(255, 127, 127, 0.5)",
-      },
-      {
-        label: "Bさん",
-        data: [25000, 17900, 30000, 20000, 10000, 0, 1000],
-        borderColor: "rgb(127, 191, 255)",
-        backgroundColor: "rgba(127, 191, 255, 0.5)",
-      },
-      {
-        label: "Cさん",
-        data: [25000, 10000, 20000, 30000, 10000, 5000, 15000],
-        borderColor: "rgb(52, 183, 142)",
-        backgroundColor: "rgba(52, 183, 142, 0.5)",
-      },
-      {
-        label: "Dさん",
-        data: [25000, 900, 4000, 5000, 33000, 33000, 24000],
-        borderColor: "rgb(255, 191, 127)",
-        backgroundColor: "rgba(255, 191, 127, 0.5)",
-      },
-    ],
-  };
-
-  const options = {
-    responsive: false,
-    plugins: {
-      legend: {
-        position: "top" as const,
-        labels: {
-          boxWidth: 12,
-        },
-      },
-      title: {
-        display: true,
-        text: `総局数 ${roundCount} （流局数 ${noTileCount}）`,
-        padding: {
-          top: 15,
-          bottom: 15,
-        },
-        font: {
-          size: 16,
-        },
-      },
-    },
-    scales: {
-      x: {
-        title: {
-          display: true,
-          text: "局",
-        },
-      },
-      y: {
-        min: -1000,
-        max: 35000,
-        title: {
-          display: true,
-          text: "得点",
-        },
-      },
-    },
-  };
-
-  return <Line data={data} options={options} width={650} height={325} />;
 };
