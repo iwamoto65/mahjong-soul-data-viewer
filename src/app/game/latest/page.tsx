@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { distributeData } from "@/features/distributeData";
+import { useGameLatest } from "@/hooks/page/useGameLatest";
 import { useHuleRateHook } from "@/hooks/shared/useHuleRateHook";
 import { useUnrongRateHook } from "@/hooks/shared/useUnrongRateHook";
 import { useChiPengGangRateHook } from "@/hooks/shared/useChiPengGangRateHook";
@@ -24,8 +25,8 @@ import { useHuleAfterMingHook } from "@/hooks/shared/useHuleAfterMingHook";
 import { GameLatestBinderIcon } from "@/components/game/latest/BinderIcon";
 import { GameLatestTitleCard } from "@/components/game/latest/TitleCard";
 import { GameLatestLineChart as LineChart } from "@/components/game/latest/LineChart";
+import { TabItem } from "@/components/game/latest/TabItem";
 import { PlayerResult } from "@/features/distributeDataType";
-import { useGameLatest } from "@/hooks/page/useGameLatest";
 
 export default function GameLatestPage() {
   const {
@@ -264,12 +265,3 @@ export default function GameLatestPage() {
     </>
   );
 }
-
-const TabItem = ({ title, count, style }: { title: string; count: number; style?: string }) => {
-  return (
-    <div className={`flex justify-between ${style}`}>
-      <span>{title}</span>
-      <span>{count}</span>
-    </div>
-  );
-};
