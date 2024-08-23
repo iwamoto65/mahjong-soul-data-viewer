@@ -22,10 +22,10 @@ import { useLiqiGoodShapeHook } from "@/hooks/shared/useLiqiGoodShapeHook";
 import { useLiqiBadShapeHook } from "@/hooks/shared/useLiqiBadShapeHook";
 import { useHuleLiqiDoraHook } from "@/hooks/shared/useHuleLiqiDoraHook";
 import { useHuleAfterMingHook } from "@/hooks/shared/useHuleAfterMingHook";
-import { GameLatestBinderIcon } from "@/components/game/latest/BinderIcon";
-import { GameLatestTitleCard } from "@/components/game/latest/TitleCard";
+import { GameLatestBinderIcon as BinderIcon } from "@/components/game/latest/BinderIcon";
+import { GameLatestTitleCard as TitleCard } from "@/components/game/latest/TitleCard";
 import { GameLatestLineChart as LineChart } from "@/components/game/latest/LineChart";
-import { TabItem } from "@/components/game/latest/TabItem";
+import { GameLatestTabItem as TabItem } from "@/components/game/latest/TabItem";
 import { PlayerResult } from "@/features/distributeDataType";
 
 export default function GameLatestPage() {
@@ -123,14 +123,14 @@ export default function GameLatestPage() {
                 <p className="text-xl" style={{ color: "#00002A" }}>
                   牌譜
                 </p>
-                <GameLatestBinderIcon />
+                <BinderIcon />
               </div>
             </Link>
           </div>
 
           <div className="flex flex-row space-x-10 mt-10">
             <div className="basis-1/3">
-              <GameLatestTitleCard
+              <TitleCard
                 title="和了"
                 result={useHuleRateHook(gameMainStats.round, gameMainStats.hule)}
                 totalCount={gameMainStats.hule}
@@ -138,7 +138,7 @@ export default function GameLatestPage() {
               />
             </div>
             <div className="basis-1/3">
-              <GameLatestTitleCard
+              <TitleCard
                 title="放銃"
                 result={useUnrongRateHook(gameMainStats.round, gameMainStats.unrong)}
                 totalCount={gameMainStats.unrong}
@@ -146,7 +146,7 @@ export default function GameLatestPage() {
               />
             </div>
             <div className="basis-1/3">
-              <GameLatestTitleCard
+              <TitleCard
                 title="副露"
                 result={useChiPengGangRateHook(gameMainStats.round, gameMainStats.chiPengGang)}
                 totalCount={gameMainStats.chiPengGang}
