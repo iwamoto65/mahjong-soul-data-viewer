@@ -34,7 +34,12 @@ export const GameLatestLineChart = ({ roundCount, noTileCount, scores }: GameLat
   const scaleYScores = adjustRangeToNearestFiveThousand(fixedScores);
   const options = setChartOption({ roundCount, noTileCount, scaleYScores });
 
-  return <Line data={data} options={options} width={650} height={325} />;
+  return (
+    <>
+      <h1 className="m-0 text-xl font-bold text-[#333B4F] font-roboto">得点推移</h1>
+      <Line data={data} options={options} width={650} height={325} />
+    </>
+  );
 };
 
 const adjustRangeToNearestFiveThousand = (fixedScores: FixedScores) => {

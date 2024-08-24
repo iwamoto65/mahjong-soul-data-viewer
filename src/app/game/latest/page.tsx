@@ -25,6 +25,7 @@ import { useHuleAfterMingHook } from "@/hooks/shared/useHuleAfterMingHook";
 import { GameLatestBinderIcon as BinderIcon } from "@/components/game/latest/BinderIcon";
 import { GameLatestTitleCard as TitleCard } from "@/components/game/latest/TitleCard";
 import { GameLatestLineChart as LineChart } from "@/components/game/latest/LineChart";
+import { GameLatestGameResult as GameResult } from "@/components/game/latest/GameResult";
 import { GameLatestTabItem as TabItem } from "@/components/game/latest/TabItem";
 import { PlayerResult } from "@/features/distributeDataType";
 
@@ -157,30 +158,10 @@ export default function GameLatestPage() {
 
           <div className="flex flex-row space-x-10 mt-10">
             <div className="basis-8/12">
-              <h1 className="m-0 text-xl font-bold" style={{ color: "#00002A" }}>
-                得点推移
-              </h1>
               <LineChart roundCount={gameMainStats.round} noTileCount={gameMainStats.noTile} scores={scores} />
             </div>
             <div className="basis-4/12">
-              <h1 className="m-0 text-xl font-bold" style={{ color: "#00002A" }}>
-                対局結果
-              </h1>
-              <div className="grid grid-cols-2 gap-y-8 mt-10">
-                <p className="text-xl">部屋</p>
-                <p className="text-right text-xl">
-                  {modeState.type}
-                  {modeState.room}
-                </p>
-                <p className="text-xl">段位</p>
-                <p className="text-right text-xl">{rankLevel.replace(/三麻|四麻/g, "")}</p>
-                <p className="text-xl">順位</p>
-                <p className="text-right text-xl">{gameRecordStats.place}</p>
-                <p className="text-xl">最終持ち点</p>
-                <p className="text-right text-xl">{gameRecordStats.finalPoint}</p>
-                <p className="text-xl">獲得ポイント</p>
-                <p className="text-right text-xl">{gameRecordStats.gradingScore}</p>
-              </div>
+              <GameResult modeState={modeState} rankLevel={rankLevel} gameRecordStats={gameRecordStats} />
             </div>
           </div>
 
