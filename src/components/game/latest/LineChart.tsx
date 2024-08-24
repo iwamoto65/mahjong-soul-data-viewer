@@ -78,6 +78,7 @@ type ChartDataResponse = {
     data: number[];
     borderColor: string;
     backgroundColor: string;
+    borderWidth: number;
   }[];
 };
 
@@ -91,24 +92,28 @@ const setChartData = ({ roundTitles, fixedScores }: ChartData): ChartDataRespons
         data: fixedScores[0]?.score,
         borderColor: "rgb(255, 127, 127)",
         backgroundColor: "rgba(255, 127, 127, 0.5)",
+        borderWidth: 3,
       },
       {
         label: fixedScores[1]?.player,
         data: fixedScores[1]?.score,
         borderColor: "rgb(127, 191, 255)",
         backgroundColor: "rgba(127, 191, 255, 0.5)",
+        borderWidth: 3,
       },
       {
         label: fixedScores[2]?.player,
         data: fixedScores[2]?.score,
         borderColor: "rgb(52, 183, 142)",
         backgroundColor: "rgba(52, 183, 142, 0.5)",
+        borderWidth: 3,
       },
       {
         label: fixedScores[3]?.player,
         data: fixedScores[3]?.score,
         borderColor: "rgb(255, 191, 127)",
         backgroundColor: "rgba(255, 191, 127, 0.5)",
+        borderWidth: 3,
       },
     ],
   };
