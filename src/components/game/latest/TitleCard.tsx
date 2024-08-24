@@ -8,7 +8,7 @@ export const GameLatestTitleCard = ({ title, result, totalCount, totalRound }: {
         backgroundColor: "#F5F6FB",
         backgroundImage: "linear-gradient(135deg, #F5F6FB 0%, #EBEDF3 100%)",
         borderColor: "#D9DBE1",
-        border: "1px solid #D9DBE1", // 薄い境界線
+        border: "1px solid #D9DBE1",
         boxShadow: "0px 4px 6px rgba(46, 59, 78, 0.1), 0px 8px 12px rgba(46, 59, 78, 0.05)",
       }}
     >
