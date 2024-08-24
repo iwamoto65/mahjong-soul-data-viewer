@@ -184,7 +184,7 @@ export default function GameLatestPage() {
             </div>
           </div>
 
-          <div className="h-36 mt-10">
+          <div className="h-36 mt-5">
             <Tabs>
               <TabList>
                 <Tab>結果</Tab>
