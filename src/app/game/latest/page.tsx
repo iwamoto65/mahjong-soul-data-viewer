@@ -166,7 +166,7 @@ export default function GameLatestPage(): JSX.Element {
             </div>
           </div>
 
-          <div className="relative h-36 mt-5">
+          <div className="relative h-36 mt-3">
             <Tabs>
               <TabList>
                 <Tab>結果</Tab>
