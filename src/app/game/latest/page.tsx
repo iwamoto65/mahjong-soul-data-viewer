@@ -27,9 +27,10 @@ import { GameLatestTitleCard as TitleCard } from "@/components/game/latest/Title
 import { GameLatestLineChart as LineChart } from "@/components/game/latest/LineChart";
 import { GameLatestGameResult as GameResult } from "@/components/game/latest/GameResult";
 import { GameLatestTabItem as TabItem } from "@/components/game/latest/TabItem";
+import { GameLatestSheet as Sheet } from "@/components/game/latest/Sheet";
 import { PlayerResult } from "@/features/distributeDataType";
 
-export default function GameLatestPage() {
+export default function GameLatestPage(): JSX.Element {
   const {
     paifuUrl,
     setPaifuUrl,
@@ -165,7 +166,7 @@ export default function GameLatestPage() {
             </div>
           </div>
 
-          <div className="h-36 mt-5">
+          <div className="relative h-36 mt-5">
             <Tabs>
               <TabList>
                 <Tab>結果</Tab>
@@ -174,6 +175,17 @@ export default function GameLatestPage() {
                 <Tab>立直</Tab>
                 <Tab>副露</Tab>
                 <Tab>その他</Tab>
+                <Sheet
+                  paifuUrl={paifuUrl}
+                  modeState={modeState}
+                  gameMainStats={gameMainStats}
+                  gameRecordStats={gameRecordStats}
+                  huleStats={huleStats}
+                  unrongStats={unrongStats}
+                  noTileStats={noTileStats}
+                  liqiStats={liqiStats}
+                  unzimoStats={unzimoStats}
+                />
               </TabList>
 
               <TabPanel>

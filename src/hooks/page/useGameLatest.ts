@@ -1,13 +1,17 @@
 import { useState } from "react";
 
-type ModeState = {
+type PaifuUrl = string
+
+interface ModeState {
   type: string;
   room: string;
   format: string;
   people: number;
 };
 
-type GameMainStats = {
+type EndTimeState = string
+
+interface GameMainStats {
   round: number;
   hule: number;
   liqi: number;
@@ -16,13 +20,15 @@ type GameMainStats = {
   noTile: number;
 };
 
-type GameRecordStats = {
+interface GameRecordStats {
   finalPoint: number;
   gradingScore: number;
   place: number;
 };
 
-type HuleStats = {
+type RankLevel = string
+
+interface HuleStats {
   liqi: number;
   zimoWithLiqi: number;
   rongWithLiqi: number;
@@ -33,13 +39,13 @@ type HuleStats = {
   rongWithMing: number;
 };
 
-type UnrongStats = {
+interface UnrongStats {
   afterLiqi: number;
   unming: number;
   ming: number;
 }
 
-type LiqiStats = {
+interface LiqiStats {
   income: number;
   expenditure: number;
   incomeAndExpenditure: number;
@@ -53,13 +59,13 @@ type LiqiStats = {
   dora: number;
 };
 
-type NoTileStats = {
+interface NoTileStats {
   afterLiqi: number;
   afterMing: number;
   tingpai: number;
 }
 
-type UnzimoStats = {
+interface UnzimoStats {
   parentCover: number;
   parentCoverScore: number;
 }
@@ -71,15 +77,27 @@ type Scores = {
   }
 }[] | [];
 
+export interface GameLatestData {
+  paifuUrl: PaifuUrl;
+  modeState: ModeState;
+  gameMainStats: GameMainStats;
+  gameRecordStats: GameRecordStats;
+  huleStats: HuleStats;
+  unrongStats: UnrongStats;
+  noTileStats: NoTileStats;
+  liqiStats: LiqiStats;
+  unzimoStats: UnzimoStats;
+}
+
 export const useGameLatest = () => {
-  const [paifuUrl, setPaifuUrl] = useState<string>("");
+  const [paifuUrl, setPaifuUrl] = useState<PaifuUrl>("");
   const [modeState, setModeState] = useState<ModeState>({
     type: "",
     room: "",
     format: "",
     people: 0,
   });
-  const [endTimeState, setEndTimeState] = useState<string>("")
+  const [endTimeState, setEndTimeState] = useState<EndTimeState>("")
   const [gameMainStats, setGameMainStats] = useState<GameMainStats>({
     round: 0,
     hule: 0,
@@ -93,7 +111,7 @@ export const useGameLatest = () => {
     gradingScore: 0,
     place: 0,
   });
-  const [rankLevel, setRankLevel] = useState<string>("");
+  const [rankLevel, setRankLevel] = useState<RankLevel>("");
   const [huleStats, setHuleStats] = useState<HuleStats>({
     liqi: 0,
     zimoWithLiqi: 0,
