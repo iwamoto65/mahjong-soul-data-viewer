@@ -1,6 +1,6 @@
-export type UserActions = {
+export interface UserActions {
   passed: number,
-  user_input: {
+  user_input?: {
     seat: number,
     operation: {
       type: number
@@ -8,7 +8,7 @@ export type UserActions = {
   },
   result: {
     name: string,
-    data:
+    data?:
       & RecordNewRound
       & RecordHule
       & RecordNoTile
@@ -17,7 +17,7 @@ export type UserActions = {
   }
 }
 
-type RecordNewRound = {
+interface RecordNewRound {
   chang: number,
   ju: number,
   doras: string[],
@@ -28,7 +28,7 @@ type RecordNewRound = {
   tiles3: string[],
 }
 
-type RecordHule = {
+interface RecordHule {
   hules: {
     seat: number,
     ming: string[] | [],
@@ -40,13 +40,13 @@ type RecordHule = {
   delta_scores: number[]
 }
 
-type RecordNoTile = {
+interface RecordNoTile {
   players: {
     tingpai: boolean
   }[]
 }
 
-type RecordChiPengGang = {
+interface RecordChiPengGang {
   seat: number,
   liqi?: {
     seat: number,
@@ -55,7 +55,7 @@ type RecordChiPengGang = {
   }
 }
 
-type RecordDealTile = {
+interface RecordDealTile {
   seat: number,
   liqi?: {
     seat: number,

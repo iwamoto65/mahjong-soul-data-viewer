@@ -1,4 +1,4 @@
-export type PlayerResult = {
+export interface PlayerResult {
   uuid: string,
   mode: {
     type: string,
