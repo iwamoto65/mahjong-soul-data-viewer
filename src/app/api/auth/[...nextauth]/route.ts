@@ -17,6 +17,29 @@ interface RefreshedTokens {
   expires_in: number;
 }
 
+const GOOGLE_TOKEN_URL = 'https://oauth2.googleapis.com/token';
+
+const refreshAccessToken = async (refreshToken: string): Promise<RefreshedTokens> => {
+  const params = new URLSearchParams({
+    client_id: process.env.GOOGLE_CLIENT_ID || '',
+    client_secret: process.env.GOOGLE_CLIENT_SECRET || '',
+    refresh_token: refreshToken,
+    grant_type: 'refresh_token',
+  });
+
+  const response = await fetch(GOOGLE_TOKEN_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: params.toString(),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to refresh access token');
+  }
+
+  return response.json();
+};
+
 export const authOptions: AuthOptions = {
   providers: [
     GoogleProvider({
@@ -24,12 +47,12 @@ export const authOptions: AuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       authorization: {
         params: {
-          prompt: "consent",
-          access_type: "offline",
-          response_type: "code",
-          scope: "openid email profile https://www.googleapis.com/auth/spreadsheets"
-        }
-      }
+          prompt: 'consent',
+          access_type: 'offline',
+          response_type: 'code',
+          scope: 'openid https://www.googleapis.com/auth/spreadsheets',
+        },
+      },
     }),
   ],
   callbacks: {
@@ -38,24 +61,23 @@ export const authOptions: AuthOptions = {
         token.accessToken = account.access_token;
         token.refreshToken = account.refresh_token;
         token.expiresAt = Date.now() + (account.expires_in ?? 0) * 1000;
+        return token;
       }
 
-      if (token.expiresAt && Date.now() < token.expiresAt) return token;
+      if (token.expiresAt && Date.now() < token.expiresAt) {
+        return token;
+      }
 
-      const url = `https://oauth2.googleapis.com/token?client_id=${process.env.GOOGLE_CLIENT_ID}&client_secret=${process.env.GOOGLE_CLIENT_SECRET}&refresh_token=${token.refreshToken}&grant_type=refresh_token`;
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      });
-
-      const refreshedTokens: RefreshedTokens = await response.json();
-
-      if (!response.ok) throw new Error('Failed to refresh access token');
-
-      token.accessToken = refreshedTokens.access_token;
-      token.expiresAt = Date.now() + refreshedTokens.expires_in * 1000;
+      if (token.refreshToken) {
+        try {
+          const refreshedTokens = await refreshAccessToken(token.refreshToken);
+          token.accessToken = refreshedTokens.access_token;
+          token.expiresAt = Date.now() + refreshedTokens.expires_in * 1000;
+          return token;
+        } catch (error) {
+          throw new Error('Failed to refresh access token');
+        }
+      }
 
       return token;
     },

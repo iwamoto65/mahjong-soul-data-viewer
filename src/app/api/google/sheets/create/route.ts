@@ -17,6 +17,8 @@ export async function POST(req: Request) {
   oauth2Client.setCredentials({ access_token: session.accessToken });
 
   try {
+    const allowedSpreadsheetIds = new Set<string>();
+
     const spreadsheet: sheets_v4.Schema$Spreadsheet = await sheets.spreadsheets.create({
       auth: oauth2Client,
       requestBody: {
@@ -35,22 +37,26 @@ export async function POST(req: Request) {
 
     const sheetId = spreadsheet.spreadsheetId;
 
-    if (!sheetId) {
-      throw new Error('シートの作成に失敗しました。');
-    }
+    if (!sheetId) throw new Error('spreadsheet creation failed');
+    allowedSpreadsheetIds.add(sheetId);
 
-    await sheets.spreadsheets.values.append({
-      auth: oauth2Client,
-      spreadsheetId: sheetId,
-      range: 'Sheet1!A1',
-      valueInputOption: 'USER_ENTERED',
-      requestBody: {
-        values: data,
-      },
-    });
+    if (allowedSpreadsheetIds.has(sheetId)) {
+      await sheets.spreadsheets.values.append({
+        auth: oauth2Client,
+        spreadsheetId: sheetId,
+        range: 'Sheet1!A1',
+        valueInputOption: 'USER_ENTERED',
+        requestBody: {
+          values: data,
+        },
+      });
+    } else {
+      throw new Error("You do not have permission to edit this spreadsheet.");
+    }
 
     return NextResponse.json({ sheetId, message: 'Spreadsheet created and data inserted' });
   } catch (error) {
+    console.error(error)
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
