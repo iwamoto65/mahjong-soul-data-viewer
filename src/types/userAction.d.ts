@@ -32,8 +32,18 @@ export type UserAction = {
   }
 }
 
-export interface UserActionBase<T> {
+interface UserActionBase<T> {
   passed: number;
   type: number;
   result: T
 }
+
+export type RecordNewRoundActions = UserActionBase<RecordNewRound>[]
+export type RecordHuleActions = UserActionBase<RecordHule>[]
+export type RecordNoTileActions = UserActionBase<RecordNoTile>[]
+export type RecordLiujuActions = UserActionBase<RecordLiuju>[]
+export type RecordChiPengGangActions = UserActionBase<RecordChiPengGang>[]
+export type RecordAnGangAddGangActions = UserActionBase<RecordAnGangAddGang>[]
+export type RecordDiscardTileActions = UserActionBase<RecordDiscardTile>[]
+export type RecordDealTileActions = UserActionBase<RecordDealTile>[]
+export type UserInputActions = UserActionBase<UserInput>[]
