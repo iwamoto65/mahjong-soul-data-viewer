@@ -1,38 +1,97 @@
-import { identifySeat } from './userAccount/seatIdentification'
-import { identifyGameMode } from './gameConfig/gameModeIdentification';
-import { identifyRank } from './userAccount/rankIdentification'
-import { storeGameRecord } from './userResult/gameRecordStorer'
-import { convertUnixTime } from './gameConfig/unixTimeConverter';
-import { categorizeHule } from './userAction/hule/huleCategorizer'
-import { countUnrong } from './userAction/unrong/unrongCounter'
-import { storeUnrongScore } from './userAction/unrong/unrongScoreStorer';
-import { countLiqi } from './userAction/liqi/liqiCounter'
-import { countLiqiPreemption } from './userAction/liqi/liqiPreemptionCounter';
-import { countLiqiChased } from './userAction/liqi/liqiChasedCounter';
-import { countNoTile } from './userAction/noTile/noTileCounter'
-import { countNoTileTingpai } from './userAction/noTile/noTileTingpaiCounter'
-import { countChiPengGang } from './userAction/chiPengGang/chiPengGangCounter';
-import { countUnrongAlongWithLiqi } from './userAction/unrong/unrongAlongWithLiqiCounter'
-import { countUnrongAfterLiqi } from './userAction/unrong/unrongAfterLiqiCounter'
-import { countLiqiTurn } from './userAction/liqi/liqiTurnCounter';
-import { countLiqiNoTile } from './userAction/liqi/liqiNoTileCounter';
-import { countLiqiFirstTurnHule } from './userAction/liqi/liqiFirstTurnHuleCounter';
-import { countLiqiZhenting } from './userAction/liqi/liqiZhentingCounter';
-import { countLiqiWaitingTile } from './userAction/liqi/liqiWaitingTileCounter';
-import { countLiqiRemainingTile } from './userAction/liqi/liqiRemainingTileCounter';
-import { countZimoSevereParentCover } from './userAction/zimo/zimoParentCoverCounter';
-import { countUnrongAfterChiPengGang } from './userAction/unrong/unrongAfterChiPengGangCounter';
-import { countNoTileAfterChiPengGang } from './userAction/noTile/noTileAfterChiPengGangCounter';
-import { storeScoreTrend } from './userResult/scoreTrendStorer';
-import type { PlayerResult } from './distributeDataType';
-import type { UserActions } from './userAction/userActionType'
+import { identifyGameMode, convertUnixTime } from './gameConfig';
+import { identifySeat, identifyRank } from './userAccount';
+import {
+  categorizeHule,
+  countUnrong,
+  storeUnrongScore,
+  countLiqi,
+  countLiqiPreemption,
+  countLiqiChased,
+  countNoTile,
+  countNoTileTingpai,
+  countChiPengGang,
+  countUnrongAlongWithLiqi,
+  countUnrongAfterLiqi,
+  countLiqiTurn,
+  countLiqiNoTile,
+  countLiqiFirstTurnHule,
+  countLiqiZhenting,
+  countLiqiWaitingTile,
+  countLiqiRemainingTile,
+  countZimoSevereParentCover,
+  countUnrongAfterChiPengGang,
+  countNoTileAfterChiPengGang
+} from './userAction';
+import { storeGameRecord, storeScoreTrend } from './userResult';
+import type { PlayerResult } from '@/types/distributeData';
+import type {
+  UserAction,
+  RecordNewRoundActions,
+  RecordHuleActions,
+  RecordNoTileActions,
+  RecordLiujuActions,
+  RecordChiPengGangActions,
+  RecordAnGangAddGangActions,
+  RecordDiscardTileActions,
+  RecordDealTileActions,
+  UserInputActions
+} from '@/types/userAction';
+import type { UserResult } from '@/types/userResult';
+import type { UserAccount } from '@/types/userAccount';
 
 export const distributeData = (data: string): PlayerResult => {
-  const paifu = JSON.parse(data)
-  const userActions: [] = paifu.data.data.actions
-  const userAccounts: [] = paifu.head.accounts
-  const userResults: [] = paifu.head.result.players
-  let playerResult: PlayerResult = {
+  try {
+    const paifu = JSON.parse(data);
+    const userActions: UserAction[] = paifu.data.data.actions;
+    const userAccounts: UserAccount[] = paifu.head.accounts;
+    const userResults: UserResult[] = paifu.head.result.players;
+
+    let playerResult: PlayerResult = initializePlayerResult();
+    let recordNewRound: RecordNewRoundActions = [];
+    let recordHule: RecordHuleActions = [];
+    let recordNoTile: RecordNoTileActions = [];
+    let recordLiuju: RecordLiujuActions = [];
+    let recordChiPengGang: RecordChiPengGangActions = [];
+    let recordAnGangAddGang: RecordAnGangAddGangActions = [];
+    let recordDiscardTile: RecordDiscardTileActions = [];
+    let recordDealTile: RecordDealTileActions = [];
+    let userInput: UserInputActions = [];
+
+    userActions.forEach((action: UserAction) => {
+      handleActionResult(action, {
+        recordNewRound,
+        recordHule,
+        recordNoTile,
+        recordLiuju,
+        recordChiPengGang,
+        recordAnGangAddGang,
+        recordDiscardTile,
+        recordDealTile,
+        userInput
+      });
+    });
+
+    setPlayerResult(paifu, userActions, userAccounts, userResults, playerResult, {
+      recordNewRound,
+      recordHule,
+      recordNoTile,
+      recordLiuju,
+      recordChiPengGang,
+      recordAnGangAddGang,
+      recordDiscardTile,
+      recordDealTile,
+      userInput
+    });
+
+    return playerResult;
+  } catch (error) {
+    console.error("Error in distributeData function", error);
+    throw new Error("Data processing failed.");
+  }
+};
+
+const initializePlayerResult = (): PlayerResult => {
+  return {
     uuid: '',
     mode: {
       type: '',
@@ -96,88 +155,108 @@ export const distributeData = (data: string): PlayerResult => {
     },
     scoreTrend: []
   }
-
-  let recordNewRound: any[] = []
-  let recordHule: any[] = []
-  let recordNoTile: any[] = []
-  let recordLiuju: any[] = []
-  let recordChiPengGang: any[] = []
-  let recordAnGangAddGang: any[] = []
-  let recordDiscardTile: any[] = []
-  let recordDealTile: any[] = []
-  let userInput: any[] = []
-
-  userActions.forEach((action: UserActions) => {
-    if (action.result) {
-      switch (action.result.name) {
-        case '.lq.RecordNewRound':
-          recordNewRound.push(action)
-          break
-        case '.lq.RecordHule':
-          recordHule.push(action)
-          break
-        case '.lq.RecordNoTile':
-          recordNoTile.push(action)
-          break
-        case '.lq.RecordLiuju':
-          recordLiuju.push(action)
-          break
-        case '.lq.RecordChiPengGang':
-          recordChiPengGang.push(action)
-          break
-        case '.lq.RecordAnGangAddGang':
-          recordAnGangAddGang.push(action)
-          break
-        case '.lq.RecordDiscardTile':
-          recordDiscardTile.push(action)
-          break
-        case '.lq.RecordDealTile':
-          recordDealTile.push(action)
-          break
-      }
-    } else if (action.user_input) {
-      userInput.push(action)
-    }
-  })
-
-  playerResult.uuid = paifu.head.uuid
-  playerResult.seat = identifySeat(userAccounts)
-  playerResult.mode = identifyGameMode(paifu.head.config.meta.mode_id)
-  playerResult.endTime = convertUnixTime(paifu.head.end_time)
-  playerResult.rank = identifyRank(playerResult.seat, userAccounts)
-  playerResult.gameRecord = storeGameRecord(playerResult.seat, userResults)
-  playerResult.totalRound = recordNewRound.length
-  playerResult.hule.details = categorizeHule(playerResult.seat, recordHule)
-  playerResult.hule.total = playerResult.hule.details.length
-  playerResult.unrong.total = countUnrong(playerResult.seat, recordHule)
-  playerResult.unrong.scores = storeUnrongScore(playerResult.seat, recordHule)
-  playerResult.noTile.total = countNoTile(recordNoTile, recordLiuju)
-  playerResult.noTile.tingpai = countNoTileTingpai(playerResult.seat, recordNoTile)
-
-  const rounds: { round: number, startTime: number, endTime: number }[] = divideByRound(userActions, recordNewRound)
-  playerResult.chiPengGang.total = countChiPengGang(rounds, recordChiPengGang, playerResult.seat)
-
-  const unrongTimes: number[] = getUnrongTimes(playerResult.seat, recordHule)
-  playerResult.unrong.alongWithLiqi = countUnrongAlongWithLiqi(playerResult.seat, recordDiscardTile, unrongTimes, recordHule)
-  playerResult.unrong.afterLiqi = countUnrongAfterLiqi(playerResult.seat, rounds, recordDealTile, recordChiPengGang, unrongTimes, recordHule)
-  playerResult.unrong.afterChiPengGang = countUnrongAfterChiPengGang(playerResult.seat, recordChiPengGang, recordHule, unrongTimes, rounds)
-  playerResult.liqi.total = countLiqi(playerResult.seat, userInput, playerResult.unrong.alongWithLiqi.total)
-  playerResult.liqi.preemption = countLiqiPreemption(playerResult.seat, userInput, recordDiscardTile, unrongTimes, rounds)
-  playerResult.liqi.chased = countLiqiChased(playerResult.seat, userInput, rounds)
-  playerResult.liqi.turns = countLiqiTurn(playerResult.seat, userInput, recordDiscardTile, unrongTimes, rounds)
-  playerResult.liqi.noTile = countLiqiNoTile(playerResult.seat, recordNoTile, recordDealTile, recordChiPengGang, rounds)
-  playerResult.liqi.firstTurnHule = countLiqiFirstTurnHule(playerResult.seat, recordHule)
-  playerResult.liqi.zhenting = countLiqiZhenting(playerResult.seat, recordDealTile, recordChiPengGang)
-  playerResult.liqi.waitingTileCount = countLiqiWaitingTile(playerResult.seat, recordDiscardTile, unrongTimes, rounds)
-  playerResult.liqi.remainingTileCount = countLiqiRemainingTile(playerResult.seat, recordDiscardTile, recordChiPengGang, recordAnGangAddGang, recordNewRound, recordDealTile, unrongTimes, rounds)
-  playerResult.zimo.parentCoverScores = countZimoSevereParentCover(playerResult.seat, recordHule, rounds)
-  playerResult.noTile.afterChiPengGang = countNoTileAfterChiPengGang(playerResult.seat, recordChiPengGang, recordNoTile, rounds)
-  playerResult.scoreTrend = storeScoreTrend(userAccounts, userResults, recordNewRound)
-
-  return playerResult
 }
 
-const divideByRound = (userActions: [], recordNewRound: any[]) => {
+const handleActionResult = (
+  action: UserAction,
+  records: {
+    recordNewRound: RecordNewRoundActions,
+    recordHule: RecordHuleActions,
+    recordNoTile: RecordNoTileActions,
+    recordLiuju: RecordLiujuActions,
+    recordChiPengGang: RecordChiPengGangActions,
+    recordAnGangAddGang: RecordAnGangAddGangActions,
+    recordDiscardTile: RecordDiscardTileActions,
+    recordDealTile: RecordDealTileActions,
+    userInput: UserInputActions
+  }
+): void => {
+  if (action.result) {
+    switch (action.result.name) {
+      case '.lq.RecordNewRound':
+        records.recordNewRound.push(action)
+        break
+      case '.lq.RecordHule':
+        records.recordHule.push(action)
+        break
+      case '.lq.RecordNoTile':
+        records.recordNoTile.push(action)
+        break
+      case '.lq.RecordLiuju':
+        records.recordLiuju.push({ passed: action.passed, type: action.type, result: action.result.data })
+        break
+      case '.lq.RecordChiPengGang':
+        records.recordChiPengGang.push(action)
+        break
+      case '.lq.RecordAnGangAddGang':
+        records.recordAnGangAddGang.push(action)
+        break
+      case '.lq.RecordDiscardTile':
+        records.recordDiscardTile.push(action)
+        break
+      case '.lq.RecordDealTile':
+        records.recordDealTile.push(action)
+        break
+    }
+  } else if (action.user_input) {
+    records.userInput.push({ passed: action.passed, type: action.type, result: action.user_input })
+  }
+}
+
+const setPlayerResult = (
+  paifu: any,
+  userActions: UserAction[],
+  userAccounts: UserAccount[],
+  userResults: UserResult[],
+  playerResult: PlayerResult,
+  records: {
+    recordNewRound: RecordNewRoundActions,
+    recordHule: RecordHuleActions,
+    recordNoTile: RecordNoTileActions,
+    recordLiuju: RecordLiujuActions,
+    recordChiPengGang: RecordChiPengGangActions,
+    recordAnGangAddGang: RecordAnGangAddGangActions,
+    recordDiscardTile: RecordDiscardTileActions,
+    recordDealTile: RecordDealTileActions,
+    userInput: UserInputActions
+  }
+): void => {
+  playerResult.uuid = paifu.head.uuid;
+  playerResult.seat = identifySeat(userAccounts);
+  playerResult.mode = identifyGameMode(paifu.head.config.meta.mode_id);
+  playerResult.endTime = convertUnixTime(paifu.head.end_time);
+  playerResult.rank = identifyRank(playerResult.seat, userAccounts);
+  playerResult.gameRecord = storeGameRecord(playerResult.seat, userResults);
+  playerResult.totalRound = records.recordNewRound.length;
+  playerResult.hule.details = categorizeHule(playerResult.seat, records.recordHule);
+  playerResult.hule.total = playerResult.hule.details.length;
+  playerResult.unrong.total = countUnrong(playerResult.seat, records.recordHule);
+  playerResult.unrong.scores = storeUnrongScore(playerResult.seat, records.recordHule);
+  playerResult.noTile.total = countNoTile(records.recordNoTile, records.recordLiuju);
+  playerResult.noTile.tingpai = countNoTileTingpai(playerResult.seat, records.recordNoTile);
+
+  const rounds = divideByRound(userActions, records.recordNewRound);
+  playerResult.chiPengGang.total = countChiPengGang(rounds, records.recordChiPengGang, playerResult.seat);
+
+  const unrongTimes = getUnrongTimes(playerResult.seat, records.recordHule);
+  playerResult.unrong.alongWithLiqi = countUnrongAlongWithLiqi(playerResult.seat, records.recordDiscardTile, unrongTimes, records.recordHule);
+  playerResult.unrong.afterLiqi = countUnrongAfterLiqi(playerResult.seat, rounds, records.recordDealTile, records.recordChiPengGang, unrongTimes, records.recordHule);
+  playerResult.unrong.afterChiPengGang = countUnrongAfterChiPengGang(playerResult.seat, records.recordChiPengGang, records.recordHule, unrongTimes, rounds);
+  playerResult.liqi.total = countLiqi(playerResult.seat, records.userInput, playerResult.unrong.alongWithLiqi.total);
+  playerResult.liqi.preemption = countLiqiPreemption(playerResult.seat, records.userInput, records.recordDiscardTile, unrongTimes, rounds);
+  playerResult.liqi.chased = countLiqiChased(playerResult.seat, records.userInput, rounds);
+  playerResult.liqi.turns = countLiqiTurn(playerResult.seat, records.userInput, records.recordDiscardTile, unrongTimes, rounds);
+  playerResult.liqi.noTile = countLiqiNoTile(playerResult.seat, records.recordNoTile, records.recordDealTile, records.recordChiPengGang, rounds);
+  playerResult.liqi.firstTurnHule = countLiqiFirstTurnHule(playerResult.seat, records.recordHule);
+  playerResult.liqi.zhenting = countLiqiZhenting(playerResult.seat, records.recordDealTile, records.recordChiPengGang);
+  playerResult.liqi.waitingTileCount = countLiqiWaitingTile(playerResult.seat, records.recordDiscardTile, unrongTimes, rounds);
+  playerResult.liqi.remainingTileCount = countLiqiRemainingTile(playerResult.seat, records.recordDiscardTile, records.recordChiPengGang, records.recordAnGangAddGang, records.recordNewRound, records.recordDealTile, unrongTimes, rounds);
+  playerResult.zimo.parentCoverScores = countZimoSevereParentCover(playerResult.seat, records.recordHule, rounds);
+  playerResult.noTile.afterChiPengGang = countNoTileAfterChiPengGang(playerResult.seat, records.recordChiPengGang, records.recordNoTile, rounds);
+  playerResult.scoreTrend = storeScoreTrend(userAccounts, userResults, records.recordNewRound);
+}
+
+const divideByRound = (userActions: UserAction[], recordNewRound: RecordNewRoundActions): { round: number, startTime: number, endTime: number }[] => {
   const roundStartTimes: number[] = recordNewRound.map((record) => record.passed)
   let rounds: { round: number, startTime: number, endTime: number }[] = []
   const lastRound: { game_event: number, passed: number, type: number } = userActions[userActions.length - 1]
@@ -193,7 +272,7 @@ const divideByRound = (userActions: [], recordNewRound: any[]) => {
   return rounds
 }
 
-const getUnrongTimes = (seat: number, recordHule: any[]) => {
+const getUnrongTimes = (seat: number, recordHule: RecordHuleActions): number[] => {
   let times: number[] = []
 
   recordHule.forEach((record) => {
