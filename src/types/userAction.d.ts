@@ -1,65 +1,39 @@
-export interface UserActions {
-  passed: number,
-  user_input?: {
-    seat: number,
-    operation: {
-      type: number
-    }
-  },
+import type { RecordNewRound } from '@/types/recordNewRound';
+import type { RecordHule } from '@/types/recordHule';
+import type { RecordNoTile } from '@/types/recordNoTile';
+import type { RecordLiuju } from '@/types/recordLiuju';
+import type { RecordChiPengGang } from '@/types/recordChiPengGang';
+import type { RecordAnkanKakan } from '@/types/recordAnGangAddGang';
+import type { RecordDiscardTile } from '@/types/recordDiscardTile';
+import type { RecordDealTile } from '@/types/recordDealTile';
+import type { UserInput } from '@/types/userInput';
+
+
+export type UserAction = {
+  passed: number;
+  type: number;
+  user_event: {
+    seat: number;
+    type: number;
+  }
+  user_input: UserInput
+  game_event: number
   result: {
-    name: string,
-    data?:
-      & RecordNewRound
-      & RecordHule
-      & RecordNoTile
-      & RecordChiPengGang
-      & RecordDealTile
+    name: string;
+    data:
+      | RecordNewRound
+      | RecordHule
+      | RecordNoTile
+      | RecordLiuju
+      | RecordChiPengGang
+      | RecordAnkanKakan
+      | RecordDiscardTile
+      | RecordDealTile
   }
 }
 
-interface RecordNewRound {
-  chang: number,
-  ju: number,
-  doras: string[],
-  ben: number,
-  tiles0: string[],
-  tiles1: string[],
-  tiles2: string[],
-  tiles3: string[],
-}
-
-interface RecordHule {
-  hules: {
-    seat: number,
-    ming: string[] | [],
-    zimo: boolean,
-    qinjia: boolean,
-    liqi: boolean,
-    dadian: number,
-  }[],
-  delta_scores: number[]
-}
-
-interface RecordNoTile {
-  players: {
-    tingpai: boolean
-  }[]
-}
-
-interface RecordChiPengGang {
-  seat: number,
-  liqi?: {
-    seat: number,
-    score: number,
-    liqibang: number,
-  }
-}
-
-interface RecordDealTile {
-  seat: number,
-  liqi?: {
-    seat: number,
-    score: number,
-    liqibang: number,
-  }
+export interface UserActionBase<T> {
+  passed: number;
+  type: number;
+  result: T
 }

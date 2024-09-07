@@ -1,13 +1,19 @@
 interface Operation {
+  type: number;
+}
+
+interface OperationList {
   seat: number;
-  operation_list: {
-    type: number
-  }[];
+  operation_list: Operation[];
   time_add: number;
   time_fixed: number;
 }
 
-interface ResultData {
+interface Open {
+  seat: number;
+}
+
+interface Data {
   chang: number;
   ju: number;
   ben: number;
@@ -17,23 +23,16 @@ interface ResultData {
   tiles1: string[];
   tiles2: string[];
   tiles3: string[];
-  operation: Operation;
+  tingpai?: string[];
+  operation: OperationList;
+  md5: string;
   paishan: string;
   left_tile_count: number;
   doras: string[];
-  opens: {
-    seat: number
-  }[];
-  sha256: string;
-  saltSha256: string;
-  salt: string;
+  opens: Open[];
 }
 
 export interface RecordNewRound {
-  passed: number;
-  type: number;
-  result: {
-    name: string;
-    data: ResultData;
-  }
+  name: string;
+  data: Data;
 }
