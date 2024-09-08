@@ -34,7 +34,8 @@ import type {
   RecordAnGangAddGangActions,
   RecordDiscardTileActions,
   RecordDealTileActions,
-  UserInputActions
+  UserInputActions,
+  Round
 } from '@/types/userAction';
 import type { UserResult } from '@/types/userResult';
 import type { UserAccount } from '@/types/userAccount';
@@ -256,9 +257,9 @@ const setPlayerResult = (
   playerResult.scoreTrend = storeScoreTrend(userAccounts, userResults, records.recordNewRound);
 }
 
-const divideByRound = (userActions: UserAction[], recordNewRound: RecordNewRoundActions): { round: number, startTime: number, endTime: number }[] => {
+const divideByRound = (userActions: UserAction[], recordNewRound: RecordNewRoundActions): Round[] => {
   const roundStartTimes: number[] = recordNewRound.map((record) => record.passed)
-  let rounds: { round: number, startTime: number, endTime: number }[] = []
+  let rounds: Round[] = []
   const lastRound: { game_event: number, passed: number, type: number } = userActions[userActions.length - 1]
 
   roundStartTimes.forEach((_time, i, arr) => {
