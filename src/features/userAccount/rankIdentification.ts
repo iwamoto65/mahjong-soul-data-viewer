@@ -1,5 +1,14 @@
-export const identifyRank = (seat: number, userAccounts: []) => {
-  let rank: { level: string, point: number } = { level: '', point: 0 }
+import type { UserAccount } from "@/types/userAccount"
+
+interface Rank {
+  level: string
+  point: number
+}
+
+type RankName = string
+
+export const identifyRank = (seat: number, userAccounts: UserAccount[]): Rank => {
+  let rank: Rank = { level: '', point: 0 }
 
   userAccounts.forEach((account: { seat: number, level: { id: number, score: number }}) => {
     if (account.seat === seat) {
@@ -11,8 +20,8 @@ export const identifyRank = (seat: number, userAccounts: []) => {
   return rank
 }
 
-const getRankName = (rankId: number) => {
-  let rankName: string = ''
+const getRankName = (rankId: number): RankName => {
+  let rankName: RankName = ''
 
   switch (rankId) {
     case 10101:
