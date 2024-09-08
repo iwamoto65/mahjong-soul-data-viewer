@@ -1,5 +1,12 @@
-export const identifyGameMode = (modeId: number) => {
-  let mode: { type: string, room: string, format: string, people: number } = { type: '', room: '', format: '', people: 0 }
+interface Mode {
+  type: string
+  room: string
+  format: string
+  people: number
+}
+
+export const identifyGameMode = (modeId: number): Mode => {
+  let mode: Mode = { type: '', room: '', format: '', people: 0 }
 
   switch (modeId) {
     // mode_id別データ
