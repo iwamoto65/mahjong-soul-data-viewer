@@ -1,6 +1,6 @@
 import db from '../../firebase'
 import { doc, setDoc } from 'firebase/firestore'
-import type { PlayerResult } from './distributeDataType'
+import type { PlayerResult } from '../types/distributeData'
 
 export const sendGameResult = async (result: PlayerResult) => {
   let res: { status: 'ok' | 'failed' } = { status: 'failed' }
