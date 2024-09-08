@@ -1,5 +1,20 @@
-export const storeScoreTrend = (userAccounts: any[], userResults: any[], recordNewRound: any[]) => {
-  let status: { player: string, scores: { [key: string]: number } }[] = userAccounts.map((account) => ({ player: account.nickname, scores: {} }))
+import type { UserAccount } from "@/types/userAccount"
+import type { UserResult } from "@/types/userResult"
+import type { RecordNewRoundActions } from "@/types/userAction"
+
+type Status = {
+  player: string
+  scores: {
+    [key: string]: number
+  }
+}[]
+
+export const storeScoreTrend = (
+  userAccounts: UserAccount[],
+  userResults: UserResult[],
+  recordNewRound: RecordNewRoundActions
+): Status => {
+  let status: Status = userAccounts.map((account) => ({ player: account.nickname, scores: {} }))
 
   recordNewRound.forEach((record) => {
     const data = record.result.data
