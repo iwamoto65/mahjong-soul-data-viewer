@@ -1,6 +1,10 @@
-export const countLiqiFirstTurnHule = (seat: number, recordHule: any[]) => {
+import type { RecordHuleActions } from "@/types/userAction"
+
+type FirstTurnCount = number
+
+export const countLiqiFirstTurnHule = (seat: number, recordHule: RecordHuleActions): FirstTurnCount => {
   const fanId: { [key: string]: number } = { firstTurn: 30 }
-  let firstTurnCount: number = 0
+  let firstTurnCount: FirstTurnCount = 0
 
   recordHule.forEach((record) => {
     record.result.data.hules.forEach((hule: { seat: number, fans: { id: number }[] }) => {

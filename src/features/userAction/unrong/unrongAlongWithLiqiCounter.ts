@@ -1,9 +1,21 @@
-export const countUnrongAlongWithLiqi = (seat: number, recordDiscardTile: any[], unrongTimes: number[], recordHule: any[]) => {
-  let discardTiles: any[] = []
+import type { RecordDiscardTileActions, RecordHuleActions } from "@/types/userAction"
+
+type UnrongAlongWithLiqi = {
+  total: number
+  scores: number[]
+}
+
+export const countUnrongAlongWithLiqi = (
+  seat: number,
+  recordDiscardTile: RecordDiscardTileActions,
+  unrongTimes: number[],
+  recordHule: RecordHuleActions
+): UnrongAlongWithLiqi => {
+  let discardTiles: RecordDiscardTileActions = []
   let discardTilePassed: any[] = []
   let passedJustBeforeUnrong: number[] = []
   let passedJustAfterLiqi: (number | undefined)[] = []
-  let unrongAlongWithLiqi: { total: number, scores: number[] } = { total: 0, scores: [] }
+  let unrongAlongWithLiqi: UnrongAlongWithLiqi = { total: 0, scores: [] }
 
   recordDiscardTile.forEach((record) => {
     if (record.result.data.seat === seat) discardTiles.push(record)

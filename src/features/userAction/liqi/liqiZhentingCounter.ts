@@ -1,7 +1,16 @@
-export const countLiqiZhenting = (seat: number, recordDealTile: any[], recordChiPengGang: any[]) => {
-  let zhentingLiqiCount: number = 0
+import type { RecordDealTileActions, RecordChiPengGangActions } from '@/types/userAction';
 
-  recordDealTile.concat(recordChiPengGang).forEach((record) => {
+type ZhentingLiqiCount = number
+
+export const countLiqiZhenting = (
+  seat: number,
+  recordDealTile: RecordDealTileActions,
+  recordChiPengGang: RecordChiPengGangActions
+): ZhentingLiqiCount => {
+  let zhentingLiqiCount: ZhentingLiqiCount = 0
+  const combineRecord = [...recordDealTile, ...recordChiPengGang]
+
+  combineRecord.forEach((record) => {
     if (record.result.data.liqi && record.result.data.liqi.seat === seat) {
       if (record.result.data.zhenting[seat]) zhentingLiqiCount++
     }

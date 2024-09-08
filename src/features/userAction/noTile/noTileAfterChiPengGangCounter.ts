@@ -1,6 +1,15 @@
-export const countNoTileAfterChiPengGang = (seat: number, recordChiPengGang: any[], recordNoTile: any[], rounds: any[]) => {
+import type { RecordChiPengGangActions, RecordNoTileActions, Round } from "@/types/userAction"
+
+type NoTileAfterChiPengGangCount = number
+
+export const countNoTileAfterChiPengGang = (
+  seat: number,
+  recordChiPengGang: RecordChiPengGangActions,
+  recordNoTile: RecordNoTileActions,
+  rounds: Round[]
+): NoTileAfterChiPengGangCount => {
   let status: { round: number, chiPengGang: boolean, noTile: boolean }[] = new Array(rounds.length).fill(null).map((_, i) => ({ round: i + 1, chiPengGang: false, noTile: false }))
-  let noTileAfterChiPengGangCount: number = 0
+  let noTileAfterChiPengGangCount: NoTileAfterChiPengGangCount = 0
 
   recordChiPengGang.forEach((record) => {
     rounds.forEach((r) => {
@@ -15,7 +24,7 @@ export const countNoTileAfterChiPengGang = (seat: number, recordChiPengGang: any
   })
 
   recordNoTile.forEach((record) => {
-    rounds.forEach((r) => {
+    rounds.forEach((r: Round) => {
       if (r.startTime < record.passed && record.passed < r.endTime) {
         status.forEach((s) => {
           if (s.round === r.round) {

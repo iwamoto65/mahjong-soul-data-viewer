@@ -1,5 +1,9 @@
-export const storeUnrongScore = (seat: number, recordHule: any[]) => {
-  let scores: number[] = []
+import type { RecordHuleActions } from "@/types/userAction"
+
+type Scores = number[]
+
+export const storeUnrongScore = (seat: number, recordHule: RecordHuleActions): Scores => {
+  let scores: Scores = []
 
   recordHule.forEach((record) => {
     if (record.result.data.delta_scores[seat] < 0) {

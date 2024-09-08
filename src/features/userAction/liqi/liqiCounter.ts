@@ -1,10 +1,12 @@
-export const countLiqi = (seat: number, userInput: any[], unrongAlongWithLiqi: number) => {
+import type { UserInputActions } from "@/types/userAction"
+
+export const countLiqi = (seat: number, userInput: UserInputActions, unrongAlongWithLiqi: number): number => {
   let liqiCount: number = 0
   const operationType: { [key: string]: number } = { liqi: 7 }
 
-  userInput.forEach((action: { user_input: { seat: number, operation: { type: number } } }) => {
-    if (action.user_input.seat === seat) {
-      if (action.user_input.operation && action.user_input.operation.type === operationType.liqi) {
+  userInput.forEach((action: { result: { seat: number, operation: { type: number } }}) => {
+    if (action.result.seat === seat) {
+      if (action.result.operation && action.result.operation.type === operationType.liqi) {
         liqiCount++
       }
     }

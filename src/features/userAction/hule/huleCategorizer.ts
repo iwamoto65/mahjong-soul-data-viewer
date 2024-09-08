@@ -1,5 +1,17 @@
-export const categorizeHule = (seat: number, recordHule: any[]) => {
-  let huleData: { ming: string[] | [], zimo: boolean, qinjia: boolean, liqi: boolean, dadian: number, deltaScore: number, liDora: number }[] = []
+import type { RecordHuleActions } from "@/types/userAction"
+
+type HuleData = {
+  ming: string[] | [],
+  zimo: boolean,
+  qinjia: boolean,
+  liqi: boolean,
+  dadian: number,
+  deltaScore: number,
+  liDora: number
+}[]
+
+export const categorizeHule = (seat: number, recordHule: RecordHuleActions): HuleData => {
+  let huleData: HuleData = []
 
   recordHule.forEach((record) => {
     record.result.data.hules.forEach((hule: {

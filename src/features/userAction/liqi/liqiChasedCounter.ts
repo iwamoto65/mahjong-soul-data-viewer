@@ -1,17 +1,22 @@
-export const countLiqiChased = (seat: number, userInput: any[], rounds: { round: number, startTime: number, endTime: number }[]) => {
-  let status: {
-    round: number,
-    player: { isLiqi: boolean, time: number },
-    opponent: { isLiqi: boolean, times: number[] }
-  }[] = new Array(rounds.length).fill(null).map((_, i) => ({ round: i + 1, player: { isLiqi: false, time: 0 }, opponent: { isLiqi: false, times: [] }}))
+import type { UserInputActions, Round } from "@/types/userAction"
+
+type Status = {
+  round: number;
+  player: { isLiqi: boolean, time: number };
+  opponent: { isLiqi: boolean, times: number[] };
+}[]
+type LiqiChasedCount = number;
+
+export const countLiqiChased = (seat: number, userInput: UserInputActions, rounds: Round[]): LiqiChasedCount => {
+  let status: Status = new Array(rounds.length).fill(null).map((_, i) => ({ round: i + 1, player: { isLiqi: false, time: 0 }, opponent: { isLiqi: false, times: [] }}))
   let playerLiqiPassed: number[] = []
   let opponentLiqiPassed: number[] = []
-  let liqiChasedCount: number = 0
+  let liqiChasedCount: LiqiChasedCount = 0
   const operationType: { [key: string]: number } = { liqi: 7 }
 
-  userInput.forEach((action: { passed: number, user_input: { seat: number, operation: { type: number } } }) => {
-    if (action.user_input.operation && action.user_input.operation.type === operationType.liqi) {
-      if (action.user_input.seat === seat) {
+  userInput.forEach((action: { passed: number, result: { seat: number, operation: { type: number } } }) => {
+    if (action.result.operation && action.result.operation.type === operationType.liqi) {
+      if (action.result.seat === seat) {
         playerLiqiPassed.push(action.passed)
       } else {
         opponentLiqiPassed.push(action.passed)
@@ -20,7 +25,7 @@ export const countLiqiChased = (seat: number, userInput: any[], rounds: { round:
   })
 
   // 立直が成立しているか、また成立している場合はその時間を取得している
-  rounds.forEach((r: { round: number, startTime: number, endTime: number }) => {
+  rounds.forEach((r: Round) => {
     playerLiqiPassed.forEach((playerPassed: number) => {
       if (r.startTime < playerPassed && playerPassed < r.endTime) {
         status.forEach((s) => {

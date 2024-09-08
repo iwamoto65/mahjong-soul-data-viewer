@@ -1,8 +1,12 @@
-export const countChiPengGang = (rounds: { round: number, startTime: number, endTime: number }[], recordChiPengGang: any[], seat: number) => {
+import type { RecordChiPengGangActions, Round } from "@/types/userAction"
+
+type ChiPengGangUniqueCount = number
+
+export const countChiPengGang = (rounds: Round[], recordChiPengGang: RecordChiPengGangActions, seat: number): ChiPengGangUniqueCount => {
   let chiPengGangTimes: number[] = []
   let chiPengGangRounds: number[] = []
 
-  recordChiPengGang.forEach((record) => {
+  recordChiPengGang.forEach((record: { passed: number, result: { data: { seat: number }}}) => {
     if (record.result.data.seat === seat) chiPengGangTimes.push(record.passed)
   })
 
@@ -12,7 +16,7 @@ export const countChiPengGang = (rounds: { round: number, startTime: number, end
     })
   })
 
-  const chiPengGangUniqueCount: number = new Set(chiPengGangRounds).size
+  const chiPengGangUniqueCount: ChiPengGangUniqueCount = new Set(chiPengGangRounds).size
 
   return chiPengGangUniqueCount
 }

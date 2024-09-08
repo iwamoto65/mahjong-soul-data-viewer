@@ -1,4 +1,12 @@
 import { checkStateOfUnrongAlongWithLiqi } from "../common/stateOfUnrongAlongWithLiqiChecker"
+import type {
+  RecordDiscardTileActions,
+  RecordChiPengGangActions,
+  RecordAnGangAddGangActions,
+  RecordNewRoundActions,
+  RecordDealTileActions,
+  Round
+} from "@/types/userAction"
 
 const presetTiles: { [key: string]: number } = {
   '0m': 0, '1m': 0, '2m': 0, '3m': 0, '4m': 0, '5m': 0, '6m': 0, '7m': 0, '8m': 0, '9m': 0,
@@ -9,15 +17,16 @@ const presetTiles: { [key: string]: number } = {
 
 export const countLiqiRemainingTile = (
   seat: number,
-  recordDiscardTile: any[],
-  recordChiPengGang: any[],
-  recordAnGangAddGang: any[],
-  recordNewRound: any[],
-  recordDealTile: any[],
+  recordDiscardTile: RecordDiscardTileActions,
+  recordChiPengGang: RecordChiPengGangActions,
+  recordAnGangAddGang: RecordAnGangAddGangActions,
+  recordNewRound: RecordNewRoundActions,
+  recordDealTile: RecordDealTileActions,
   unrongTimes: number[],
-  rounds: any[]
+  rounds: Round[]
 ) => {
-  const targetTiles = recordDiscardTile.concat(recordChiPengGang, recordAnGangAddGang).sort((a, b) => a.passed - b.passed)
+  const combineRecord = [...recordDiscardTile, ...recordChiPengGang, ...recordAnGangAddGang]
+  const targetTiles = combineRecord.sort((a, b) => a.passed - b.passed)
   const statusToAll = countRemainingTilesToAll(seat, targetTiles, rounds)
   const statusToMyself = countTilesOnlyMyself(seat, targetTiles, recordNewRound, recordDealTile, rounds)
   const unrongStatus = checkStateOfUnrongAlongWithLiqi(seat, recordDiscardTile, unrongTimes, rounds)

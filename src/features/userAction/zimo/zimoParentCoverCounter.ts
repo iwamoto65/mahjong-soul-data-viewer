@@ -1,6 +1,14 @@
-export const countZimoSevereParentCover = (seat: number, recordHule: any[], rounds: any[]) => {
+import type { RecordHuleActions, Round } from "@/types/userAction"
+
+type ParentCoverScores = number[]
+
+export const countZimoSevereParentCover = (
+  seat: number,
+  recordHule: RecordHuleActions,
+  rounds: Round[]
+): ParentCoverScores => {
   let status: { round: number, record: any[] }[] = new Array(rounds.length).fill(null).map((_, i) => ({ round: i + 1, record: [] }))
-  let parentCoverScores: number[] = []
+  let parentCoverScores: ParentCoverScores = []
 
   recordHule.forEach((record) => {
     rounds.forEach((r) => {

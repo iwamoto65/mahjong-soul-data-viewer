@@ -1,18 +1,25 @@
+import type { Round, RecordDealTileActions, RecordChiPengGangActions, RecordHuleActions } from "@/types/userAction"
+
+type UnrongAfterLiqi = {
+  total: number,
+  scores: number[]
+}
+
 export const countUnrongAfterLiqi = (
   seat: number,
-  rounds: { round: number, startTime: number, endTime: number }[],
-  dealTiles: any[],
-  chiPengGangTiles: any[],
+  rounds: Round[],
+  dealTiles: RecordDealTileActions,
+  chiPengGangTiles: RecordChiPengGangActions,
   unrongTimes: number[],
-  recordHule: any[]
+  recordHule: RecordHuleActions
 ) => {
   let liqiFixedPassed: number[] = []
   let status: { round: number, liqi: boolean, unrong: boolean, score: number }[] = new Array(rounds.length).fill(null).map((_, i) => ({ round: i+1, liqi: false, unrong: false, score: 0 }))
-  let unrongAfterLiqi: { total: number, scores: number[] } = { total: 0, scores: [] }
+  let unrongAfterLiqi: UnrongAfterLiqi = { total: 0, scores: [] }
   let unrongFixed: { passed: number, score: number }[] = []
-
+  const combineRecord = [...dealTiles, ...chiPengGangTiles]
   // 立直が成立した時間を取得
-  dealTiles.concat(chiPengGangTiles).forEach((tile: { passed: number, result: { data: { liqi?: { seat: number }}}}) => {
+  combineRecord.forEach((tile: { passed: number, result: { data: { liqi?: { seat: number }}}}) => {
     if (tile.result.data.liqi && tile.result.data.liqi.seat === seat) liqiFixedPassed.push(tile.passed)
   })
 

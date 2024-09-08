@@ -1,7 +1,20 @@
-export const countUnrongAfterChiPengGang = (seat: number, recordChiPengGang: any[], recordHule: any[], unrongTimes: number[], rounds: any[]) => {
+import type { RecordChiPengGangActions, RecordHuleActions, Round } from "@/types/userAction"
+
+type UnrongAfterChiPengGang = {
+  total: number
+  scores: number[]
+}
+
+export const countUnrongAfterChiPengGang = (
+  seat: number,
+  recordChiPengGang: RecordChiPengGangActions,
+  recordHule: RecordHuleActions,
+  unrongTimes: number[],
+  rounds: Round[]
+): UnrongAfterChiPengGang => {
   let status: { round: number, chiPengGang: boolean, unrong: boolean, score: number }[]
     = new Array(rounds.length).fill(null).map((_, i) => ({ round: i + 1, chiPengGang: false, unrong: false, score: 0 }))
-  let unrongAfterChiPengGang: { total: number, scores: number[] } = { total: 0, scores: [] }
+  let unrongAfterChiPengGang: UnrongAfterChiPengGang = { total: 0, scores: [] }
 
   recordChiPengGang.forEach((record) => {
     rounds.forEach((r) => {

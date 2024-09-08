@@ -47,3 +47,9 @@ export type RecordAnGangAddGangActions = UserActionBase<RecordAnGangAddGang>[]
 export type RecordDiscardTileActions = UserActionBase<RecordDiscardTile>[]
 export type RecordDealTileActions = UserActionBase<RecordDealTile>[]
 export type UserInputActions = UserActionBase<UserInput>[]
+
+export interface Round {
+  round: number;
+  startTime: number;
+  endTime: number;
+}

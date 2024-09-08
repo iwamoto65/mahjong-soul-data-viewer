@@ -1,5 +1,9 @@
-export const countUnrong = (seat: number, recordHule: any[]) => {
-  let unrongCount: number = 0
+import type { RecordHuleActions } from "@/types/userAction"
+
+type UnrongCount = number
+
+export const countUnrong = (seat: number, recordHule: RecordHuleActions): UnrongCount => {
+  let unrongCount: UnrongCount = 0
 
   recordHule.forEach((record) => {
     if (record.result.data.delta_scores[seat] < 0) {

@@ -1,9 +1,21 @@
+import type { RecordDiscardTileActions, Round } from "@/types/userAction"
+
+type UnrongAlongWithLiqi = {
+  round: number,
+  time: number | undefined
+}[]
+
 // 放銃時に立直しているかどうかを判定する処理
-export const checkStateOfUnrongAlongWithLiqi = (seat: number, recordDiscardTile: any[], unrongTimes: number[], rounds: any[]) => {
-  let discardTiles: any[] = []
+export const checkStateOfUnrongAlongWithLiqi = (
+  seat: number,
+  recordDiscardTile: RecordDiscardTileActions,
+  unrongTimes: number[],
+  rounds: Round[]
+): UnrongAlongWithLiqi => {
+  let discardTiles: RecordDiscardTileActions = []
   let discardTilePassed: any[] = []
   let passedJustBeforeUnrong: number[] = []
-  let unrongAlongWithLiqi: { round: number, time: number | undefined }[] = []
+  let unrongAlongWithLiqi: UnrongAlongWithLiqi = []
 
   // RecordDiscardTile（打牌に関するデータ）の時間のみを取得
   recordDiscardTile.forEach((record) => {
@@ -19,7 +31,7 @@ export const checkStateOfUnrongAlongWithLiqi = (seat: number, recordDiscardTile:
   discardTiles.forEach((data: { passed: number, result: { data: { is_liqi: boolean }}}) => {
     passedJustBeforeUnrong.forEach((passed: number) => {
       if (data.passed === passed && data.result.data.is_liqi) {
-        rounds.forEach((r: { round: number, startTime: number, endTime: number }) => {
+        rounds.forEach((r: Round) => {
           if (r.startTime < passed && passed < r.endTime) {
             unrongAlongWithLiqi.push({ round: r.round, time: unrongTimes.find((unrongTime: number) => unrongTime > passed) })
           }

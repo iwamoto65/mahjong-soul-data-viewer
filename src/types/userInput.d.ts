@@ -1,5 +1,5 @@
 interface Operation {
-  type?: number;
+  type: number;
   tile?: string;
   moqie?: boolean;
   timeuse?: number;
@@ -19,6 +19,6 @@ export interface UserInput {
   seat: number;
   type: number;
   emo?: number;
-  operation?: Operation;
+  operation: Operation;
   cpg?: Cpg;
 }

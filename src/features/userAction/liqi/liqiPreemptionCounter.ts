@@ -1,20 +1,30 @@
 import { checkStateOfUnrongAlongWithLiqi } from "../common/stateOfUnrongAlongWithLiqiChecker"
+import type { UserInputActions, RecordDiscardTileActions, Round } from "@/types/userAction"
 
-export const countLiqiPreemption = (seat: number, userInput: any[], recordDiscardTile: any, unrongTimes: number[], rounds: any[]) => {
-  let status: {
-    round: number,
-    player: { isLiqi: boolean, time: number },
-    opponent: { isLiqi: boolean, times: number[] }
-  }[] = new Array(rounds.length).fill(null).map((_, i) => ({ round: i + 1, player: { isLiqi: false, time: 0 }, opponent: { isLiqi: false, times: [] }}))
+type Status = {
+  round: number;
+  player: { isLiqi: boolean, time: number };
+  opponent: { isLiqi: boolean, times: number[] };
+}[]
+type LiqiPreemptionCount = number
+
+export const countLiqiPreemption = (
+  seat: number,
+  userInput: UserInputActions,
+  recordDiscardTile: RecordDiscardTileActions,
+  unrongTimes: number[],
+  rounds: Round[]
+): LiqiPreemptionCount => {
+  let status: Status = new Array(rounds.length).fill(null).map((_, i) => ({ round: i + 1, player: { isLiqi: false, time: 0 }, opponent: { isLiqi: false, times: [] }}))
   let playerLiqiPassed: number[] = []
   let opponentLiqiPassed: number[] = []
-  let liqiPreemptionCount: number = 0
+  let liqiPreemptionCount: LiqiPreemptionCount = 0
   const operationType: { [key: string]: number } = { liqi: 7 }
   const unrongStatus = checkStateOfUnrongAlongWithLiqi(seat, recordDiscardTile, unrongTimes, rounds)
 
-  userInput.forEach((action: { passed: number, user_input: { seat: number, operation: { type: number } } }) => {
-    if (action.user_input.operation && action.user_input.operation.type === operationType.liqi) {
-      if (action.user_input.seat === seat) {
+  userInput.forEach((action: { passed: number, result: { seat: number, operation: { type: number } } }) => {
+    if (action.result.operation && action.result.operation.type === operationType.liqi) {
+      if (action.result.seat === seat) {
         playerLiqiPassed.push(action.passed)
       } else {
         opponentLiqiPassed.push(action.passed)
@@ -23,7 +33,7 @@ export const countLiqiPreemption = (seat: number, userInput: any[], recordDiscar
   })
 
   // 立直が成立しているか、また成立している場合はその時間を取得している
-  rounds.forEach((r: { round: number, startTime: number, endTime: number }) => {
+  rounds.forEach((r: Round) => {
     playerLiqiPassed.forEach((playerPassed: number) => {
       if (r.startTime < playerPassed && playerPassed < r.endTime) {
         status.forEach((s) => {
