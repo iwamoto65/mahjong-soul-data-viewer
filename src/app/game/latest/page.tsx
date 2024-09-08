@@ -28,7 +28,7 @@ import { GameLatestLineChart as LineChart } from "@/components/game/latest/LineC
 import { GameLatestGameResult as GameResult } from "@/components/game/latest/GameResult";
 import { GameLatestTabItem as TabItem } from "@/components/game/latest/TabItem";
 import { GameLatestSheet as Sheet } from "@/components/game/latest/Sheet";
-import { PlayerResult } from "@/features/distributeDataType";
+import { PlayerResult } from "@/types/distributeData";
 
 export default function GameLatestPage(): JSX.Element {
   const {
