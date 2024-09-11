@@ -2,7 +2,7 @@ import { useState } from "react";
 import { signIn, useSession } from "next-auth/react";
 import DescriptionIcon from "@mui/icons-material/Description";
 import { GameLatestConfirmModal as ConfirmModal } from "@/components/game/latest/ConfirmModal";
-import type { GameLatestData } from "@/hooks/page/useGameLatest";
+import type { GameLatestData } from "@/hooks/page/game/latest/useGameLatest";
 
 export const GameLatestSheet = ({
   paifuUrl,

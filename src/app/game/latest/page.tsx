@@ -4,7 +4,17 @@ import Link from "next/link";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { distributeData } from "@/features/distributeData";
-import { useGameLatest } from "@/hooks/page/useGameLatest";
+import {
+  useGameMainStats,
+  useGameMeta,
+  useGameRecordStats,
+  useHuleStats,
+  useLiqiStats,
+  useModeState,
+  useNoTileStats,
+  useUnrongStats,
+  useUnzimoStats,
+} from "@/hooks/page/game/latest/useGameLatest";
 import { useHuleRateHook } from "@/hooks/shared/useHuleRateHook";
 import { useUnrongRateHook } from "@/hooks/shared/useUnrongRateHook";
 import { useChiPengGangRateHook } from "@/hooks/shared/useChiPengGangRateHook";
@@ -31,32 +41,15 @@ import { GameLatestSheet as Sheet } from "@/components/game/latest/Sheet";
 import { PlayerResult } from "@/types/distributeData";
 
 export default function GameLatestPage(): JSX.Element {
-  const {
-    paifuUrl,
-    setPaifuUrl,
-    modeState,
-    setModeField,
-    endTimeState,
-    setEndTimeState,
-    gameMainStats,
-    setGameMainStatsField,
-    gameRecordStats,
-    setGameRecordField,
-    rankLevel,
-    setRankLevel,
-    huleStats,
-    setHuleStatsField,
-    unrongStats,
-    setUnrongStatsField,
-    liqiStats,
-    setLiqiStatsField,
-    noTileStats,
-    setNoTileStatsField,
-    unzimoStats,
-    setUnzimoField,
-    scores,
-    setScores,
-  } = useGameLatest();
+  const { gameMainStats, setGameMainStatsField } = useGameMainStats();
+  const { paifuUrl, setPaifuUrl, endTimeState, setEndTimeState, rankLevel, setRankLevel, scores, setScores } = useGameMeta();
+  const { gameRecordStats, setGameRecordField } = useGameRecordStats();
+  const { huleStats, setHuleStatsField } = useHuleStats();
+  const { liqiStats, setLiqiStatsField } = useLiqiStats();
+  const { modeState, setModeField } = useModeState();
+  const { noTileStats, setNoTileStatsField } = useNoTileStats();
+  const { unrongStats, setUnrongStatsField } = useUnrongStats();
+  const { unzimoStats, setUnzimoField } = useUnzimoStats();
 
   useEffect(() => {
     const storageData: string | null = window.localStorage.getItem("mahjongsoulpaifu");
