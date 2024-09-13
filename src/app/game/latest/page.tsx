@@ -100,7 +100,7 @@ export default function GameLatestPage(): JSX.Element {
     setNoTileStatsField("afterMing", noTile.afterChiPengGang);
     setNoTileStatsField("tingpai", noTile.tingpai);
     setUnzimoField("parentCover", zimo.parentCoverScores.length);
-    setUnzimoField("parentCoverScore", Math.abs(zimo.parentCoverScores.reduce((a, b) => a + b)));
+    setUnzimoField("parentCoverScore", Math.abs(zimo.parentCoverScores.reduce((a, b) => a + b, 0)));
     setScores(scoreTrend);
   }, []);
 
