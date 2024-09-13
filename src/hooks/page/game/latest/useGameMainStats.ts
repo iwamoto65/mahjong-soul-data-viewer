@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { setField } from './../../../../utils/state';
 
-interface GameMainStats {
+export interface GameMainStats {
   round: number;
   hule: number;
   liqi: number;

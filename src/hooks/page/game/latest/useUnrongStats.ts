@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { setField } from './../../../../utils/state';
 
-interface UnrongStats {
+export interface UnrongStats {
   afterLiqi: number;
   unming: number;
   ming: number;

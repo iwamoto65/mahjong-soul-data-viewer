@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { setField } from './../../../../utils/state';
 
-interface NoTileStats {
+export interface NoTileStats {
   afterLiqi: number;
   afterMing: number;
   tingpai: number;

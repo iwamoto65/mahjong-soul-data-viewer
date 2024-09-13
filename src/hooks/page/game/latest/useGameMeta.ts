@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-type PaifuUrl = string
+export type PaifuUrl = string
 
 type EndTimeState = string
 

@@ -1,8 +1,30 @@
 import { useState } from "react";
 import { signIn, useSession } from "next-auth/react";
 import DescriptionIcon from "@mui/icons-material/Description";
-import { GameLatestConfirmModal as ConfirmModal } from "@/components/game/latest/ConfirmModal";
-import type { GameLatestData } from "@/hooks/page/game/latest/useGameLatest";
+import { GameLatestConfirmModal as ConfirmModal } from "@/app/components/game/latest/ConfirmModal";
+import type {
+  GameMainStats,
+  PaifuUrl,
+  GameRecordStats,
+  HuleStats,
+  LiqiStats,
+  ModeState,
+  NoTileStats,
+  UnrongStats,
+  UnzimoStats,
+} from "@/hooks/page/game/latest/useGameLatest";
+
+interface GameLatestData {
+  paifuUrl: PaifuUrl;
+  modeState: ModeState;
+  gameMainStats: GameMainStats;
+  gameRecordStats: GameRecordStats;
+  huleStats: HuleStats;
+  unrongStats: UnrongStats;
+  noTileStats: NoTileStats;
+  liqiStats: LiqiStats;
+  unzimoStats: UnzimoStats;
+}
 
 export const GameLatestSheet = ({
   paifuUrl,

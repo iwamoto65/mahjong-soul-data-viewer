@@ -1,9 +1,9 @@
-export { useGameMainStats } from './useGameMainStats';
-export { useGameMeta } from './useGameMeta';
-export { useGameRecordStats } from './useGameRecordStats';
-export { useHuleStats } from './useHuleStats';
-export { useLiqiStats } from './useLiqiStats';
-export { useModeState } from './useModeState';
-export { useNoTileStats } from './useNoTileStats';
-export { useUnrongStats } from './useUnrongStats';
-export { useUnzimoStats } from './useUnzimoStats';
+export { useGameMainStats, type GameMainStats } from './useGameMainStats';
+export { useGameMeta, type PaifuUrl } from './useGameMeta';
+export { useGameRecordStats, type GameRecordStats } from './useGameRecordStats';
+export { useHuleStats, type HuleStats } from './useHuleStats';
+export { useLiqiStats, type LiqiStats } from './useLiqiStats';
+export { useModeState, type ModeState } from './useModeState';
+export { useNoTileStats, type NoTileStats } from './useNoTileStats';
+export { useUnrongStats, type UnrongStats } from './useUnrongStats';
+export { useUnzimoStats, type UnzimoStats } from './useUnzimoStats';

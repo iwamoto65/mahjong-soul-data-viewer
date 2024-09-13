@@ -223,7 +223,6 @@ const setPlayerResult = (
   }
 ): void => {
   playerResult.uuid = paifu.head.uuid;
-  playerResult.seat = identifySeat(userAccounts);
   playerResult.mode = identifyGameMode(paifu.head.config.meta.mode_id);
   playerResult.endTime = convertUnixTime(paifu.head.end_time);
   playerResult.rank = identifyRank(playerResult.seat, userAccounts);

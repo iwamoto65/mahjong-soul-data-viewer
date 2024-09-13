@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { setField } from './../../../../utils/state';
 
-interface ModeState {
+export interface ModeState {
   type: string;
   room: string;
   format: string;

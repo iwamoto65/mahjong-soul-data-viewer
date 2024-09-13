@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { setField } from './../../../../utils/state';
 
-interface UnzimoStats {
+export interface UnzimoStats {
   parentCover: number;
   parentCoverScore: number;
 }

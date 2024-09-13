@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { setField } from './../../../../utils/state';
 
-interface LiqiStats {
+export interface LiqiStats {
   income: number;
   expenditure: number;
   incomeAndExpenditure: number;

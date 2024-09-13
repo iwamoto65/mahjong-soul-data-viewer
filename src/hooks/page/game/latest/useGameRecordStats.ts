@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { setField } from './../../../../utils/state';
 
-interface GameRecordStats {
+export interface GameRecordStats {
   finalPoint: number;
   gradingScore: number;
   place: number;

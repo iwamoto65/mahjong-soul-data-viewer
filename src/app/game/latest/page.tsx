@@ -32,12 +32,12 @@ import { useLiqiGoodShapeHook } from "@/hooks/shared/useLiqiGoodShapeHook";
 import { useLiqiBadShapeHook } from "@/hooks/shared/useLiqiBadShapeHook";
 import { useHuleLiqiDoraHook } from "@/hooks/shared/useHuleLiqiDoraHook";
 import { useHuleAfterMingHook } from "@/hooks/shared/useHuleAfterMingHook";
-import { GameLatestBinderIcon as BinderIcon } from "@/components/game/latest/BinderIcon";
-import { GameLatestTitleCard as TitleCard } from "@/components/game/latest/TitleCard";
-import { GameLatestLineChart as LineChart } from "@/components/game/latest/LineChart";
-import { GameLatestGameResult as GameResult } from "@/components/game/latest/GameResult";
-import { GameLatestTabItem as TabItem } from "@/components/game/latest/TabItem";
-import { GameLatestSheet as Sheet } from "@/components/game/latest/Sheet";
+import { GameLatestBinderIcon as BinderIcon } from "@/app/components/game/latest/BinderIcon";
+import { GameLatestTitleCard as TitleCard } from "@/app/components/game/latest/TitleCard";
+import { GameLatestLineChart as LineChart } from "@/app/components/game/latest/LineChart";
+import { GameLatestGameResult as GameResult } from "@/app/components/game/latest/GameResult";
+import { GameLatestTabItem as TabItem } from "@/app/components/game/latest/TabItem";
+import { GameLatestSheet as Sheet } from "@/app/components/game/latest/Sheet";
 import { PlayerResult } from "@/types/distributeData";
 
 export default function GameLatestPage(): JSX.Element {

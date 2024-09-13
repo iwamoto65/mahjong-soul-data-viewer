@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { setField } from './../../../../utils/state';
 
-interface HuleStats {
+export interface HuleStats {
   liqi: number;
   zimoWithLiqi: number;
   rongWithLiqi: number;
