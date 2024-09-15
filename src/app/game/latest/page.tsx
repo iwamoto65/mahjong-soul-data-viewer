@@ -135,14 +135,14 @@ export default function GameLatestPage(): JSX.Element {
       <section className="flex justify-center">
         <div className="m-10 p-10 rounded-lg bg-white min-w-7/12">
           <div className="flex items-center justify-between">
-            <h1 className="m-0 text-xl font-bold text-[#00002A]">
+            <h1 className="m-0 text-xl font-bold text-midnightNavy">
               <PlayerSelectBox register={register} setValue={setValue} handleSubmit={handleSubmit(onSubmit)} players={players} />
               <span className="ml-4">{`${modeState.type} ${modeState.room} ${modeState.people}人 ${modeState.format}`}</span>
               <span className="ml-4 text-gray-500 text-base">{endTimeState}</span>
             </h1>
             <Link href={paifuUrl} target="_blank" rel="noopener noreferrer">
               <div className="flex">
-                <p className="text-xl text-[#00002A]">牌譜</p>
+                <p className="text-xl text-midnightNavy">牌譜</p>
                 <BinderIcon />
               </div>
             </Link>

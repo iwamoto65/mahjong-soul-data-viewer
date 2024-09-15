@@ -7,6 +7,9 @@ module.exports = {
     extend: {
       fontFamily: {
         roboto: ['Roboto', 'sans-serif'],
+      },
+      colors: {
+        midnightNavy: '#00002A',
       }
     },
   },
