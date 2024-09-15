@@ -1,5 +1,5 @@
 import { identifyGameMode, convertUnixTime } from './gameConfig';
-import { identifySeat, identifyRank } from './userAccount';
+import { identifyRank } from './userAccount';
 import {
   categorizeHule,
   countUnrong,
@@ -39,15 +39,20 @@ import type {
 } from '@/types/userAction';
 import type { UserResult } from '@/types/userResult';
 import type { UserAccount } from '@/types/userAccount';
+import type { SeatIndex } from '@/types/playerData';
 
-export const distributeData = (data: string): PlayerResult => {
+interface DistributeDataProps {
+  paifu: any
+  seat: SeatIndex
+}
+
+export const distributeData = ({ paifu, seat }: DistributeDataProps): PlayerResult => {
   try {
-    const paifu = JSON.parse(data);
     const userActions: UserAction[] = paifu.data.data.actions;
     const userAccounts: UserAccount[] = paifu.head.accounts;
     const userResults: UserResult[] = paifu.head.result.players;
 
-    let playerResult: PlayerResult = initializePlayerResult();
+    let playerResult: PlayerResult = initializePlayerResult(seat);
     let recordNewRound: RecordNewRoundActions = [];
     let recordHule: RecordHuleActions = [];
     let recordNoTile: RecordNoTileActions = [];
@@ -91,7 +96,7 @@ export const distributeData = (data: string): PlayerResult => {
   }
 };
 
-const initializePlayerResult = (): PlayerResult => {
+const initializePlayerResult = (seat: SeatIndex): PlayerResult => {
   return {
     uuid: '',
     mode: {
@@ -101,7 +106,7 @@ const initializePlayerResult = (): PlayerResult => {
       people: 0,
     },
     endTime: '',
-    seat: 0,
+    seat: seat,
     totalRound: 0,
     hule: {
       total: 0,

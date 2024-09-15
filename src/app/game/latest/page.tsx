@@ -1,5 +1,6 @@
 "use client";
-import { useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
 import Link from "next/link";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
@@ -32,6 +33,7 @@ import { useLiqiGoodShapeHook } from "@/hooks/shared/useLiqiGoodShapeHook";
 import { useLiqiBadShapeHook } from "@/hooks/shared/useLiqiBadShapeHook";
 import { useHuleLiqiDoraHook } from "@/hooks/shared/useHuleLiqiDoraHook";
 import { useHuleAfterMingHook } from "@/hooks/shared/useHuleAfterMingHook";
+import { GameLatestPlayerSelectBox as PlayerSelectBox } from "@/app/components/game/latest/PlayerSelectBox";
 import { GameLatestBinderIcon as BinderIcon } from "@/app/components/game/latest/BinderIcon";
 import { GameLatestTitleCard as TitleCard } from "@/app/components/game/latest/TitleCard";
 import { GameLatestLineChart as LineChart } from "@/app/components/game/latest/LineChart";
@@ -39,6 +41,12 @@ import { GameLatestGameResult as GameResult } from "@/app/components/game/latest
 import { GameLatestTabItem as TabItem } from "@/app/components/game/latest/TabItem";
 import { GameLatestSheet as Sheet } from "@/app/components/game/latest/Sheet";
 import { PlayerResult } from "@/types/distributeData";
+import { Player, SeatIndex } from "@/types/playerData";
+import { playersList } from "@/features/userAccount";
+
+interface PlayerSelectFormInput {
+  seat: SeatIndex;
+}
 
 export default function GameLatestPage(): JSX.Element {
   const { gameMainStats, setGameMainStatsField } = useGameMainStats();
@@ -51,11 +59,29 @@ export default function GameLatestPage(): JSX.Element {
   const { unrongStats, setUnrongStatsField } = useUnrongStats();
   const { unzimoStats, setUnzimoField } = useUnzimoStats();
 
-  useEffect(() => {
-    const storageData: string | null = window.localStorage.getItem("mahjongsoulpaifu");
-    if (typeof storageData != "string") return;
+  const [storageData, setStorageData] = useState<string | null>(null);
+  const [players, setPlayers] = useState<Player[]>([]);
+  const [playerSeat, setPlayerSeat] = useState<SeatIndex>(0);
 
-    const paifuResult: PlayerResult = distributeData(storageData);
+  const { register, handleSubmit, setValue } = useForm<PlayerSelectFormInput>();
+  const onSubmit: SubmitHandler<PlayerSelectFormInput> = (data) => setPlayerSeat(data.seat as SeatIndex);
+
+  useEffect(() => setStorageData(window.localStorage.getItem("mahjongsoulpaifu")), []);
+
+  const isFirstRender = useRef(true);
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    if (typeof storageData != "string") return;
+    const parseData = JSON.parse(storageData);
+    setPlayers(playersList(parseData.head.accounts));
+    setValues(parseData);
+  }, [storageData, playerSeat]);
+
+  const setValues = (parseData: any): void => {
+    const paifuResult: PlayerResult = distributeData({ paifu: parseData, seat: playerSeat });
     const { uuid, mode, endTime, totalRound, hule, unrong, chiPengGang, liqi, noTile, zimo, gameRecord, rank, scoreTrend } = paifuResult;
 
     setPaifuUrl("https://game.mahjongsoul.com/?paipu=" + uuid);
@@ -102,22 +128,21 @@ export default function GameLatestPage(): JSX.Element {
     setUnzimoField("parentCover", zimo.parentCoverScores.length);
     setUnzimoField("parentCoverScore", Math.abs(zimo.parentCoverScores.reduce((a, b) => a + b, 0)));
     setScores(scoreTrend);
-  }, []);
+  };
 
   return (
     <>
       <section className="flex justify-center">
         <div className="m-10 p-10 rounded-lg bg-white min-w-7/12">
-          <div className="flex justify-between">
-            <h1 className="m-0 text-xl font-bold" style={{ color: "#00002A" }}>
-              {`${modeState.type} ${modeState.room} ${modeState.people}人 ${modeState.format}`}
+          <div className="flex items-center justify-between">
+            <h1 className="m-0 text-xl font-bold text-[#00002A]">
+              <PlayerSelectBox register={register} setValue={setValue} handleSubmit={handleSubmit(onSubmit)} players={players} />
+              <span className="ml-4">{`${modeState.type} ${modeState.room} ${modeState.people}人 ${modeState.format}`}</span>
               <span className="ml-4 text-gray-500 text-base">{endTimeState}</span>
             </h1>
             <Link href={paifuUrl} target="_blank" rel="noopener noreferrer">
               <div className="flex">
-                <p className="text-xl" style={{ color: "#00002A" }}>
-                  牌譜
-                </p>
+                <p className="text-xl text-[#00002A]">牌譜</p>
                 <BinderIcon />
               </div>
             </Link>

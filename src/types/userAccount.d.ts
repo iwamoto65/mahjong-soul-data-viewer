@@ -19,7 +19,7 @@ interface View {
 
 export interface UserAccount {
   account_id: number;
-  seat: number;
+  seat: 0 | 1 | 2 | 3;
   nickname: string;
   avatar_id: number;
   character: Character;
