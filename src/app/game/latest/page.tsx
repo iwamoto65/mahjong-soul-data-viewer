@@ -4,6 +4,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import Link from "next/link";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
+import styled from "styled-components";
 import { distributeData } from "@/features/distributeData";
 import {
   useGameMainStats,
@@ -47,6 +48,12 @@ import { playersList } from "@/features/userAccount";
 interface PlayerSelectFormInput {
   seat: SeatIndex;
 }
+
+const TabItemWrapper = styled.div.attrs({
+  className: "grid grid-cols-6 gap-y-2 text-base",
+})`
+  gap: 0 30px;
+`;
 
 export default function GameLatestPage(): JSX.Element {
   const { gameMainStats, setGameMainStatsField } = useGameMainStats();
@@ -207,16 +214,16 @@ export default function GameLatestPage(): JSX.Element {
               </TabList>
 
               <TabPanel>
-                <div className="grid grid-cols-6 gap-x-12 gap-y-2 text-base">
+                <TabItemWrapper>
                   <TabItem title="総局数" count={gameMainStats.round} />
                   <TabItem title="順位" count={gameRecordStats.place} />
                   <TabItem title="点数" count={gameRecordStats.finalPoint} />
                   <TabItem title="和了" count={gameMainStats.hule} />
                   <TabItem title="放銃" count={gameMainStats.unrong} />
-                </div>
+                </TabItemWrapper>
               </TabPanel>
               <TabPanel>
-                <div className="grid grid-cols-6 gap-x-12 gap-y-2 text-base">
+                <TabItemWrapper>
                   <TabItem title="和了" count={gameMainStats.hule} />
                   <TabItem title="立直ツモ" count={huleStats.zimoWithLiqi} />
                   <TabItem title="黙聴ツモ" count={huleStats.zimoWithUnliqiUnming} />
@@ -224,18 +231,18 @@ export default function GameLatestPage(): JSX.Element {
                   <TabItem title="立直ロン" count={huleStats.rongWithLiqi} style="col-start-2" />
                   <TabItem title="黙聴ロン" count={huleStats.rongWithUnliqiUnming} />
                   <TabItem title="副露ロン" count={huleStats.rongWithMing} />
-                </div>
+                </TabItemWrapper>
               </TabPanel>
               <TabPanel>
-                <div className="grid grid-cols-6 gap-x-12 gap-y-2 text-base">
+                <TabItemWrapper>
                   <TabItem title="放銃" count={gameMainStats.unrong} />
                   <TabItem title="立直時被ロン" count={unrongStats.afterLiqi} />
                   <TabItem title="黙聴時被ロン" count={unrongStats.unming} />
                   <TabItem title="副露時被ロン" count={unrongStats.ming} />
-                </div>
+                </TabItemWrapper>
               </TabPanel>
               <TabPanel>
-                <div className="grid grid-cols-6 gap-x-12 gap-y-2 text-base">
+                <TabItemWrapper>
                   <TabItem title="立直" count={gameMainStats.liqi} />
                   <TabItem title="和了" count={huleStats.liqi} />
                   <TabItem title="放銃" count={unrongStats.afterLiqi} />
@@ -251,23 +258,23 @@ export default function GameLatestPage(): JSX.Element {
                   <TabItem title="振聴" count={liqiStats.zhenting} />
                   <TabItem title="一発" count={liqiStats.firstTurnHule} />
                   <TabItem title="裏ドラ回数" count={liqiStats.dora} />
-                </div>
+                </TabItemWrapper>
               </TabPanel>
               <TabPanel>
-                <div className="grid grid-cols-6 gap-x-12 gap-y-2 text-base">
+                <TabItemWrapper>
                   <TabItem title="副露" count={gameMainStats.chiPengGang} />
                   <TabItem title="和了" count={huleStats.ming} />
                   <TabItem title="放銃" count={unrongStats.ming} />
                   <TabItem title="流局" count={noTileStats.afterMing} />
-                </div>
+                </TabItemWrapper>
               </TabPanel>
               <TabPanel>
-                <div className="grid grid-cols-6 gap-x-10 gap-y-2 text-base">
+                <TabItemWrapper>
                   <TabItem title="流局" count={gameMainStats.noTile} />
                   <TabItem title="流局聴牌" count={noTileStats.tingpai} />
                   <TabItem title="親被り" count={unzimoStats.parentCover} />
                   <TabItem title="親被り点数" count={unzimoStats.parentCoverScore} />
-                </div>
+                </TabItemWrapper>
               </TabPanel>
             </Tabs>
           </div>
