@@ -1,2 +1,2 @@
-export { identifyGameMode } from './gameModeIdentification';
+export { identifyGameMode } from './gameModelIdentification';
 export { convertUnixTime } from './unixTimeConverter';
