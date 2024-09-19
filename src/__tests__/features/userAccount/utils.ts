@@ -1,4 +1,4 @@
-import { createMockUserAccount } from './createUserAccount.mock';
+import { createMockUserAccount } from '../../../__mocks__/features/userAccount/createUserAccount.mock';
 import type { SeatIndex } from '@/types/playerData';
 import type { UserAccount } from '@/types/userAccount';
 

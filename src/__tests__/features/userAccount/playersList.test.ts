@@ -1,5 +1,5 @@
 import { playersList } from './../../../features/userAccount/playersList';
-import { initializeMockUserAccounts } from '../../../__mocks__/features/userAccount/utils.mock';
+import { initializeMockUserAccounts } from './utils';
 import type { UserAccount } from '@/types/userAccount';
 
 describe('create playersList', () => {
