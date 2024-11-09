@@ -25,7 +25,7 @@ export const storeScoreTrend = (
 
   // 対局終了時の最終スコアも必要なのでkeyを999としてvalueを渡している。
   userResults.forEach((result: { seat: number, part_point_1: number }) => {
-    Object.assign(status[result.seat].scores, { 999: result.part_point_1 })
+    Object.assign(status[result.seat].scores, { '999': result.part_point_1 })
   })
 
   return status

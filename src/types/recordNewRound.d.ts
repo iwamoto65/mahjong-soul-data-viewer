@@ -25,7 +25,6 @@ interface Data {
   tiles3: string[];
   tingpai?: string[];
   operation: OperationList;
-  md5: string;
   paishan: string;
   left_tile_count: number;
   doras: string[];
