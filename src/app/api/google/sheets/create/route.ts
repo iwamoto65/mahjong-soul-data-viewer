@@ -1,7 +1,7 @@
 import { google, sheets_v4 } from 'googleapis';
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/features/api/nextauth/authOptions';
 
 const sheets = google.sheets('v4');
 
