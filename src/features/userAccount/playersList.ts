@@ -4,7 +4,9 @@ import { Player } from '@/types/playerData';
 export const playersList = (userAccounts: UserAccount[]): Player[] => {
   let list: Player[]
 
-  list = userAccounts.map((account) => ({ name: account.nickname, seat: account.seat }))
+  list = userAccounts
+    .sort((a, b) => a.seat - b.seat)
+    .map((account) => ({ name: account.nickname, seat: account.seat }))
 
   return list
 }
