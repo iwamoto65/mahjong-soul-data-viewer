@@ -14,7 +14,9 @@ export const storeScoreTrend = (
   userResults: UserResult[],
   recordNewRound: RecordNewRoundActions
 ): Status => {
-  let status: Status = userAccounts.map((account) => ({ player: account.nickname, scores: {} }))
+  let status: Status = userAccounts
+    .sort((a, b) => a.seat - b.seat)
+    .map((account) => ({ player: account.nickname, scores: {} }))
 
   recordNewRound.forEach((record) => {
     const data = record.result.data
