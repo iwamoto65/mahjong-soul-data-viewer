@@ -1,12 +1,11 @@
 import { google, sheets_v4 } from 'googleapis';
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from '@/features/api/nextauth/authOptions';
+import { auth } from '@/auth';
 
 const sheets = google.sheets('v4');
 
 export async function POST(req: Request) {
-  const session = await getServerSession(authOptions);
+  const session = await auth()
   if (!session || !session.accessToken) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }

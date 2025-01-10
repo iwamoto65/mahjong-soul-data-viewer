@@ -1,4 +1,4 @@
-import { AuthOptions, Session } from 'next-auth';
+import NextAuth, { NextAuthConfig, Session } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 import GoogleProvider from 'next-auth/providers/google';
 
@@ -17,7 +17,7 @@ interface RefreshedTokens {
   expires_in: number;
 }
 
-export const authOptions: AuthOptions = {
+export const authOptions: NextAuthConfig = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -85,3 +85,5 @@ const refreshAccessToken = async (refreshToken: string): Promise<RefreshedTokens
 
   return response.json();
 };
+
+export const { auth, handlers } = NextAuth(authOptions);
