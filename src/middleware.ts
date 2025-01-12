@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const allowedBasePath = '/game/latest';
+const allowedBasePath = '/game/latest/demo';
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -9,7 +9,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  return NextResponse.redirect(new URL('/game/latest', request.url));
+  return NextResponse.redirect(new URL('/game/latest/demo', request.url));
 }
 
 export const config = {
