@@ -28,4 +28,4 @@
 - React Testing Library
 
 ## システム構成
-![flowchart](https://github.com/iwamoto65/github-images/raw/main/mahjong-soul-data-viewer-site.png)
+![flowchart](https://github.com/iwamoto65/github-images/raw/main/mahjong-data-viewer-site.png)
