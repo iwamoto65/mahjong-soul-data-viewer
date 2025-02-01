@@ -23,6 +23,9 @@
 - Material UI
 - styled-components
 - react-tabs
-## テスト
+### テスト
 - jest
 - React Testing Library
+
+## システム構成
+![flowchart](https://github.com/iwamoto65/github-images/raw/main/mahjong-soul-data-viewer-site.png)
