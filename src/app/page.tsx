@@ -43,6 +43,12 @@ import { useAttackAndDefenseBalanceIndexHook } from "@/hooks/shared/useAttackAnd
 import { useRoundIncomeAndExpenditureHook } from "@/hooks/shared/useRoundIncomeAndExpenditureHook";
 import db from "../../firebase";
 import { collection, getDocs } from "firebase/firestore";
+import styled from "styled-components";
+
+const Thead = styled.thead.attrs({ className: "bg-gray-50" })``;
+const Th = styled.th.attrs({ className: "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" })``;
+const Tbody = styled.tbody.attrs({ className: "bg-white divide-y divide-gray-200" })``;
+const Td = styled.td.attrs({ className: "px-6 py-4 whitespace-nowrap" })``;
 
 export default function Home() {
   const { register, handleSubmit } = useForm();
@@ -217,154 +223,163 @@ export default function Home() {
 
   return (
     <>
-      <main style={{ textAlign: "center", margin: "50px 0" }}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <input type="file" accept="text/plain" {...register("paifu")} />
-          <br />
-          <input type="submit" />
-        </form>
-        <table border={1} style={{ marginTop: "30px", width: "100%" }}>
-          <thead>
+      <section className="container mx-auto p-4">
+        <div className="flex items-center justify-center">
+          <form onSubmit={handleSubmit(onSubmit)} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <input type="file" accept="text/plain" {...register("paifu")} />
+            <br />
+            <input
+              type="submit"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold mt-5 py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            />
+          </form>
+        </div>
+
+        <table border={1} className="min-w-full divide-y divide-gray-200">
+          <Thead>
             <tr>
-              <th>対戦数</th>
-              <th>総局数</th>
-              <th>和了率</th>
-              <th>放銃率</th>
-              <th>ツモ率</th>
-              <th>ダマ率</th>
+              <Th>対戦数</Th>
+              <Th>総局数</Th>
+              <Th>和了率</Th>
+              <Th>放銃率</Th>
+              <Th>ツモ率</Th>
+              <Th>ダマ率</Th>
             </tr>
-          </thead>
-          <tbody>
+          </Thead>
+          <Tbody>
             <tr>
-              <td>{gameCount}</td>
-              <td>{totalRoundCount}</td>
-              <td>{useHuleRateHook(totalRoundCount, totalHuleCount)}％</td>
-              <td>{useUnrongRateHook(totalRoundCount, totalUnrongCount)}%</td>
-              <td>{useZimoRateHook(totalHuleCount, totalZimoCount)}％</td>
-              <td>{useUnliqiUnmingHuleRateHook(totalHuleCount, totalUnliqiCount)}％</td>
+              <Td>{gameCount}</Td>
+              <Td>{totalRoundCount}</Td>
+              <Td>{useHuleRateHook(totalRoundCount, totalHuleCount)}％</Td>
+              <Td>{useUnrongRateHook(totalRoundCount, totalUnrongCount)}%</Td>
+              <Td>{useZimoRateHook(totalHuleCount, totalZimoCount)}％</Td>
+              <Td>{useUnliqiUnmingHuleRateHook(totalHuleCount, totalUnliqiCount)}％</Td>
             </tr>
-          </tbody>
-          <thead>
+          </Tbody>
+          <Thead>
             <tr>
-              <th>流局率</th>
-              <th>流局聴牌率</th>
-              <th>副露率</th>
-              <th>立直率</th>
-              <th>平均和了</th>
-              <th>平均放銃</th>
+              <Th>流局率</Th>
+              <Th>流局聴牌率</Th>
+              <Th>副露率</Th>
+              <Th>立直率</Th>
+              <Th>平均和了</Th>
+              <Th>平均放銃</Th>
             </tr>
-          </thead>
-          <tbody>
+          </Thead>
+          <Tbody>
             <tr>
-              <td>{useNoTileRateHook(totalRoundCount, totalNoTileCount)}％</td>
-              <td>{useNoTileTingpaiRateHook(totalNoTileCount, totalNoTileTingpaiCount)}％</td>
-              <td>{useChiPengGangRateHook(totalRoundCount, totalChiPengGangCount)}％</td>
-              <td>{useLiqiRateHook(totalRoundCount, totalLiqiCount)}％</td>
-              <td>{useAverageDadianScoreHook(totalDadian)}</td>
-              <td>{useAverageUnrongScoreHook(totalUnrongScore)}</td>
+              <Td>{useNoTileRateHook(totalRoundCount, totalNoTileCount)}％</Td>
+              <Td>{useNoTileTingpaiRateHook(totalNoTileCount, totalNoTileTingpaiCount)}％</Td>
+              <Td>{useChiPengGangRateHook(totalRoundCount, totalChiPengGangCount)}％</Td>
+              <Td>{useLiqiRateHook(totalRoundCount, totalLiqiCount)}％</Td>
+              <Td>{useAverageDadianScoreHook(totalDadian)}</Td>
+              <Td>{useAverageUnrongScoreHook(totalUnrongScore)}</Td>
             </tr>
-          </tbody>
-          <thead>
+          </Tbody>
+          <Thead>
             <tr>
-              <th>平均順位</th>
-              <th>立直和了</th>
-              <th>立直放銃A</th>
-              <th>立直放銃B</th>
-              <th>立直収入</th>
-              <th>立直支出</th>
+              <Th>平均順位</Th>
+              <Th>立直和了</Th>
+              <Th>立直放銃A</Th>
+              <Th>立直放銃B</Th>
+              <Th>立直収入</Th>
+              <Th>立直支出</Th>
             </tr>
-          </thead>
-          <tbody>
+          </Thead>
+          <Tbody>
             <tr>
-              <td>{useAveragePlaceHook(totalPlace)}</td>
-              <td>{useLiqiSuccessRateHook(totalHuleOutOfLiqiCount, totalLiqiCount)}％</td>
-              <td>{useUnrongIncludeOnLiqiRateHook(totalLiqiCount, totalUnrongAlongWithLiqiCount, totalUnrongAfterLiqiCount)}％</td>
-              <td>{useUnrongAfterLiqiRateBasedOnLiqiHook(totalLiqiCount, totalUnrongAfterLiqiCount)}％</td>
-              {/* <td>{useLiqiIncomeHook(totalLiqiIncome)}</td> */}
-              <td>useLiqiIncomeの引数変更必須</td>
-              <td>{useLiqiExpenditureHook(totalLiqiExpenditure)}</td>
+              <Td>{useAveragePlaceHook(totalPlace)}</Td>
+              <Td>{useLiqiSuccessRateHook(totalHuleOutOfLiqiCount, totalLiqiCount)}％</Td>
+              <Td>{useUnrongIncludeOnLiqiRateHook(totalLiqiCount, totalUnrongAlongWithLiqiCount, totalUnrongAfterLiqiCount)}％</Td>
+              <Td>{useUnrongAfterLiqiRateBasedOnLiqiHook(totalLiqiCount, totalUnrongAfterLiqiCount)}％</Td>
+              {/* <Td>{useLiqiIncomeHook(totalLiqiIncome)}</Td> */}
+              <Td>useLiqiIncomeの引数変更必須</Td>
+              <Td>{useLiqiExpenditureHook(totalLiqiExpenditure)}</Td>
             </tr>
-          </tbody>
-          <thead>
+          </Tbody>
+          <Thead>
             <tr>
-              <th>立直収支</th>
-              <th>先制率</th>
-              <th>追っかけ率</th>
-              <th>追っかけられ率</th>
-              <th>立直巡目</th>
-              <th>立直流局</th>
+              <Th>立直収支</Th>
+              <Th>先制率</Th>
+              <Th>追っかけ率</Th>
+              <Th>追っかけられ率</Th>
+              <Th>立直巡目</Th>
+              <Th>立直流局</Th>
             </tr>
-          </thead>
-          <tbody>
+          </Thead>
+          <Tbody>
             <tr>
-              {/* <td>{useLiqiIncomeAndExpenditureHook(totalLiqiCount, totalLiqiIncome, totalLiqiExpenditure)}</td> */}
-              <td>{useLiqiPreemptionRateHook(totalLiqiCount, totalLiqiPreemptionCount)}％</td>
-              <td>{useLiqiChasingRateHook(totalLiqiCount, totalLiqiPreemptionCount)}％</td>
-              <td>{useLiqiChasedRateHook(totalLiqiCount, totalLiqiChasedCount)}％</td>
-              <td>{useAverageLiqiTurnHook(totalLiqiTurn)}</td>
-              <td>{useLiqiNoTileRateHook(totalLiqiCount, totalLiqiNoTileCount)}％</td>
+              {/* <Td>{useLiqiIncomeAndExpenditureHook(totalLiqiCount, totalLiqiIncome, totalLiqiExpenditure)}</Td> */}
+              <Td>useLiqiIncomeAndExpenditureの引数変更必須</Td>
+              <Td>{useLiqiPreemptionRateHook(totalLiqiCount, totalLiqiPreemptionCount)}％</Td>
+              <Td>{useLiqiChasingRateHook(totalLiqiCount, totalLiqiPreemptionCount)}％</Td>
+              <Td>{useLiqiChasedRateHook(totalLiqiCount, totalLiqiChasedCount)}％</Td>
+              <Td>{useAverageLiqiTurnHook(totalLiqiTurn)}</Td>
+              <Td>{useLiqiNoTileRateHook(totalLiqiCount, totalLiqiNoTileCount)}％</Td>
             </tr>
-          </tbody>
-          <thead>
+          </Tbody>
+          <Thead>
             <tr>
-              <th>一発率</th>
-              <th>振聴率</th>
-              <th>立直多面</th>
-              <th>立直良型</th>
-              <th>裏ドラ率</th>
-              <th>痛い親被り率</th>
+              <Th>一発率</Th>
+              <Th>振聴率</Th>
+              <Th>立直多面</Th>
+              <Th>立直良型</Th>
+              <Th>裏ドラ率</Th>
+              <Th>痛い親被り率</Th>
             </tr>
-          </thead>
-          <tbody>
+          </Thead>
+          <Tbody>
             <tr>
-              <td>{useLiqiFirstTurnHuleRateHook(totalLiqiCount, totalLiqiFirstTurnHuleCount)}％</td>
-              <td>{useLiqiZhentingRateHook(totalLiqiCount, totalLiqiZhentingCount)}％</td>
-              <td>{useLiqiMultipleWaitingRateHook(totalLiqiCount, totalLiqiWaitingTiles)}％</td>
-              <td>{useLiqiGoodShapeRateHook(totalLiqiRemainingTileCount)}％</td>
-              <td>{useLiDoraRateHook(totalLiDoraCount)}％</td>
-              <td>{useZimoSereveParentCoverRateHook(totalZimoParentCoverScores)}%</td>
+              <Td>{useLiqiFirstTurnHuleRateHook(totalLiqiCount, totalLiqiFirstTurnHuleCount)}％</Td>
+              <Td>{useLiqiZhentingRateHook(totalLiqiCount, totalLiqiZhentingCount)}％</Td>
+              <Td>{useLiqiMultipleWaitingRateHook(totalLiqiCount, totalLiqiWaitingTiles)}％</Td>
+              <Td>{useLiqiGoodShapeRateHook(totalLiqiRemainingTileCount)}％</Td>
+              <Td>{useLiDoraRateHook(totalLiDoraCount)}％</Td>
+              <Td>{useZimoSereveParentCoverRateHook(totalZimoParentCoverScores)}%</Td>
             </tr>
-          </tbody>
-          <thead>
+          </Tbody>
+          <Thead>
             <tr>
-              <th>痛い親被り平均</th>
-              <th>放銃時面前率</th>
-              <th>放銃時立直率</th>
-              <th>放銃時副露率</th>
-              <th>副露後放銃率</th>
-              <th>副露後和了率</th>
+              <Th>痛い親被り平均</Th>
+              <Th>放銃時面前率</Th>
+              <Th>放銃時立直率</Th>
+              <Th>放銃時副露率</Th>
+              <Th>副露後放銃率</Th>
+              <Th>副露後和了率</Th>
             </tr>
-          </thead>
-          <tbody>
+          </Thead>
+          <Tbody>
             <tr>
-              <td>{useZimoSereveParentCoverScoreHook(totalZimoParentCoverScores)}</td>
-              <td>{useUnrongUnmingRateHook(totalUnrongCount, totalUnrongAfterLiqiCount, totalUnrongAfterChiPengGang)}％</td>
-              <td>{useUnrongAfterLiqiRateBasedOnUnrongHook(totalUnrongCount, totalUnrongAfterLiqiCount)}％</td>
-              <td>{useUnrongAfterChiPengGangRateBasedOnUnrongHook(totalUnrongCount, totalUnrongAfterChiPengGang)}％</td>
-              <td>{useUnrongAfterChiPengGangRateBasedOnMingHook(totalChiPengGangCount, totalUnrongAfterChiPengGang)}％</td>
-              <td>{useHuleAfterMingRateHook(totalChiPengGangCount, totalHuleAfterMingCount)}％</td>
+              <Td>{useZimoSereveParentCoverScoreHook(totalZimoParentCoverScores)}</Td>
+              <Td>{useUnrongUnmingRateHook(totalUnrongCount, totalUnrongAfterLiqiCount, totalUnrongAfterChiPengGang)}％</Td>
+              <Td>{useUnrongAfterLiqiRateBasedOnUnrongHook(totalUnrongCount, totalUnrongAfterLiqiCount)}％</Td>
+              <Td>{useUnrongAfterChiPengGangRateBasedOnUnrongHook(totalUnrongCount, totalUnrongAfterChiPengGang)}％</Td>
+              <Td>{useUnrongAfterChiPengGangRateBasedOnMingHook(totalChiPengGangCount, totalUnrongAfterChiPengGang)}％</Td>
+              <Td>{useHuleAfterMingRateHook(totalChiPengGangCount, totalHuleAfterMingCount)}％</Td>
             </tr>
-          </tbody>
-          <thead>
+          </Tbody>
+          <Thead>
             <tr>
-              <th>副露後流局率</th>
-              <th>打点効率</th>
-              <th>銃点損失</th>
-              <th>調整打点効率</th>
-              <th>局収支</th>
+              <Th>副露後流局率</Th>
+              <Th>打点効率</Th>
+              <Th>銃点損失</Th>
+              <Th>調整打点効率</Th>
+              <Th>局収支</Th>
+              <Th></Th>
             </tr>
-          </thead>
-          <tbody>
+          </Thead>
+          <Tbody>
             <tr>
-              <td>{useNoTileAfterChiPengGangRateHook(totalChiPengGangCount, totalNoTileAfterChiPengGangCount)}％</td>
-              <td>{useAttackBalanceIndexHook(totalRoundCount, totalHuleCount, totalDadian)}</td>
-              <td>{useDefenseBalanceIndexHook(totalRoundCount, totalUnrongCount, totalUnrongScore)}</td>
-              <td>{useAttackAndDefenseBalanceIndexHook(totalRoundCount, totalHuleCount, totalDadian, totalUnrongCount, totalUnrongScore)}</td>
-              <td>{useRoundIncomeAndExpenditureHook(gameCount, totalRoundCount, totalFinalPoints)}</td>
+              <Td>{useNoTileAfterChiPengGangRateHook(totalChiPengGangCount, totalNoTileAfterChiPengGangCount)}％</Td>
+              <Td>{useAttackBalanceIndexHook(totalRoundCount, totalHuleCount, totalDadian)}</Td>
+              <Td>{useDefenseBalanceIndexHook(totalRoundCount, totalUnrongCount, totalUnrongScore)}</Td>
+              <Td>{useAttackAndDefenseBalanceIndexHook(totalRoundCount, totalHuleCount, totalDadian, totalUnrongCount, totalUnrongScore)}</Td>
+              <Td>{useRoundIncomeAndExpenditureHook(gameCount, totalRoundCount, totalFinalPoints)}</Td>
+              <Td></Td>
             </tr>
-          </tbody>
+          </Tbody>
         </table>
-      </main>
+      </section>
     </>
   );
 }
